@@ -1,36 +1,38 @@
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
+//*******function packages*******
 require('./bootstrap');
 
-window.Vue = require('vue');
+//*******styling packages*******
+require('./ui/perfect-scrollbar.jquery.min');
+require('./ui/chartjs.min');
+require('./ui/bootstrap-notify');
+require('./ui/paper-dashboard');
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
-// const files = require.context('./', true, /\.vue$/i)
 
-// files.keys().map(key => {
-//     return Vue.component(_.last(key.split('/')).split('.')[0], files(key))
-// })
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+import React from 'react';
+import {BrowserRouter, Route, Switch} from 'react-router-dom'
+import ReactDOM from 'react-dom';
 
-const app = new Vue({
-    el: '#app'
-});
+import {Example} from "./components/Example";
+import {Create} from "./components/Create";
+import {NotFound} from "./components/NotFound";
+
+let jsx = (
+    <BrowserRouter>
+        <div>
+            <Switch>
+            <Route path='/' component={Example} exact={true}/>
+            <Route path='/create' component={Create} exact={true}/>
+            <Route component={NotFound}/>
+            </Switch>
+        </div>
+    </BrowserRouter>
+);
+
+if (document.getElementById('app')) {
+    ReactDOM.render(jsx, document.getElementById('app'));
+}
+
+//

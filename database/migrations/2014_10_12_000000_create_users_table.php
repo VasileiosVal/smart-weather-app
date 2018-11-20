@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->integer('role_id')->unsigned()->index()->nullable();
-            $table->boolean('is_active')->default(1);
+            $table->boolean('is_active')->default(0);
             $table->timestamp('confirmed')->nullable();
             $table->string('confirmation')->nullable();
             $table->rememberToken();

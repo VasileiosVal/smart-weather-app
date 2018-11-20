@@ -1,20 +1,21 @@
 <?php
 
+use App\User;
 use Illuminate\Support\Facades\Auth;
-
-
 
 Route::get('/', function (){
    return view('welcome');
 });
 
+Route::get('account/verify/{code}', 'VerifyUserController@verify')->name('account.verify');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-
-
-
+Route::get('/auth', function (){
+    return view('example');
+})->middleware('auth');
 
 
 //************ME REACT*************
@@ -23,9 +24,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 //});
 
 
-
-
-//Route::get('/home', 'HomeController@index')->name('home');
 //
 //Route::post('/api/users', function (Request $request){
 //

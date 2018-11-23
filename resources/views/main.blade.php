@@ -15,10 +15,15 @@
 
     <body class="">
 
-    <div id="app"></div>
-    <!--   Core JS Files   -->
-    <script src="{{ mix('js/app.js') }}"></script>
+        <div id="app_component"></div>
+        <!--   Core JS Files   -->
+        <script>
+            window.Laravel = {!! json_encode([
+            'csrfToken' => csrf_token(),
+            'apiToken' => auth()->user()->api_token ?? null,
+        ]) !!};
+        </script>
+        <script src="{{ mix('js/app.js') }}"></script>
 
     </body>
-
     </html>

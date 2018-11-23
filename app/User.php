@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'surname', 'email', 'password', 'role_id', 'is_active', 'confirmed', 'confirmation'
+        'name', 'surname', 'email', 'password', 'role_id', 'is_active', 'confirmed', 'confirmation', 'api_token'
     ];
 
     /**
@@ -28,7 +28,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-
 
     public function role(){
         return $this->belongsTo(Role::class);
@@ -42,8 +41,24 @@ class User extends Authenticatable
         return $this->hasMany(Log::class);
     }
 
+    public function isAdmin(){
+       return $this->role->name;
+    }
+
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPasswordNotification($token));
+    }
+
+    public function rollApiKey(){
+        do{
+            $this->api_token = str_random(60);
+        }while($this->where('api_token', $this->api_token)->exists());
+        $this->save();
+
+    }
+
+    public function destroyToken(){
+        $this->update(['api_token' => null]);
     }
 }

@@ -5,23 +5,28 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function (){
    return view('welcome');
-});
+})->middleware('guest');
 
 Route::get('account/verify/{code}', 'VerifyUserController@verify')->name('account.verify');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('auth', 'preventHistory');
 
-Route::get('/auth', function (){
-    return view('example');
-})->middleware('auth');
+
+Route::view('/dashboard', 'main')->middleware('auth', 'preventHistory');
+
+Route::view('/categories', 'main')->middleware('auth', 'preventHistory');
+
+
+
 
 
 //************ME REACT*************
-//Route::get('/', function() {
+//Route::get('/auth', function() {
 //    return view('example');
 //});
+
 
 
 //

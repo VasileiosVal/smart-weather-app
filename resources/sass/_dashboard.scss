@@ -358,7 +358,6 @@
   font-weight: 600;
   font-size: 0.8571em;
   line-height: 1.35em;
-  text-transform: uppercase;
   border: none;
   margin: 10px 1px;
   border-radius: 3px;
@@ -2304,7 +2303,6 @@ h1,
 h1 small,
 .h1 small {
   font-weight: 700;
-  text-transform: uppercase;
   opacity: .8;
 }
 
@@ -2347,7 +2345,6 @@ h6,
 .h6 {
   font-size: 1em;
   font-weight: 700;
-  text-transform: uppercase;
 }
 
 p.description {
@@ -2359,7 +2356,6 @@ p.description {
 }
 
 .title.title-up {
-  text-transform: uppercase;
 }
 
 .title.title-up a {
@@ -2381,7 +2377,6 @@ p.description {
 
 .category,
 .card-category {
-  text-transform: capitalize;
   font-weight: 400;
   color: #9A9A9A;
   font-size: 0.7142em;
@@ -2438,7 +2433,6 @@ a.text-gray:hover {
 .blockquote small {
   color: #66615B;
   font-size: 0.8571em;
-  text-transform: uppercase;
 }
 
 .blockquote.blockquote-primary {
@@ -2939,7 +2933,6 @@ a[data-toggle="collapse"][aria-expanded="true"] .caret,
 }
 
 .navbar .navbar-nav .nav-link {
-  text-transform: uppercase;
   font-size: 0.7142em;
   padding: 0.5rem 0.7rem;
   line-height: 1.625rem;
@@ -2993,7 +2986,6 @@ a[data-toggle="collapse"][aria-expanded="true"] .caret,
 }
 
 .navbar .navbar-brand {
-  text-transform: capitalize;
   font-size: 20px;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -3840,7 +3832,6 @@ img {
   font-size: 14px;
   font-weight: 700;
   padding-bottom: 0;
-  text-transform: uppercase;
   border: 0;
 }
 
@@ -3905,7 +3896,6 @@ img {
 
 .table-shopping>thead>tr>th {
   font-size: 1em;
-  text-transform: uppercase;
 }
 
 .table-shopping>tbody>tr>td {
@@ -4063,7 +4053,6 @@ img {
   display: block;
   text-decoration: none;
   position: relative;
-  text-transform: uppercase;
   cursor: pointer;
   font-size: 12px;
   padding: 10px 8px;
@@ -4191,16 +4180,19 @@ img {
 
 .sidebar .logo .simple-text,
 .off-canvas-sidebar .logo .simple-text {
-  text-transform: uppercase;
-  padding: 0.5rem 0;
+  padding: 0.3rem 0;
   display: block;
   white-space: nowrap;
-  font-size: 1rem;
+  font-size: 2rem;
   color: #FFFFFF;
   text-decoration: none;
   font-weight: 400;
   line-height: 30px;
   overflow: hidden;
+}
+
+.simple-text-title {
+  font-size: 1rem!important;
 }
 
 .sidebar .logo-tim,
@@ -4495,7 +4487,6 @@ img {
   color: inherit;
   padding: 0.5rem;
   font-size: 0.8571em;
-  text-transform: uppercase;
   text-decoration: none;
 }
 
@@ -4673,7 +4664,6 @@ img {
   font-size: 12px;
   font-weight: 600;
   text-align: center;
-  text-transform: uppercase;
 }
 
 .fixed-plugin .adjustments-line p {
@@ -5064,7 +5054,6 @@ img {
 
 .card-user .author {
   text-align: center;
-  text-transform: none;
   margin-top: -77px;
 }
 
@@ -5810,4 +5799,83 @@ img {
     padding: 15px;
   }
 }
+
+#preloader {
+  background:white;
+  position: absolute;
+  z-index: 10000;
+  top:0px;
+  width: 100%;
+  height: 100%;
+}
+#loader {
+  display: block;
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 15% auto;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #9370DB;
+  animation: spin 2s linear infinite;
+  -webkit-animation: spin 2s linear infinite;
+}
+#loader:before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #BA55D3;
+  animation: spin 3s linear infinite;
+  -webkit-animation: spin 3s linear infinite;
+}
+#loader:after {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #FF00FF;
+  animation: spin 1.5s linear infinite;
+  -webkit-animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  0%   {
+    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+
+
+@-webkit-keyframes spin {
+  0%   {
+    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+
+.sidebar .nav .active p, .sidebar .nav .active i {
+  color: #2ba9cd;
+}
+
 

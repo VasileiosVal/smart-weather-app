@@ -25,6 +25,9 @@
         "react-dom": "^16.2.0"
     },
     "dependencies": {
+        "history": "^4.7.2",
+        "laravel-echo": "^1.4.1",
+        "pusher-js": "^4.3.1",
         "react-redux": "^5.1.1",
         "react-router-dom": "^4.3.1",
         "redux": "^4.0.1",

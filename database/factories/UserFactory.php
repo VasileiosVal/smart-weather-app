@@ -24,5 +24,6 @@ $factory->define(App\User::class, function (Faker $faker) {
         'confirmed' => null,
         'confirmation' => str_random(10),
         'remember_token' => str_random(10),
+        'api_token' => str_random(60)
     ];
 });

@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     </head>
 
-    <body class="">
+    <body>
 
         <div id="app_component"></div>
         <!--   Core JS Files   -->
@@ -22,8 +22,10 @@
             'csrfToken' => csrf_token(),
             'apiToken' => auth()->user()->api_token ?? null,
         ]) !!};
+
         </script>
         <script src="{{ mix('js/app.js') }}"></script>
+        <script src="{{ mix('js/render.js') }}"></script>
 
     </body>
     </html>

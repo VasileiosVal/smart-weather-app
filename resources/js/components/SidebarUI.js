@@ -1,14 +1,15 @@
 import React from 'react';
 import {Link, NavLink} from 'react-router-dom'
+import {connect} from 'react-redux'
 
-export default class SidebarUI extends React.Component {
+class SidebarUI extends React.Component {
     render() {
         return (
             <div className="sidebar" data-color="orange" data-active-color="info">
                 <div className="logo">
                     <a href="http://www.creative-tim.com" className="simple-text logo-mini">
                         <div className="logo-image-small">
-                            <i className="fas fa-globe-americas"></i>
+                            <i className="fas fa-globe-americas"/>
                         </div>
                     </a>
                     <Link to='/dashboard' className="simple-text simple-text-title">
@@ -19,16 +20,16 @@ export default class SidebarUI extends React.Component {
                     <ul className="nav">
                         <li>
                             <NavLink to='/dashboard' exact activeClassName='active'>
-                                <i className="fas fa-tachometer-alt"></i>
+                                <i className="fas fa-tachometer-alt"/>
                                 <p>Πίνακας ελέγχου</p>
                             </NavLink>
                         </li>
                         <li>
-                            <a data-toggle="collapse" href="#componentsExamples1">
-                                <i className="nc-icon nc-app"></i>
+                            <a id='collapse-link' data-toggle="collapse" href="#componentsExamples1">
+                                <i className="nc-icon nc-app"/>
                                 <p>
                                     Σταθμοί
-                                    <b className="caret"></b>
+                                    <b className="caret"/>
                                 </p>
                             </a>
                             <div className="collapse " id="componentsExamples1">
@@ -51,53 +52,55 @@ export default class SidebarUI extends React.Component {
                                 </ul>
                             </div>
                         </li>
+                        {this.props.isAdmin &&
                         <li>
-                            <a data-toggle="collapse" href="#componentsExamples2">
-                                <i className="nc-icon nc-app"></i>
+                            <a id='collapse-link' data-toggle="collapse" href="#componentsExamples2">
+                                <i className="nc-icon nc-app"/>
                                 <p>
                                     Χρήστες
-                                    <b className="caret"></b>
+                                    <b className="caret"/>
                                 </p>
                             </a>
-                            <div className="collapse " id="componentsExamples2">
-                                <ul >
+                            <div className="collapse" id="componentsExamples2">
+                                <ul>
                                     <li className="nav-item ">
-                                        <a href="./components/notifications.html">
-                                            <span className="sidebar-normal">Notifications</span>
-                                        </a>
+                                        <NavLink exact to='/users' activeClassName='active'>
+                                            <span className="sidebar-normal">Προβολή όλων</span>
+                                        </NavLink>
                                     </li>
                                     <li className="nav-item ">
-                                        <a href="./components/icons.html">
-                                            <span className="sidebar-normal">Icons</span>
-                                        </a>
+                                        <NavLink exact to='/users/create' activeClassName='active'>
+                                            <span className="sidebar-normal">Δημιουργία χρήστη</span>
+                                        </NavLink>
                                     </li>
                                 </ul>
                             </div>
                         </li>
+                        }
                         <li>
                             <NavLink to='/categories' exact activeClassName='active'>
-                                <i className="fas fa-edit"></i>
+                                <i className="fas fa-edit"/>
                                 <p>Κατηγορίες</p>
                             </NavLink>
                         </li>
                         <li>
                             <a href="./icons.html">
-                                <i className="fa fa-users"></i>
+                                <i className="fa fa-users"/>
                                 <p>Μετρήσεις</p>
                             </a>
                         </li>
                         <li>
                             <a href="./icons.html">
-                                <i className="fa fa-users"></i>
+                                <i className="fa fa-users"/>
                                 <p>Ιστορικό</p>
                             </a>
                         </li>
                         <li>
-                            <a data-toggle="collapse" href="#componentsExamples3">
-                                <i className="nc-icon nc-app"></i>
+                            <a id='collapse-link' data-toggle="collapse" href="#componentsExamples3">
+                                <i className="nc-icon nc-app"/>
                                 <p>
                                     Ενημερώσεις
-                                    <b className="caret"></b>
+                                    <b className="caret"/>
                                 </p>
                             </a>
                             <div className="collapse " id="componentsExamples3">
@@ -116,10 +119,10 @@ export default class SidebarUI extends React.Component {
                             </div>
                         </li>
                         <li>
-                            <a href="./icons.html">
-                                <i className="fa fa-users"></i>
+                            <NavLink to='/profile' exact activeClassName='active'>
+                                <i className="fa fa-users"/>
                                 <p>Προφίλ</p>
-                            </a>
+                            </NavLink>
                         </li>
                     </ul>
                 </div>
@@ -127,3 +130,11 @@ export default class SidebarUI extends React.Component {
             );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        isAdmin: state.user.role_id === 1
+    }
+};
+
+export default connect(mapStateToProps)(SidebarUI)

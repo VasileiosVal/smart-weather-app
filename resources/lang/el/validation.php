@@ -120,6 +120,7 @@ return [
 
     'attributes' => [
         'name'          => 'Όνομα',
+        'symbol'        => 'Σύμβολο',
         'surname'       => 'Επίθετο',
         'email'         => 'Email',
         'password'      => 'Κωδικός',

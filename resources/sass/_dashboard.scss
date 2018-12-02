@@ -5878,4 +5878,36 @@ img {
   color: #2ba9cd;
 }
 
+//pointer
+.point {
+  cursor: pointer;
+}
+
+//edit category component
+.editCategory, .editUser {
+  position:relative;
+}
+
+
+//edit category close button
+.editCategory .closeButton, .editUser .closeButton{
+  position:absolute;
+  top: 5px;
+  right: 10px;
+}
+
+//profile image
+img.profile-image {
+  width: 124px;
+  heigth: 124px;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  position:relative;
+}
+
+//nav-pills
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  background-color: #4e6765;
+}
 

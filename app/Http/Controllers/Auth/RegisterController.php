@@ -66,7 +66,6 @@ class RegisterController extends Controller
             'role_id' => 2,
             'confirmed' => null,
             'confirmation' => str_random(25),
-            'api_token' => str_random(60)
         ]);
     }
 }

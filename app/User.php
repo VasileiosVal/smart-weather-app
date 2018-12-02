@@ -6,6 +6,7 @@ use App\Notifications\ResetPasswordNotification;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Cache;
 
 class User extends Authenticatable
 {
@@ -26,7 +27,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'api_token', 'confirmation'
     ];
 
     public function role(){
@@ -42,7 +43,7 @@ class User extends Authenticatable
     }
 
     public function isAdmin(){
-       return $this->role->name;
+       return $this->role->name === 'admin';
     }
 
     public function sendPasswordResetNotification($token)
@@ -55,10 +56,14 @@ class User extends Authenticatable
             $this->api_token = str_random(60);
         }while($this->where('api_token', $this->api_token)->exists());
         $this->save();
-
     }
 
     public function destroyToken(){
         $this->update(['api_token' => null]);
     }
+
+    public function getRouteKeyName(){
+        return 'email';
+    }
+
 }

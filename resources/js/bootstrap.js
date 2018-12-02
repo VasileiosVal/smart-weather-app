@@ -55,6 +55,4 @@ window.Echo = new Echo({
     encrypted: true
 });
 
-// window.Echo.channel('test').listen('TestMade', e=> {
-//     console.log(e)
-// })
+

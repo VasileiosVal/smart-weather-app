@@ -15,4 +15,10 @@ class Category extends Model
     public function measures(){
         return $this->hasMany(Measure::class);
     }
+
+    public function getRouteKeyName()
+    {
+        return 'name';
+    }
+
 }

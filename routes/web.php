@@ -1,13 +1,12 @@
 <?php
 
-use App\User;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function (){
    return view('welcome');
 })->middleware('guest');
 
-Route::get('account/verify/{code}', 'VerifyUserController@verify')->name('account.verify');
+Route::get('/account/verify/{code}', 'VerifyUserController@verify')->name('account.verify')->middleware('guest');
 
 Auth::routes();
 
@@ -15,10 +14,11 @@ Route::get('/home', 'HomeController@index')->name('home')->middleware('auth', 'p
 
 
 Route::view('/dashboard', 'main')->middleware('auth', 'preventHistory');
-
 Route::view('/categories', 'main')->middleware('auth', 'preventHistory');
-
-
+Route::view('/users/create', 'main')->middleware('auth', 'preventHistory');
+Route::view('/users', 'main')->middleware('auth', 'preventHistory');
+Route::view('/profile', 'main')->middleware('auth', 'preventHistory');
+Route::view('/profile/edit', 'main')->middleware('auth', 'preventHistory');
 
 
 

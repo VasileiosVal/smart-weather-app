@@ -15,4 +15,16 @@ class Collection extends Model
     public function measures(){
         return $this->hasMany(Measure::class);
     }
+
+    public static function roleHashCode(){
+        do{
+            $hash = str_random(20);
+        }while(self::where('series_hash', $hash)->exists());
+        return $hash;
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'series_hash';
+    }
 }

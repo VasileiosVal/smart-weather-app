@@ -30,6 +30,14 @@ return [
     'email_start_subheader' => 'Please confirm that your email address is correct to continue. Click the link below to get started.',
     'email_start_button' => 'Confirm Email Address',
     'email_start_footer' => 'This email was sent from billyval.com',
+    'error' => 'Error',
+    'forbidden' => 'Forbidden',
+    'mismatched_password_error' => 'Failed identify current password',
+    'content_not_found'  => 'Content not found',
+    'unauthorized' => 'Unauthorized user',
+    'page_not_found' => 'Page not found',
+    'conflict' => 'There is a conflict on some input data.'
+
 
 
 

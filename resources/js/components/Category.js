@@ -129,98 +129,99 @@ class Category extends React.Component{
         })
     }
     render(){
-        return (
-            <div className="content">
-                <div>
-                    <h5 className="card-title text-center">Κατηγορίες</h5>
-                    <p className="card-category">Handcrafted by our friends from
-                        <a href="https://nucleoapp.com/?ref=1712">NucleoApp</a>
-                    </p>
-                </div>
-                <div className="row">
-                    {this.props.isAdmin ?
-                        <CategoryCreation clearAllInputsAndSetIncomingData={this.clearAllInputsAndSetIncomingData} submitCategory={this.submitCategory}/>
-                        : undefined //Πληροφοριες για τις κατηγοριες
-                    }
-                    <div className="col-sm-8">
-                        <div className="card">
-                            <div className="card-header">
-                                <h3 className="text-center">Προβολή όλων των κατηγοριών</h3>
-                                <hr/>
-                            </div>
-                            <div className="card-body">
-                                {this.props.categories.length > 0 ?
-                                        <div className="table-responsive">
-                                            <table className="table text-center">
-                                                <thead className="text-primary">
-                                                <tr>
-                                                    <th>Όνομα</th>
-                                                    <th>Σύμβολο</th>
-                                                    <th>Δημιουργία</th>
-                                                    {this.props.isAdmin &&
-                                                    <th>Ενέργειες</th>
-                                                    }
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                {this.props.categories.slice(this.state.firstIndex, this.state.lastIndex).map((category)=>{
-                                                    return <tr key={category.id}>
-                                                        <td>{category.name}</td>
-                                                        <td>{category.symbol}</td>
-                                                        <td>{moment(category.created_at).fromNow()}</td>
-                                                        {this.props.isAdmin &&
-                                                        <td>
-                                                            <i title='Επεξεργασία'
-                                                               onClick={()=>{
-                                                                   this.clearAllInputsAndSetIncomingData(true, true, category.name, category.symbol)
-                                                               }}
-                                                               className='fa fa-edit mx-2 point'/>
-
-                                                            <i title='Διαγραφή'
-                                                               onClick={()=>{
-                                                                   this.clearAllInputsAndSetIncomingData();
-                                                                   this.setState({deleteCategoryName:category.name}, ()=>{
-                                                                       $('#modal').modal();
-                                                                   })//
-                                                               }}
-                                                               className='fas fa-trash-alt mx-2 point'/>
-                                                        </td>
-                                                        }
-                                                    </tr>
-                                                })}
-                                                </tbody>
-                                            </table>
-                                            {this.props.categories.length > this.state.itemsCountPerPage &&
-                                            <Pagination
-                                                activePage={this.state.activePage}
-                                                totalItemsCount={this.props.categories.length}
-                                                pageRangeDisplayed={this.state.pageRangeDisplayed}
-                                                itemsCountPerPage={this.state.itemsCountPerPage}
-                                                onChange={this.handlePageChange}
-                                                innerClass={'pagination justify-content-center'}
-                                                itemClass={'page-item'}
-                                                linkClass={'page-link'}
-                                            />
-                                            }
-                                        </div>
-                                    :  <h4 className='text-danger text-center mt-0'>Δεν υπάρχουν κατηγορίες</h4> }
-                            </div>
-                        </div>
-                        {this.props.isAdmin && this.state.editCompShow &&
-                        <CategoryEdit edit={this.submitCategory}
-                                      show={this.state.editCompShow}
-                                      name={this.state.editCompCategoryName}
-                                      symbol={this.state.editCompCategorySymbol}
-                                      closeEdit={this.closeEditComp}/>
-                        }
-                    </div>
-                </div>
-                {this.props.isAdmin && this.state.deleteCategoryName &&
-                <Modal deleteCategory={this.deleteCategory}
-                       nameOfCategory={this.state.deleteCategoryName}/>
-                }
+        return <div className="content">
+            <div>
+                <h5 className="card-title text-center">Κατηγορίες</h5>
+                <p className="card-category">Handcrafted by our friends from
+                    <a href="https://nucleoapp.com/?ref=1712">NucleoApp</a>
+                </p>
             </div>
-        );
+            <div className="row">
+                {this.props.isAdmin ?
+                    <CategoryCreation clearAllInputsAndSetIncomingData={this.clearAllInputsAndSetIncomingData}
+                                      submitCategory={this.submitCategory}/>
+                    : undefined //Πληροφοριες για τις κατηγοριες
+                }
+                <div className="col-sm-8">
+                    <div className="card">
+                        <div className="card-header d-flex flex-row align-items-center justify-content-center py-0">
+                            <h4 className="text-center">Προβολή όλων των κατηγοριών</h4>
+                        </div>
+                        <hr/>
+                        <div className="card-body">
+                            {this.props.categories.length > 0 ?
+                                <div className="table-responsive">
+                                    <table className="table text-center">
+                                        <thead className="text-primary">
+                                        <tr>
+                                            {this.props.isAdmin && <th>id</th> }
+                                            <th>Όνομα</th>
+                                            <th>Σύμβολο</th>
+                                            <th>Δημιουργία</th>
+                                            {this.props.isAdmin &&
+                                            <th>Ενέργειες</th>
+                                            }
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {this.props.categories.slice(this.state.firstIndex, this.state.lastIndex).map((category) => {
+                                            return <tr key={category.id}>
+                                                {this.props.isAdmin && <td>{category.id}</td>}
+                                                <td>{category.name}</td>
+                                                <td>{category.symbol}</td>
+                                                <td>{moment(category.created_at).fromNow()}</td>
+                                                {this.props.isAdmin &&
+                                                <td>
+                                                    <i title='Επεξεργασία'
+                                                       onClick={() => {
+                                                           this.clearAllInputsAndSetIncomingData(true, true, category.name, category.symbol)
+                                                       }}
+                                                       className='fa fa-edit mx-2 point'/>
+
+                                                    <i title='Διαγραφή'
+                                                       onClick={() => {
+                                                           this.clearAllInputsAndSetIncomingData();
+                                                           this.setState({deleteCategoryName: category.name}, () => {
+                                                               $('#modal').modal();
+                                                           })//
+                                                       }}
+                                                       className='fas fa-trash-alt mx-2 point'/>
+                                                </td>
+                                                }
+                                            </tr>
+                                        })}
+                                        </tbody>
+                                    </table>
+                                    {this.props.categories.length > this.state.itemsCountPerPage &&
+                                    <Pagination
+                                        activePage={this.state.activePage}
+                                        totalItemsCount={this.props.categories.length}
+                                        pageRangeDisplayed={this.state.pageRangeDisplayed}
+                                        itemsCountPerPage={this.state.itemsCountPerPage}
+                                        onChange={this.handlePageChange}
+                                        innerClass={'pagination justify-content-center'}
+                                        itemClass={'page-item'}
+                                        linkClass={'page-link'}
+                                    />
+                                    }
+                                </div>
+                                : <h4 className='text-danger text-center mt-0'>Δεν υπάρχουν κατηγορίες</h4>}
+                        </div>
+                    </div>
+                    {this.props.isAdmin && this.state.editCompShow &&
+                    <CategoryEdit edit={this.submitCategory}
+                                  show={this.state.editCompShow}
+                                  name={this.state.editCompCategoryName}
+                                  symbol={this.state.editCompCategorySymbol}
+                                  closeEdit={this.closeEditComp}/>
+                    }
+                </div>
+            </div>
+            {this.props.isAdmin && this.state.deleteCategoryName &&
+            <Modal deleteCategory={this.deleteCategory}
+                   nameOfCategory={this.state.deleteCategoryName}/>
+            }
+        </div>;
     }
 }
 

@@ -52,21 +52,21 @@ class Handler extends ExceptionHandler
         if ($exception instanceof ModelNotFoundException) {
             if($request->expectsJson()){
             return response()->json([
-                'error' => 'Content not found'
+                __('messages.error') => __('messages.content_not_found')
             ], 404);
             }
         }
         if($exception instanceof AuthenticationException){
             if($request->expectsJson()){
                 return response()->json([
-                    'error' => 'Unauthorized'
+                    __('messages.error') => __('messages.unauthorized')
                 ], 401);
             }
         }
         if($exception instanceof NotFoundHttpException){
         if($request->expectsJson()){
             return response()->json([
-                'error' => 'Page not found'
+                __('messages.error') => __('messages.page_not_found')
             ], 404);
         }
     }

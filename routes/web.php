@@ -1,5 +1,6 @@
 <?php
 
+use App\Station;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function (){
@@ -10,15 +11,27 @@ Route::get('/account/verify/{code}', 'VerifyUserController@verify')->name('accou
 
 Auth::routes();
 
+//Route::get('/example', function(){
+//    return Station::where('user_id', '!=', 12)->where('is_active', 1)->where('privacy', 'public')->orWhere('user_id', 12)->get();
+//});
+
 Route::get('/home', 'HomeController@index')->name('home')->middleware('auth', 'preventHistory');
 
 
 Route::view('/dashboard', 'main')->middleware('auth', 'preventHistory');
-Route::view('/categories', 'main')->middleware('auth', 'preventHistory');
+Route::view('/stations/all', 'main')->middleware('auth', 'preventHistory');
+Route::view('/stations/create', 'main')->middleware('auth', 'preventHistory');
+Route::view('/stations', 'main')->middleware('auth', 'preventHistory');
+Route::view('/stations/{station}/edit', 'main')->middleware('auth', 'preventHistory');
 Route::view('/users/create', 'main')->middleware('auth', 'preventHistory');
 Route::view('/users', 'main')->middleware('auth', 'preventHistory');
-Route::view('/profile', 'main')->middleware('auth', 'preventHistory');
+Route::view('/categories', 'main')->middleware('auth', 'preventHistory');
+Route::view('/measures/all', 'main')->middleware('auth', 'preventHistory');
+Route::view('/measures/other', 'main')->middleware('auth', 'preventHistory');
+Route::view('/measures', 'main')->middleware('auth', 'preventHistory');
+Route::view('/history', 'main')->middleware('auth', 'preventHistory');
 Route::view('/profile/edit', 'main')->middleware('auth', 'preventHistory');
+Route::view('/profile', 'main')->middleware('auth', 'preventHistory');
 
 
 
@@ -26,47 +39,4 @@ Route::view('/profile/edit', 'main')->middleware('auth', 'preventHistory');
 //Route::get('/auth', function() {
 //    return view('example');
 //});
-
-
-
-//
-//Route::post('/api/users', function (Request $request){
-//
-//    $validator = Validator::make($request->all(), [
-//        'username' => 'required|min:1',
-//        'surname' => 'required|max:1'
-//    ]);
-//    if ($validator->fails())
-//    {
-//
-//        return response()->json(['errors'=>$validator->errors()->all()]);
-//    }
-//
-//
-//});
-
-//Route::get('/{path?}', function(){
-//    return view('welcome');
-//})->where('path', '^((?!api).)*$');
-
-//Route::get('/api/create', function(){
-//    if(request()->ajax()){
-//
-//        $users = User::all();
-//        return response()->json($users);
-//    }else {
-//        abort(404);
-//    }
-//});
-
-//Event::listen('eloquent.created:App\Post', function(){
-//
-//});
-
-
-
-
-
-
-
 

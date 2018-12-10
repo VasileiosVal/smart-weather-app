@@ -1,18 +1,19 @@
 import {startLogoutUser} from "./Auth";
 import {
-    notifyUnauthorizedAction
+    notifyEditedUserCurrentPasswordDontMatch,
+    notifyUnauthorizedAction, notifyUserEmailExists
 } from "../general_functions/notifiers";
 
-export let saveUser = ({name='', surname='', email='', role_id=null, is_active=0, stations=[], confirmed=null, created_at=null, updated_at=null} = {}) => {
+export let saveUser = ({id=0, name='', surname='', email='', role_id=null, is_active=0, confirmed=null, created_at=null, updated_at=null} = {}) => {
     return {
         type: 'SAVE_USER',
         user: {
+            id,
             name,
             surname,
             email,
             role_id,
             is_active,
-            stations,
             confirmed,
             created_at: created_at.date,
             updated_at: updated_at.date
@@ -35,7 +36,7 @@ export let startSaveUsers = () => {
                 arr.push(user)
             });
             dispatch(saveUsers(arr))
-        }).catch(()=>{
+        }).catch((e)=>{
             startLogoutUser();
         });
     }
@@ -44,7 +45,7 @@ export let startSaveUsers = () => {
 export let createUser = (user) => {
     return {
         type: 'CREATE_USER',
-        user: {...user, stations: [], confirmed: user.confirmed ? user.created_at : null}
+        user: {...user, confirmed: user.confirmed ? user.created_at : null}
     }
 };
 
@@ -62,12 +63,8 @@ export let startCreateUser = (email='', password='', password_confirmation='', n
                 dispatch(createUser(response.data));
             })
             .catch((e)=>{
-                if(e.response.status === 422){
-                    notifyUnauthorizedAction();
-                } else {
-                    notifyUnauthorizedAction();
-                    setTimeout(()=>{startLogoutUser()}, 1500);
-                }
+                notifyUnauthorizedAction();
+                setTimeout(()=>{startLogoutUser()}, 1500)
             })
     }
 };
@@ -89,12 +86,8 @@ export let startEditUser = (email='', role_id=null, is_active=0) => {
                 dispatch(editUser(response.data))
             })
             .catch((e)=>{
-                if(e.response.status === 422 || e.response.status === 404){
-                    notifyUnauthorizedAction();
-                } else {
-                    notifyUnauthorizedAction();
-                    setTimeout(()=>{startLogoutUser()}, 1500);
-                }
+                notifyUnauthorizedAction();
+                setTimeout(()=>{startLogoutUser()}, 1500)
             })
     }
 };
@@ -113,17 +106,13 @@ export let startDeleteUser = (email='') => {
                 dispatch(deleteUser(response.data))
             })
             .catch((e)=>{
-                if(e.response.status === 404){
-                    notifyUnauthorizedAction();
-                } else {
-                    notifyUnauthorizedAction();
-                    setTimeout(()=>{startLogoutUser()}, 1500);
-                }
+                notifyUnauthorizedAction();
+                setTimeout(()=>{startLogoutUser()}, 1500)
             })
     }
 };
 
-export let editProfile = (user) => {
+export let editProfileDetails = (user) => {
     return {
         type: 'EDIT_PROFILE',
         user: {
@@ -135,7 +124,7 @@ export let editProfile = (user) => {
     }
 };
 
-export let startEditProfile = (lastEmail='', email='', name='', surname='') => {
+export let startEditProfileDetails = (lastEmail='', email='', name='', surname='') => {
     return (dispatch) => {
         return axios.patch(`/api/auth/profile/${lastEmail}/edit/details`, {
             email,
@@ -143,33 +132,57 @@ export let startEditProfile = (lastEmail='', email='', name='', surname='') => {
             surname
         })
             .then((response)=>{
-                dispatch(editProfile(response.data))
+                dispatch(editProfileDetails(response.data));
                 if(response.data.role_id === 1){
                     dispatch(editUser(response.data))
                 }
             })
             .catch((e)=>{
-                if(e.response.status === 422 || e.response.status === 404){
-                    notifyUnauthorizedAction();
-                } else {
-                    notifyUnauthorizedAction();
-                    setTimeout(()=>{startLogoutUser()}, 1500);
+                if(e.response.status === 422){
+                    if(e.response.data.errors.email){
+                        notifyUserEmailExists();
+                        return 1;
+                    }
                 }
+                notifyUnauthorizedAction();
+                setTimeout(()=>{startLogoutUser()}, 1500)
             })
     }
-}
+};
+
+export let startEditProfilePassword = (email='', password='', newPassword='', newPassword_confirmation='') => {
+    return (dispatch) => {
+        return axios.patch(`/api/auth/profile/${email}/edit/password`, {
+            password,
+            newPassword,
+            newPassword_confirmation
+        })
+            .then((response)=>{
+                dispatch(editProfileDetails(response.data))
+                if(response.data.role_id === 1){
+                    dispatch(editUser(response.data))
+                }
+            })
+            .catch((e)=>{
+                if(e.response.status === 422){
+                    if(e.response.data.accept === 1){
+                        notifyEditedUserCurrentPasswordDontMatch();
+                        return 1;
+                    }
+                }
+                notifyUnauthorizedAction();
+                setTimeout(()=>{startLogoutUser()}, 1500)
+            })
+    }
+};
 
 export let startDeleteProfile = (email='') => {
     return () => {
         return axios.delete(`/api/auth/profile/${email}`)
             .then((response)=>{})
             .catch((e)=>{
-                if(e.response.status === 404){
-                    notifyUnauthorizedAction();
-                } else {
-                    notifyUnauthorizedAction();
-                    setTimeout(()=>{startLogoutUser()}, 1500);
-                }
+                notifyUnauthorizedAction();
+                setTimeout(()=>{startLogoutUser()}, 1500);
             })
     }
 };

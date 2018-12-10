@@ -52,10 +52,10 @@ class UserCreate extends React.Component {
                 <div className="row">
                     <div className="col-sm-12">
                         <div className="card">
-                            <div className="card-header">
-                                <h3 className="text-center">Δημιουργία χρήστη</h3>
-                                <hr/>
+                            <div className="card-header d-flex flex-row align-items-center justify-content-center py-0">
+                                <h4 className="text-center">Δημιουργία χρήστη</h4>
                             </div>
+                            <hr/>
                             <div className="card-body">
                                 <form id='form-data' onSubmit={this.submit}>
                                     <div className="row mb-1">

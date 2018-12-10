@@ -5,10 +5,11 @@ namespace App\Providers;
 use App\Category;
 use App\Events\categoryCreated;
 use App\Events\categoryDeleted;
-use App\Events\categoryEdited;
+use App\Events\stationDeleted;
 use App\Events\userCreated;
 use App\Events\userDeleted;
 use App\Events\userGeneralDeleted;
+use App\Station;
 use App\User;
 use Illuminate\Support\ServiceProvider;
 
@@ -36,13 +37,15 @@ class AppServiceProvider extends ServiceProvider
         });
 
         //User::updated() locates at UserController@update
-        //update οταν ο user κανει confirm
-        //update οταν ο user αλλαξει το δικο του profile
 
         User::deleting(function($user){
             event((new userDeleted($user))->dontBroadcastToCurrentUser());
             event((new userGeneralDeleted($user))->dontBroadcastToCurrentUser());
         });
+
+//        Station::deleting(function($station){
+//            event((new stationDeleted($station))->dontBroadcastToCurrentUser());
+//        });
     }
 
     /**cd

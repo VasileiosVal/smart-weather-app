@@ -47,7 +47,7 @@ class Profile extends React.Component{
                                     <div className="button-container">
                                         <div className="row">
                                             <div className="col-lg-3 col-md-6 col-6 ml-auto">
-                                                <h5>{this.props.profile.stations.length}
+                                                <h5>{this.props.stations.length}
                                                     <br/>
                                                         <small>Σταθμοί</small>
                                                 </h5>
@@ -71,10 +71,10 @@ class Profile extends React.Component{
                     </div>
                     <div className="col-sm-8">
                         <div className="card">
-                            <div className="card-header">
-                                <h3 className="text-center">Προφίλ</h3>
-                                <hr/>
+                            <div className="card-header d-flex flex-row align-items-center justify-content-center py-0">
+                                <h4 className="text-center">Προφίλ</h4>
                             </div>
+                            <hr/>
                             <div className="card-body">
                                 <div className="row mb-1">
                                     <div className="col-sm-6 offset-sm-3">
@@ -132,7 +132,7 @@ class Profile extends React.Component{
                                 <div className="row my-2">
                                     <div className="col-sm-12 d-flex align-items-center justify-content-around">
                                         <Link to='/profile/edit' className="btn btn-info btn-round">Επεξεργασία λογαριασμού</Link>
-                                        {this.props.master !== this.props.profile.email &&
+                                        {this.props.profile.id !== 1 &&
                                         <button onClick={()=>{
                                             this.setState({
                                                 deleteProfileEmail: this.props.profile.email}, ()=>{
@@ -146,7 +146,7 @@ class Profile extends React.Component{
                         </div>
                     </div>
                 </div>
-                {this.props.master !== this.props.profile.email && this.state.deleteProfileEmail &&
+                {this.props.profile.id !== 1 && this.state.deleteProfileEmail &&
                 <ModalProfileDelete deleteProfile={this.deleteProfile}/>
                 }
             </div>
@@ -157,7 +157,7 @@ class Profile extends React.Component{
 const mapStateToProps = (state) => {
     return {
         profile: state.user,
-        master: state.users.find((user)=>user.id === 1).email
+        stations: state.stations.filter((station)=>station.user_id === state.user.id)
     }
 };
 

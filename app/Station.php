@@ -19,4 +19,8 @@ class Station extends Model
     public function collections(){
         return $this->hasMany(Collection::class);
     }
+
+    public function getRouteKeyName(){
+        return 'name';
+    }
 }

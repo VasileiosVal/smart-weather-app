@@ -29,7 +29,7 @@ class ProfileEdit extends React.Component{
                                 <div className="button-container">
                                     <div className="row">
                                         <div className="col-lg-3 col-md-6 col-6 ml-auto">
-                                            <h5>{this.props.profile.stations.length}
+                                            <h5>{this.props.stations.length}
                                                 <br/>
                                                 <small>Σταθμοί</small>
                                             </h5>
@@ -80,7 +80,8 @@ class ProfileEdit extends React.Component{
 
 const mapStateToProps = (state) => {
   return {
-      profile: state.user
+      profile: state.user,
+      stations: state.stations.filter((station)=>station.user_id === state.user.id)
   }
 };
 

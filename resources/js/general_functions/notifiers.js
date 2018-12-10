@@ -26,9 +26,9 @@ export let notifyCreatedEl = () => {
         type: 'success'
     });
 };
-export let notifyGeneralCreatedEl = () => {
+export let notifyGeneralCreatedEl = (name='') => {
     $.notify({
-        message: '\'Εχει δημιουργηθεί καινούργια κατηγορία.'
+        message: `'Εχει δημιουργηθεί η κατηγορία: ${name}.`
     },{
         type: 'info'
     });
@@ -40,9 +40,9 @@ export let notifyEditedEl = () => {
         type: 'success'
     });
 };
-export let notifyGeneralEditedEl = () => {
+export let notifyGeneralEditedEl = (name='') => {
     $.notify({
-        message: '\'Εχει γίνει ενημέρωση κατηγορίας.'
+        message: `'Εχει γίνει ενημέρωση της κατηγορίας: ${name}.`
     },{
         type: 'info'
     });
@@ -54,9 +54,9 @@ export let notifyDeletedEl = () => {
         type: 'danger'
     });
 };
-export let notifyGeneralDeletedEl = () => {
+export let notifyGeneralDeletedEl = (name='') => {
     $.notify({
-        message: '\'Εχει διαγραφεί μια κατηγορία απο την λίστα.'
+        message: `'Εχει διαγραφεί η κατηγορία: ${name} απο την λίστα.`
     },{
         type: 'info'
     });
@@ -82,9 +82,9 @@ export let notifyTheDeletedUser = () => {
         type: 'danger'
     });
 };
-export let notifyGeneralDeletedUser = () => {
+export let notifyGeneralDeletedUser = (name='') => {
     $.notify({
-        message: '\'Εχει διαγραφεί ένας χρήστης απο την λίστα.'
+        message: `'Εχει διαγραφεί απο το σύστημα ο χρήστης με email: ${name}.`
     },{
         type: 'info'
     });
@@ -124,23 +124,23 @@ export let notifyCreatedUser = () => {
         type: 'success'
     });
 };
-export let notifyGeneralCreatedUser = () => {
+export let notifyGeneralCreatedUser = (email='') => {
     $.notify({
-        message: '\'Εχει δημιουργηθεί νέος χρήστης.'
+        message: `'Εχει δημιουργηθεί νέος χρήστης με email: ${email}.`
     },{
         type: 'info'
     });
 };
 export let notifyEditedUser = () => {
     $.notify({
-        message: 'Ο χρήστης έχει ενημερωθεί.'
+        message: 'Τα στοιχεία του χρήστη έχουν ενημερωθεί.'
     },{
         type: 'success'
     });
 };
-export let notifyGeneralEditedUser = () => {
+export let notifyGeneralEditedUser = (name='') => {
     $.notify({
-        message: '\'Εχει ενημερωθεί ένας χρήστης.'
+        message: `'Εχουν ενημερωθεί τα στοιχεία του χρήστη με email: ${name}.`
     },{
         type: 'info'
     });
@@ -154,7 +154,7 @@ export let notifyTheInactiveUser = () => {
 };
 export let notifyTheUpgradedUser = () => {
     $.notify({
-        message: 'Συγχαρητήρια. Ο λογαριασμός σας έχει αναβαθμιστεί με δικαιώματα διαχειριστή.'
+        message: 'Ο λογαριασμός σας έχει αναβαθμιστεί με δικαιώματα διαχειριστή.'
     },{
         type: 'success'
     });
@@ -168,7 +168,7 @@ export let notifyTheDowngradedUser = () => {
 };
 export let notifyDeleteProfile = () => {
     $.notify({
-        message: 'Ο λογαριασμός σας έχει διαγραφεί επιτυχώς.'
+        message: 'Ο λογαριασμός σας έχει διαγραφεί.'
     },{
         type: 'danger'
     });
@@ -183,6 +183,69 @@ export let notifyEditedUserEmptyFields = () => {
 export let notifyUpdatedProfile = () => {
     $.notify({
         message: 'Έχετε ενημερώσει επιτυχώς τα στοιχεία του λογαριασμού σας.'
+    },{
+        type: 'success'
+    });
+};
+export let notifyEditedUserPasswordEmptyFields = () => {
+    $.notify({
+        message: 'Συμπληρώστε όλα τα πεδία στην φόρμα αλλαγής κωδικού πρόσβασης.'
+    },{
+        type: 'warning'
+    });
+};
+export let notifyEditedUserCurrentPasswordDontMatch = () => {
+    $.notify({
+        message: 'Ο κωδικός πρόσβασης που συμπληρώσατε δεν ταιριάζει με τον πραγματικό σας κωδικό.'
+    },{
+        type: 'danger'
+    });
+};
+export let notifyDeletedStation = () => {
+    $.notify({
+        message: 'Ο σταθμός σας έχει διαγραφεί.'
+    },{
+        type: 'danger'
+    });
+};
+export let notifyGeneralDeletedStation = (name='') => {
+    $.notify({
+        message: `'Εχει διαγραφεί ο σταθμός: ${name} απο την λίστα.`
+    },{
+        type: 'info'
+    });
+};
+export let notifyCreatedStationEmptyFields = () => {
+    $.notify({
+        message: 'Συμπληρώστε όλα τα πεδία στην φόρμα δημιουργίας σταθμού.'
+    },{
+        type: 'warning'
+    });
+};
+export let notifyStationNameExists = () => {
+    $.notify({
+        message: 'Το όνομα που επιλέξατε για τον σταθμό υπάρχει υπάρχει ήδη στην λίστα.'
+    },{
+        type: 'warning'
+    });
+};
+export let notifyStationUniqueExists = () => {
+    $.notify({
+        message: 'Ο μοναδικός κωδικός που επιλέξατε υπάρχει υπάρχει ήδη στην λίστα.'
+    },{
+        type: 'warning'
+    });
+};
+export let notifyCreatedStation = () => {
+    $.notify({
+        message: 'Ο σταθμός έχει δημιουργηθεί.'
+    },{
+        type: 'success'
+    });
+};
+export let notifyEditedStation = () => {
+    $.notify({
+        message: 'Τα στοιχεία του σταθμού έχουν ενημερωθεί'
     },{
         type: 'success'
     });

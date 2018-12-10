@@ -25,7 +25,7 @@ class CategoryController extends Controller
             return response()->json($category, 201);
         }
         if(request()->expectsJson()){
-            return response()->json(['error' => 'forbidden'], 403);
+            return response()->json([__('messages.error') => __('messages.forbidden')], 403);
         }else{
             abort(403);
         }
@@ -43,7 +43,7 @@ class CategoryController extends Controller
             return response()->json($category, 200);
         }
         if(request()->expectsJson()){
-            return response()->json(['error' => 'forbidden'], 403);
+            return response()->json([__('messages.error') => __('messages.forbidden')], 403);
         }else{
             abort(403);
         }
@@ -56,7 +56,7 @@ class CategoryController extends Controller
             }
         }
         if(request()->expectsJson()){
-            return response()->json(['error'=>'forbidden'], 403);
+            return response()->json([__('messages.error') => __('messages.forbidden')], 403);
         }else{
             abort(403);
         }

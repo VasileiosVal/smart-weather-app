@@ -5,6 +5,8 @@ import {userReducer} from "../reducers/userReducer";
 import {categoryReducer} from "../reducers/categoryReducer";
 import {stationReducer} from "../reducers/stationReducer";
 import {usersReducer} from "../reducers/usersReducer";
+import {collectionReducer} from "../reducers/collectionReducer";
+import {filterReducer} from "../reducers/filterReducer";
 
 export let configureStore = () => {
     let store = createStore(combineReducers({
@@ -12,7 +14,9 @@ export let configureStore = () => {
         user: userReducer,
         categories: categoryReducer,
         stations: stationReducer,
-        users: usersReducer
+        users: usersReducer,
+        collections: collectionReducer,
+        filters: filterReducer
     }),
     applyMiddleware(thunk));
 

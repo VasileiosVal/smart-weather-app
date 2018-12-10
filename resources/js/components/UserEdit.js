@@ -20,9 +20,10 @@ export class UserEdit extends React.Component {
         return this.props.editCompShow && (
             <div className="editUser card animated fadeInDown delay-0.5s">
                 <span className='closeButton' onClick={this.props.closeEdit}><i className="fas fa-times"/></span>
-                <div className="card-header">
-                    <h4 className='text-center'>Επεξεργασία χρήστη: {this.props.editCompUserEmail}</h4>
+                <div className="card-header d-flex flex-row align-items-center justify-content-center py-0">
+                    <h4 className="text-center">Επεξεργασία χρήστη: {this.props.editCompUserEmail}</h4>
                 </div>
+                <hr/>
                 <div className="card-body text-center">
                     <form onSubmit={this.props.edit}>
                         <div className="row">

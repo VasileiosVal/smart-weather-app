@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\api;
 
-use App\Events\newUserRegistered;
 use App\Events\userEdited;
 use App\Events\userGeneralEdited;
 use App\User;
@@ -17,12 +16,12 @@ class UserController extends Controller
         return response()->json([
             'lang' => App::getLocale(),
             'user' => [
+                'id' => request()->user()->id,
                 'name' => request()->user()->name,
                 'surname' => request()->user()->surname,
                 'email' => request()->user()->email,
                 'role_id' => request()->user()->role_id,
                 'is_active' => request()->user()->is_active ? true : false,
-                'stations' => request()->user()->stations,
                 'confirmed' => request()->user()->confirmed,
                 'created_at' => request()->user()->created_at,
                 'updated_at' => request()->user()->updated_at
@@ -32,12 +31,9 @@ class UserController extends Controller
 
     public function index() {
         if(request()->user()->isAdmin()) {
-            return User::with('stations')->get();
-        }
-        if(request()->expectsJson()){
-            return response()->json(['error' => 'forbidden'], 403);
+            return User::all();
         } else {
-            abort(403);
+            return [];
         }
     }
 
@@ -61,7 +57,7 @@ class UserController extends Controller
             return response()->json($user, 201);
         }
         if(request()->expectsJson()){
-            return response()->json(['error' => 'forbidden'], 403);
+            return response()->json([__('messages.error') => __('messages.forbidden')], 403);
         } else {
             abort(403);
         }
@@ -87,7 +83,7 @@ class UserController extends Controller
             return response()->json($user, 200);
         }
         if(request()->expectsJson()){
-            return response()->json(['error'=>'forbidden'], 403);
+            return response()->json([__('messages.error') => __('messages.forbidden')], 403);
         }else{
             abort(403);
         }
@@ -102,7 +98,7 @@ class UserController extends Controller
             }
         }
         if(request()->expectsJson()){
-            return response()->json(['error'=>'forbidden'], 403);
+            return response()->json([__('messages.error') => __('messages.forbidden')], 403);
         }else{
             abort(403);
         }
@@ -115,7 +111,7 @@ class UserController extends Controller
             }
         }
         if(request()->expectsJson()){
-            return response()->json(['error'=>'forbidden'], 403);
+            return response()->json([__('messages.error') => __('messages.forbidden')], 403);
         }else{
             abort(403);
         }
@@ -133,14 +129,37 @@ class UserController extends Controller
             return response()->json($user, 200);
         }
         if(request()->expectsJson()){
-            return response()->json(['error'=>'forbidden'], 403);
+            return response()->json([__('messages.error') => __('messages.forbidden')], 403);
         }else{
             abort(403);
         }
     }
 
-    public function editPassword(){
-
+    public function editPassword(Request $request, User $user){
+        if($user->id === request()->user()->id){
+            $data = $request->validate([
+                'password' => 'required|string|min:6',
+                'newPassword' => 'required|string|min:6|confirmed',
+            ]);
+            if(Hash::check($data['password'], $user->password)){
+                $data['newPassword'] = Hash::make($data['newPassword']);
+                $user->update([
+                    'password' => $data['newPassword']
+                ]);
+                event((new userEdited($user))->dontBroadcastToCurrentUser());
+                return response()->json($user, 200);
+            }else{
+                return response()->json([
+                    __('messages.error') => __('messages.mismatched_password_error'),
+                    'accept' => 1
+                    ], 422);
+            }
+        }
+        if(request()->expectsJson()){
+            return response()->json([__('messages.error') => __('messages.forbidden')], 403);
+        }else{
+            abort(403);
+        }
     }
 
 //    public function getUser() {

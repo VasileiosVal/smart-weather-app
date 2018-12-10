@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from "react-redux";
 import {notifyEditedUserEmptyFields, notifyUpdatedProfile, notifyUserEmailExists} from "../general_functions/notifiers";
-import {startEditProfile} from "../actions/User";
+import {startEditProfileDetails} from "../actions/User";
 import {withRouter} from "react-router-dom";
 
 class ProfileEditDetails extends React.Component {
@@ -14,7 +14,7 @@ class ProfileEditDetails extends React.Component {
         this.state = {
             email: props.profile.email,
             name: props.profile.name,
-            surname: props.profile.surname
+            surname: props.profile.surname,
         }
     }
     changeEmail(e){
@@ -28,25 +28,19 @@ class ProfileEditDetails extends React.Component {
     }
     submit(e){
         e.preventDefault();
-        let foundUserWithSameEmail;
-        let email = e.target.elements.email.value.trim();
-        let name = e.target.elements.name.value.trim();
-        let surname = e.target.elements.surname.value.trim();
+        let email = this.state.email.trim();
+        let name = this.state.name.trim();
+        let surname = this.state.surname.trim();
 
         if(!email || !name || !surname){
             notifyEditedUserEmptyFields();
         }else{
-            foundUserWithSameEmail = this.props.users.find((user)=>user.email === email);
-            if(foundUserWithSameEmail && foundUserWithSameEmail.email === this.props.profile.email){foundUserWithSameEmail=undefined}
-
-            if(foundUserWithSameEmail) {
-                notifyUserEmailExists();
-            }else{
-                this.props.dispatch(startEditProfile(this.props.profile.email, email, name, surname)).then(()=>{
+            this.props.dispatch(startEditProfileDetails(this.props.profile.email, email, name, surname)).then((val=0)=>{
+                if(val !== 1){
                     notifyUpdatedProfile();
                     this.props.history.push('/profile')
-                })
-            }
+                }
+            })
         }
     }
     render(){
@@ -84,7 +78,7 @@ class ProfileEditDetails extends React.Component {
                         </div>
                         <div className="row">
                             <div className="update ml-auto mr-auto">
-                                <button className="btn btn-primary btn-round">Υποβολή</button>
+                                <button className="btn btn-primary btn-round">Ενημέρωση</button>
                             </div>
                         </div>
                     </form>
@@ -96,8 +90,7 @@ class ProfileEditDetails extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        profile: state.user,
-        users: state.users
+        profile: state.user
     }
 };
 

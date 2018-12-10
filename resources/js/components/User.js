@@ -109,10 +109,10 @@ class User extends React.Component {
                 <div className="row">
                     <div className="col-sm-12">
                         <div className="card">
-                            <div className="card-header">
-                                <h3 className="text-center">Προβολή όλων των χρηστών</h3>
-                                <hr/>
+                            <div className="card-header d-flex flex-row align-items-center justify-content-center py-0">
+                                <h4 className="text-center">Προβολή όλων των χρηστών</h4>
                             </div>
+                            <hr/>
                             <div className="card-body">
                                 <div className="table-responsive">
                                     <table className="table text-center">
@@ -127,7 +127,6 @@ class User extends React.Component {
                                             <th>Επιβεβαιωμένος</th>
                                             <th>Σταθμοί</th>
                                             <th>Ημ. δημιουργίας</th>
-                                            <th>Ημ. ανανέωσης</th>
                                             <th>Ενέργειες</th>
                                         </tr>
                                         </thead>
@@ -146,9 +145,10 @@ class User extends React.Component {
                                                 <td>{user.role_id === 1 ? 'Διαχειριστής' : 'Χρήστης'}</td>
                                                 <td>{user.is_active ? 'Ναι' : 'Οχι'}</td>
                                                 <td>{user.confirmed ? moment(user.confirmed).format('llll') : 'Οχι'}</td>
-                                                <td>{user.stations.length ? user.stations.length : 'Οχι'}</td>
+                                                <td>{this.props.stations.filter((station)=>station.user_id === user.id).length ?
+                                                    this.props.stations.filter((station)=>station.user_id === user.id).length :
+                                                    'Οχι'}</td>
                                                 <td>{moment(user.created_at).fromNow()}</td>
-                                                <td>{moment(user.updated_at).fromNow()}</td>
                                                 {user.id !== 1 && user.email !== this.props.myEmail &&
                                                 <td>
                                                     <i title='Επεξεργασία'
@@ -206,7 +206,8 @@ class User extends React.Component {
 const mapStateToProps = (state) => {
     return {
         myEmail: state.user.email,
-        users: state.users
+        users: state.users,
+        stations: state.stations
     }
 }
 export default connect(mapStateToProps)(User)

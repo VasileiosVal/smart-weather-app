@@ -3,7 +3,7 @@ export let userReducer = (state={}, action) => {
         case 'SAVE_USER':
             return action.user;
         case 'EDIT_PROFILE':
-            return {...state, ...action.user}
+            return {...state, ...action.user};
         default :
             return state;
     }

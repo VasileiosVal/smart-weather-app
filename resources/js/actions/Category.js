@@ -18,7 +18,7 @@ export let startSaveCategories = () => {
                 arr.push(category)
             });
            dispatch(SaveCategories(arr));
-        }).catch(()=>{
+        }).catch((e)=>{
            startLogoutUser();
        });
     }
@@ -39,12 +39,8 @@ export let startCreateCategory = (name='', symbol='') => {
         }).then((response)=>{
             dispatch(createCategory(response.data))
         }).catch((e)=>{
-            if(e.response.status === 422){
-                notifyUnauthorizedAction();
-            } else {
-                notifyUnauthorizedAction();
-                setTimeout(()=>{startLogoutUser()}, 1500);
-            }
+            notifyUnauthorizedAction();
+            setTimeout(()=>{startLogoutUser()}, 1500);
         })
     }
 };
@@ -64,12 +60,8 @@ export let startEditCategory = (lastName='', name='', symbol='') => {
         }).then((response)=>{
             dispatch(editCategory(response.data))
         }).catch((e)=>{
-            if(e.response.status === 422 || e.response.status === 404){
-                notifyUnauthorizedAction();
-            } else {
-                notifyUnauthorizedAction();
-                setTimeout(()=>{startLogoutUser()}, 1500)
-            }
+            notifyUnauthorizedAction();
+            setTimeout(()=>{startLogoutUser()}, 1500)
         })
     }
 };
@@ -87,12 +79,8 @@ export let startDeleteCategory = (name='') => {
             .then((response)=>{
            dispatch(deleteCategory(response.data));
         }).catch((e)=>{
-            if(e.response.status === 404){
-                notifyUnauthorizedAction();
-            } else {
-                notifyUnauthorizedAction();
-                setTimeout(()=>{startLogoutUser()}, 1500)
-            }
+            notifyUnauthorizedAction();
+            setTimeout(()=>{startLogoutUser()}, 1500)
         })
     }
 };

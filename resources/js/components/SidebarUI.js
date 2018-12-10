@@ -26,7 +26,7 @@ class SidebarUI extends React.Component {
                         </li>
                         <li>
                             <a id='collapse-link' data-toggle="collapse" href="#componentsExamples1">
-                                <i className="nc-icon nc-app"/>
+                                <i className="fas fa-broadcast-tower"/>
                                 <p>
                                     Σταθμοί
                                     <b className="caret"/>
@@ -35,19 +35,21 @@ class SidebarUI extends React.Component {
                             <div className="collapse " id="componentsExamples1">
                                 <ul >
                                     <li className="nav-item ">
-                                        <a href="./components/sweet-alert.html">
-                                            <span className="sidebar-normal">Sweet Alert</span>
-                                        </a>
+                                        <NavLink to='/stations' exact activeClassName='active'>
+                                            <span className="sidebar-normal">Οι σταθμοί μου</span>
+                                        </NavLink>
                                     </li>
+                                    {this.props.isAdmin &&
                                     <li className="nav-item ">
-                                        <a href="./components/notifications.html">
-                                            <span className="sidebar-normal">Notifications</span>
-                                        </a>
+                                        <NavLink to='/stations/all' exact activeClassName='active'>
+                                            <span className="sidebar-normal">Προβολή όλων</span>
+                                        </NavLink>
                                     </li>
+                                    }
                                     <li className="nav-item ">
-                                        <a href="./components/icons.html">
-                                            <span className="sidebar-normal">Icons</span>
-                                        </a>
+                                        <NavLink to='/stations/create' exact activeClassName='active'>
+                                            <span className="sidebar-normal">Δημιουργία σταθμού</span>
+                                         </NavLink>
                                     </li>
                                 </ul>
                             </div>
@@ -55,7 +57,7 @@ class SidebarUI extends React.Component {
                         {this.props.isAdmin &&
                         <li>
                             <a id='collapse-link' data-toggle="collapse" href="#componentsExamples2">
-                                <i className="nc-icon nc-app"/>
+                                <i className="fa fa-users"/>
                                 <p>
                                     Χρήστες
                                     <b className="caret"/>
@@ -83,27 +85,54 @@ class SidebarUI extends React.Component {
                                 <p>Κατηγορίες</p>
                             </NavLink>
                         </li>
+                        {this.props.isAdmin ?
+                            <li>
+                                <NavLink to='/measures/all' exact activeClassName='active'>
+                                    <i className="fa fa-chart-area"/>
+                                    <p>Μετρήσεις</p>
+                                </NavLink>
+                            </li>
+                            :
+                            <li>
+                                <a id='collapse-link' data-toggle="collapse" href="#componentsExamples3">
+                                    <i className="fa fa-chart-area"/>
+                                    <p>
+                                        Μετρήσεις
+                                        <b className="caret"/>
+                                    </p>
+                                </a>
+                                <div className="collapse" id="componentsExamples3">
+                                    <ul>
+                                        <li className="nav-item ">
+                                            <NavLink to='/measures' exact activeClassName='active'>
+                                                <span className="sidebar-normal">Προβολή μετρήσεων των σταθμών μου</span>
+                                            </NavLink>
+                                        </li>
+                                        <li className="nav-item ">
+                                            <NavLink exact to='/measures/other' activeClassName='active'>
+                                                <span className="sidebar-normal">Προβολή μετρήσεων άλλων σταθμών</span>
+                                            </NavLink>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        }
+
                         <li>
-                            <a href="./icons.html">
-                                <i className="fa fa-users"/>
-                                <p>Μετρήσεις</p>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="./icons.html">
-                                <i className="fa fa-users"/>
+                            <NavLink to='/history' exact activeClassName='active'>
+                                <i className="fa fa-history"/>
                                 <p>Ιστορικό</p>
-                            </a>
+                            </NavLink>
                         </li>
                         <li>
-                            <a id='collapse-link' data-toggle="collapse" href="#componentsExamples3">
+                            <a id='collapse-link' data-toggle="collapse" href="#componentsExamples4">
                                 <i className="nc-icon nc-app"/>
                                 <p>
                                     Ενημερώσεις
                                     <b className="caret"/>
                                 </p>
                             </a>
-                            <div className="collapse " id="componentsExamples3">
+                            <div className="collapse " id="componentsExamples4">
                                 <ul >
                                     <li className="nav-item ">
                                         <a href="./components/notifications.html">

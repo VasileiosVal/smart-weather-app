@@ -49,14 +49,21 @@ export let notifyGeneralEditedEl = (name='') => {
 };
 export let notifyDeletedEl = () => {
     $.notify({
-        message: 'Η κατηγορία έχει διαγραφεί.'
+        message: 'Η κατηγορία έχει διαγραφεί. Θα γίνει ανανέωση της σελίδας για να πραγματοποιηθούν οι αλλαγές.'
     },{
         type: 'danger'
     });
 };
 export let notifyGeneralDeletedEl = (name='') => {
     $.notify({
-        message: `'Εχει διαγραφεί η κατηγορία: ${name} απο την λίστα.`
+        message: `'Εχει διαγραφεί η κατηγορία: ${name} απο την λίστα. Θα γίνει ανανέωση της σελίδας για να πραγματοποιηθούν οι αλλαγές.`
+    },{
+        type: 'danger'
+    });
+};
+export let notifyGeneralUpdatedList = () => {
+    $.notify({
+        message: `'Εχει ανανεωθεί η λίστα.`
     },{
         type: 'info'
     });
@@ -75,6 +82,20 @@ export let notifyDeletedUser = () => {
         type: 'danger'
     });
 };
+export let notifyDeletedUserStations = () => {
+    $.notify({
+        message: 'Έχουν διαγραφεί οι σταθμοί του χρήστη.'
+    },{
+        type: 'danger'
+    });
+};
+export let notifyDeletedUserStationsCollections = () => {
+    $.notify({
+        message: 'Έχουν διαγραφεί οι συλλογές μετρήσεων των σταθμών του χρήστη.'
+    },{
+        type: 'danger'
+    });
+};
 export let notifyTheDeletedUser = () => {
     $.notify({
         message: 'Έχετε διαγραφεί απο το σύστημα.'
@@ -85,6 +106,27 @@ export let notifyTheDeletedUser = () => {
 export let notifyGeneralDeletedUser = (name='') => {
     $.notify({
         message: `'Εχει διαγραφεί απο το σύστημα ο χρήστης με email: ${name}.`
+    },{
+        type: 'info'
+    });
+};
+export let notifyGeneralDeletedUserStations = (name='', arr=[]) => {
+    $.notify({
+        message: `'Εχουν διαγραφεί οι σταθμοί με id: ${arr.join(', ')} του χρήστη: ${name}.`
+    },{
+        type: 'info'
+    });
+};
+export let notifyGeneralDeletedUserCollections = (arr=[]) => {
+    $.notify({
+        message: `'Εχουν διαγραφεί οι συλλογές μετρήσεων των σταθμών του. (Σύνολο: ${arr.length})`
+    },{
+        type: 'info'
+    });
+};
+export let notifyGeneralDeletedStationCollections = (arr=[]) => {
+    $.notify({
+        message: `'Εχουν διαγραφεί οι συλλογές μετρήσεων του σταθμού. (Σύνολο: ${arr.length})`
     },{
         type: 'info'
     });
@@ -106,6 +148,13 @@ export let notifyDiffPasswordsInUserFields = () => {
 export let notifyBiggerPasswordsInUserFields = () => {
     $.notify({
         message: 'Ο κωδικός πρόσβασης θα πρέπει να αποτελείται απο τουλάχιστον 6 χαρακτήρες.'
+    },{
+        type: 'warning'
+    });
+};
+export let notifyInvalidEmailOnInput = () => {
+    $.notify({
+        message: 'To Email που συμπληρώσατε δεν αποτελεί εγκυρο Email.'
     },{
         type: 'warning'
     });
@@ -208,6 +257,13 @@ export let notifyDeletedStation = () => {
         type: 'danger'
     });
 };
+export let notifyDeletedStationCollections = () => {
+    $.notify({
+        message: '΄Εχουν διαγραφεί οι συλλογές μετρήσεων του σταθμού.'
+    },{
+        type: 'danger'
+    });
+};
 export let notifyGeneralDeletedStation = (name='') => {
     $.notify({
         message: `'Εχει διαγραφεί ο σταθμός: ${name} απο την λίστα.`
@@ -243,10 +299,94 @@ export let notifyCreatedStation = () => {
         type: 'success'
     });
 };
-export let notifyEditedStation = () => {
+export let notifyGeneralCreatedStation = (name='') => {
     $.notify({
-        message: 'Τα στοιχεία του σταθμού έχουν ενημερωθεί'
+        message: `'Εχει δημιουργηθεί ο σταθμός με όνομα: ${name}.`
+    },{
+        type: 'info'
+    });
+};
+export let notifyGeneralCreatedStationWithOwnership = (name='') => {
+    $.notify({
+        message: `'Εχει δημιουργηθεί ο σταθμός με όνομα: ${name} και έχετε επιλεγεί ως ιδιοκτήτης του.`
     },{
         type: 'success'
+    });
+};
+export let notifyGeneralEditedStationWithOwnership = (name='') => {
+    $.notify({
+        message: `'Εχετε επιλεγεί ως ιδιοκτήτης του σταθμού με όνομα: ${name}.`
+    },{
+        type: 'success'
+    });
+};
+export let notifyEditedStation = () => {
+    $.notify({
+        message: 'Τα στοιχεία του σταθμού έχουν ενημερωθεί.'
+    },{
+        type: 'success'
+    });
+};
+export let notifyGeneralEditedStation = (name='') => {
+    $.notify({
+        message: `Τα στοιχεία του σταθμού: ${name} έχουν ενημερωθεί.`
+    },{
+        type: 'info'
+    });
+};
+export let notifyGeneralError = () => {
+    $.notify({
+        message: 'Παρουσιάστηκε κάποιο σφάλμα.'
+    },{
+        type: 'error'
+    });
+};
+export let notifyNoChangesMade = () => {
+    $.notify({
+        message: 'Δεν έγινε καμία αλλαγή.'
+    },{
+        type: 'info'
+    });
+};
+export let notifyGeneralCreatedCollection = (name='') => {
+    $.notify({
+        message: `Έχει δημιουργηθεί καινούργια συλλογή μετρήσεων απο τον σταθμό: ${name}.`
+    },{
+        type: 'info'
+    });
+};
+export let notifyGeneralCategories = () => {
+    $.notify({
+        message: 'Στην σελίδα αυτή βρίσκονται όλες οι διαθέσιμες κατηγορίες, τις οποίες μπορείτε να επιλέξετε για τους σταθμούς σας.'
+    },{
+        type: 'info'
+    });
+};
+export let notifyGeneralStationCreateInfo = () => {
+    $.notify({
+        message: `Παρακαλώ συμπληρώστε όλα τα στοιχεία, ώστε να σας εμφανιστούν οδηγίες για την σύνδεση του σταθμού σας με το σύστημα.`
+    },{
+        type: "info",
+        delay: 6000,
+        template: '<div data-notify="container" class="col-xs-11 col-sm-5 alert alert-{0}" role="alert">' +
+        '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+        '<span data-notify="icon"/>' +
+        '<span data-notify="message">{2}</span>' + '</div>'
+    });
+};
+export let notifyTextCopiedToClipboard = () => {
+    $.notify({
+        message: 'Ο σύνδεσμος έχει αντιγραφεί στο clipboard.'
+    },{
+        type: 'success',
+        delay: 1000,
+        placement: {
+            from: "bottom",
+            align: "right"
+        },
+        animate: {
+            enter: 'animated fadeInRight',
+            exit: 'animated fadeOutRight'
+        }
     });
 };

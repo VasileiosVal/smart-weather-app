@@ -12,23 +12,19 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name', 'surname', 'email', 'password', 'role_id', 'is_active', 'confirmed', 'confirmation', 'api_token'
-    ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token', 'api_token', 'confirmation'
-    ];
+    protected $fillable = ['name', 'surname', 'email', 'password', 'role_id', 'is_active', 'confirmed', 'confirmation', 'api_token'];
+
+    protected $casts = [
+        'id' => 'integer',
+        'name' => 'string',
+        'surname' => 'string',
+        'password' => 'string',
+        'email' => 'string',
+        'role_id' => 'integer',
+        'is_active' => 'integer'];
+
+    protected $hidden = ['password', 'remember_token', 'api_token', 'confirmation', 'updated_at'];
 
     public function role(){
         return $this->belongsTo(Role::class);
@@ -54,7 +50,7 @@ class User extends Authenticatable
     public function rollApiKey(){
         do{
             $this->api_token = str_random(60);
-        }while($this->where('api_token', $this->api_token)->exists());
+        }while(self::where('api_token', $this->api_token)->exists());
         $this->save();
     }
 

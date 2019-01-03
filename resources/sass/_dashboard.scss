@@ -2466,6 +2466,7 @@ body {
   color: #2c2c2c;
   font-size: 14px;
   font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  overflow-x: hidden;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
 }
@@ -3948,7 +3949,6 @@ img {
 }
 
 .table-responsive {
-  overflow: scroll;
   padding-bottom: 10px;
 }
 
@@ -5983,6 +5983,46 @@ img.profile-image {
 }
 
 //station is active > span > font size
-.station{
+.station {
   font-size: 0.8rem;
 }
+
+//navbar name
+.navbar p.navbar-brand a.navbar-name {
+  vertical-align: inherit;
+}
+
+.navbar p.navbar-brand a.navbar-name:hover {
+  border: none;
+  text-decoration: none;
+  outline: none;
+  color: #2ba9cd;
+}
+
+a.card-link:hover {
+  border: none;
+  text-decoration: none;
+  outline: none;
+}
+//blue profile name/surname
+h5.apply-blue {
+  color: #51cbce;
+}
+
+.make-border {
+  border: 2px solid rgba(0,0,0,.125);
+  padding: .75rem 1.25rem;
+  border-radius: 2%;
+}
+
+.styled-text {
+  font-size: 0.98rem;
+  font-family: serif, "Montserrat", "Helvetica Neue", Arial, sans-serif;
+}
+
+.url-generator:hover {
+  text-decoration: underline;
+}
+
+
+

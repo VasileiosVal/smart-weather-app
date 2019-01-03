@@ -21,8 +21,8 @@
             window.Laravel = {!! json_encode([
             'csrfToken' => csrf_token(),
             'apiToken' => auth()->user()->api_token ?? null,
+            'baseUrl' => env('APP_URL')
         ]) !!};
-
         </script>
         <script src="{{ mix('js/app.js') }}"></script>
         <script src="{{ mix('js/render.js') }}"></script>

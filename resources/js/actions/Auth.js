@@ -1,25 +1,16 @@
 import {setLang} from "./Lang";
-import {logout} from "../general_functions/generalFunctions";
 import {saveUser} from "./User";
 
 
-
-export let startLogoutUser = () => {
-    logout()
-};
-
-
-export let startCheckAuthAndSaveUser = () => {
-    return (dispatch) => {
+export let startCheckAuthAndSaveUser = () => dispatch => {
         return axios('/api/auth/user')
-            .then((response)=>{
+            .then(response => {
                 dispatch(saveUser(response.data.user));
                 dispatch(setLang(response.data.lang));
             })
             .catch(()=>{
-                logout();
+                return 'error';
             });
-    }
 };
 
 

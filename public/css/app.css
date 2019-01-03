@@ -95,6 +95,38 @@
   -webkit-animation-name: fadeInDown;
           animation-name: fadeInDown;
 }
+@-webkit-keyframes fadeInRight {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(100%, 0, 0);
+            transform: translate3d(100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(100%, 0, 0);
+            transform: translate3d(100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+  }
+}
+
+.fadeInRight {
+  -webkit-animation-name: fadeInRight;
+          animation-name: fadeInRight;
+}
 @-webkit-keyframes fadeOutUp {
   from {
     opacity: 1;
@@ -122,6 +154,34 @@
 .fadeOutUp {
   -webkit-animation-name: fadeOutUp;
           animation-name: fadeOutUp;
+}
+@-webkit-keyframes fadeOutRight {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    -webkit-transform: translate3d(100%, 0, 0);
+            transform: translate3d(100%, 0, 0);
+  }
+}
+
+@keyframes fadeOutRight {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    -webkit-transform: translate3d(100%, 0, 0);
+            transform: translate3d(100%, 0, 0);
+  }
+}
+
+.fadeOutRight {
+  -webkit-animation-name: fadeOutRight;
+          animation-name: fadeOutRight;
 }
 /*!
  * Font Awesome Free 5.5.0 by @fontawesome - https://fontawesome.com
@@ -18395,6 +18455,7 @@ body {
   color: #2c2c2c;
   font-size: 14px;
   font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  overflow-x: hidden;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
 }
@@ -19860,7 +19921,6 @@ img {
 }
 
 .table-responsive {
-  overflow: scroll;
   padding-bottom: 10px;
 }
 
@@ -21911,5 +21971,41 @@ img.profile-image {
 
 .station {
   font-size: 0.8rem;
+}
+
+.navbar p.navbar-brand a.navbar-name {
+  vertical-align: inherit;
+}
+
+.navbar p.navbar-brand a.navbar-name:hover {
+  border: none;
+  text-decoration: none;
+  outline: none;
+  color: #2ba9cd;
+}
+
+a.card-link:hover {
+  border: none;
+  text-decoration: none;
+  outline: none;
+}
+
+h5.apply-blue {
+  color: #51cbce;
+}
+
+.make-border {
+  border: 2px solid rgba(0, 0, 0, 0.125);
+  padding: .75rem 1.25rem;
+  border-radius: 2%;
+}
+
+.styled-text {
+  font-size: 0.98rem;
+  font-family: serif, "Montserrat", "Helvetica Neue", Arial, sans-serif;
+}
+
+.url-generator:hover {
+  text-decoration: underline;
 }
 

@@ -1,39 +1,31 @@
-import {startLogoutUser} from "./Auth";
 import {
-    notifyStationNameExists, notifyStationUniqueExists,
-    notifyUnauthorizedAction
+    notifyStationNameExists, notifyStationUniqueExists
 } from "../general_functions/notifiers";
+import {deleteUserStationsCollections} from "./User";
+import {notifyUnauthorizedActionAndLogout} from "../general_functions/generalFunctions";
 
-let saveStations = (stations=[]) => {
-    return {
+let saveStations = (stations=[]) => ({
         type: 'SAVE_STATIONS',
         stations
-    }
-};
+    });
 
-export let startSaveStations = () => {
-    return (dispatch) => {
-        return axios('/api/auth/stations').then((response)=>{
+export let startSaveStations = () => dispatch => {
+        return axios('/api/auth/stations')
+            .then(response => {
             let arr = [];
-            response.data.forEach((station)=>{
-                arr.push(station)
-            });
+            response.data.forEach(station => arr.push(station));
             dispatch(saveStations(arr))
         }).catch(()=>{
-            startLogoutUser();
+            return 'error';
         });
-    }
 };
 
-export let createStation = (station) => {
-    return {
+export let createStation = station => ({
         type: 'CREATE_STATION',
         station
-    }
-};
+    });
 
-export let startCreateStation = (name='', unique='', user_id='', location='', is_active='', privacy='', description='', categories='') => {
-    return (dispatch) => {
+export let startCreateStation = (name='', unique='', user_id='', location='', is_active='', privacy='', description='', categories=[]) => dispatch => {
         return axios.post('/api/auth/stations/admin', {
             name,
             unique,
@@ -44,18 +36,11 @@ export let startCreateStation = (name='', unique='', user_id='', location='', is
             description,
             categories
         })
-            .then((response)=>{
-                dispatch(createStation(response.data))
-            })
-            .catch((e)=>{
-                notifyUnauthorizedAction();
-                setTimeout(()=>{startLogoutUser()}, 1500);
-            })
-    }
+            .then(response => dispatch(createStation(response.data)))
+            .catch(e => notifyUnauthorizedActionAndLogout())
 };
 
-export let startCreateStationForUser = (name='', unique='', user_id='', location='', is_active='', privacy='', description='', categories='') => {
-    return (dispatch) => {
+export let startCreateStationForUser = (name='', unique='', user_id='', location='', is_active='', privacy='', description='', categories=[]) => dispatch => {
         return axios.post('/api/auth/stations/user', {
             name,
             unique,
@@ -66,10 +51,8 @@ export let startCreateStationForUser = (name='', unique='', user_id='', location
             description,
             categories
         })
-            .then((response)=>{
-                dispatch(createStation(response.data))
-            })
-            .catch((e)=>{
+            .then(response=>dispatch(createStation(response.data)))
+            .catch(e => {
                 if(e.response.status === 422){
                     if(e.response.data.errors.name){
                         notifyStationNameExists();
@@ -79,21 +62,16 @@ export let startCreateStationForUser = (name='', unique='', user_id='', location
                         return 1;
                     }
                 }
-                notifyUnauthorizedAction();
-                setTimeout(()=>{startLogoutUser()}, 1500);
+                notifyUnauthorizedActionAndLogout()
             })
-    }
 };
 
-export let editStation = (station) => {
-    return {
+export let editStation = station => ({
         type: 'EDIT_STATION',
         station
-    }
-};
+    });
 
-export let startEditStation = (lastName='', name='', unique='', user_id='', location='', is_active='', privacy='', description='', categories='') => {
-    return (dispatch) => {
+export let startEditStation = (lastName='', name='', unique='', user_id='', location='', is_active='', privacy='', description='', categories=[]) => dispatch => {
         return axios.patch(`/api/auth/stations/${lastName}/edit/admin`, {
             name,
             unique,
@@ -104,18 +82,17 @@ export let startEditStation = (lastName='', name='', unique='', user_id='', loca
             description,
             categories
         })
-            .then((response)=>{
-                dispatch(editStation(response.data));
+            .then(response => {
+                if(response.status === 202){
+                    return 'same';
+                } else {
+                    dispatch(editStation(response.data));
+                }
             })
-            .catch((e)=>{
-                notifyUnauthorizedAction();
-                setTimeout(()=>{startLogoutUser()}, 1500);
-            })
-    }
+            .catch(e => notifyUnauthorizedActionAndLogout())
 };
 
-export let startEditStationForUser = (lastName='', name='', unique='', user_id='', location='', is_active='', privacy='', description='', categories='') => {
-    return (dispatch) => {
+export let startEditStationForUser = (lastName='', name='', unique='', user_id='', location='', is_active='', privacy='', description='', categories=[]) => dispatch => {
         return axios.patch(`/api/auth/stations/${lastName}/edit/user`, {
             name,
             unique,
@@ -126,10 +103,14 @@ export let startEditStationForUser = (lastName='', name='', unique='', user_id='
             description,
             categories
         })
-            .then((response)=>{
-                dispatch(editStation(response.data))
+            .then(response => {
+                if(response.status === 202){
+                    return 'same';
+                }else{
+                    dispatch(editStation(response.data))
+                }
             })
-            .catch((e)=>{
+            .catch(e => {
                 if(e.response.status === 422){
                     if(e.response.data.errors.name){
                         notifyStationNameExists();
@@ -139,65 +120,82 @@ export let startEditStationForUser = (lastName='', name='', unique='', user_id='
                         return 1;
                     }
                 }
-                notifyUnauthorizedAction();
-                setTimeout(()=>{startLogoutUser()}, 1500);
+                notifyUnauthorizedActionAndLogout();
             })
-    }
 };
 
-export let startEditStationFromAll = (name='', user_id=0, is_active=0, privacy='') => {
-    return (dispatch) => {
+export let startEditStationFromAll = (name='', user_id=0, is_active=0, privacy='') => (dispatch) => {
         return axios.patch(`/api/auth/stations/${name}/all/edit`, {
             user_id,
             is_active,
             privacy
         })
-            .then((response)=>{
-                dispatch(editStation(response.data))
+            .then(response => {
+                if(response.status === 202){
+                    return 'same';
+                } else {
+                    dispatch(editStation(response.data))
+                }
             })
-            .catch((e)=>{
-                notifyUnauthorizedAction();
-                setTimeout(()=>{startLogoutUser()}, 1500);
-            })
-    }
-}
+            .catch(e => notifyUnauthorizedActionAndLogout())
+};
 
-export let deleteStation = (station) => {
-    return {
+export let deleteStation = station => ({
         type: 'DELETE_STATION',
         station
-    }
-};
+});
 
-export let startDeleteStation = (name='') => {
-    return (dispatch) => {
+export let startDeleteStation = (name='') => (dispatch, getState) => {
         return axios.delete(`/api/auth/stations/${name}`)
-            .then((response)=>{
-                dispatch(deleteStation(response.data))
+            .then(response => {
+
+                //find possible collections that belong to deleted station
+                let deletedStationCollections = [];
+                getState().collections.forEach(collection=>{
+                    if(collection.station_id === response.data.id){
+                      deletedStationCollections.push(collection.id)
+                    }
+                });
+
+                let completedJobs = 1;
+
+                if(deletedStationCollections.length){
+                    dispatch(deleteUserStationsCollections(deletedStationCollections));
+                    completedJobs = 2;
+                }
+                dispatch(deleteStation(response.data));
+                return completedJobs;
             })
-            .catch((e)=>{
-                notifyUnauthorizedAction();
-                setTimeout(()=>{startLogoutUser()}, 1500);
-            })
-    }
+            .catch(e => notifyUnauthorizedActionAndLogout())
 };
 
-export let startDeleteStationFromAdmin = (name='') => {
-    return (dispatch) => {
+export let startDeleteStationFromAdmin = (name='') => (dispatch, getState) => {
         return axios.delete(`/api/auth/stations/${name}/admin`)
-            .then((response)=>{
-                dispatch(deleteStation(response.data))
+            .then(response => {
+
+                //find possible collections that belong to deleted station
+                let deletedStationCollections = [];
+                getState().collections.forEach(collection => {
+                    if(collection.station_id === response.data.id){
+                        deletedStationCollections.push(collection.id)
+                    }
+                });
+
+                let completedJobs = 1;
+
+                if(deletedStationCollections.length){
+                    dispatch(deleteUserStationsCollections(deletedStationCollections));
+                    completedJobs = 2;
+                }
+                dispatch(deleteStation(response.data));
+                return completedJobs;
             })
-            .catch((e)=>{
-                notifyUnauthorizedAction();
-                setTimeout(()=>{startLogoutUser()}, 1500);
-            })
-    }
+            .catch(e => notifyUnauthorizedActionAndLogout())
 };
 
 
-export let deleteStations = () => {
-    return {
-        type: 'DELETE_STATIONS'
-    }
-};
+// export let deleteStations = () => {
+//     return {
+//         type: 'DELETE_STATIONS'
+//     }
+// };

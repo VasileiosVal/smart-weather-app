@@ -8,6 +8,10 @@ class Collection extends Model
 {
     protected $fillable = ['series_hash', 'station_id'];
 
+    protected $hidden = ['updated_at'];
+
+    protected $casts = ['id' => 'integer', 'series_hash' => 'string', 'station_id' => 'integer'];
+
     public function station(){
         return $this->belongsTo(Station::class);
     }

@@ -3,10 +3,7 @@
 namespace App\Events;
 
 use App\Category;
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -17,7 +14,7 @@ class categoryDeleted implements ShouldBroadcast
 
     public $category;
 
-    public function __construct($category)
+    public function __construct(Category $category)
     {
         $this->category = $category;
     }

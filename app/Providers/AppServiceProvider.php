@@ -5,21 +5,19 @@ namespace App\Providers;
 use App\Category;
 use App\Events\categoryCreated;
 use App\Events\categoryDeleted;
+use App\Events\deletedUserAndStationsWhileOnMeasures;
 use App\Events\stationDeleted;
 use App\Events\userCreated;
 use App\Events\userDeleted;
 use App\Events\userGeneralDeleted;
+use App\Events\userGeneralDeletedWhileOnMeasures;
 use App\Station;
 use App\User;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap any application services.
-     *
-     * @return void
-     */
+
     public function boot()
     {
         Category::created(function($category){
@@ -41,11 +39,17 @@ class AppServiceProvider extends ServiceProvider
         User::deleting(function($user){
             event((new userDeleted($user))->dontBroadcastToCurrentUser());
             event((new userGeneralDeleted($user))->dontBroadcastToCurrentUser());
+            if($user->stations()->count()){
+                $stations = $user->stations()->pluck('id');
+                event((new deletedUserAndStationsWhileOnMeasures($stations))->dontBroadcastToCurrentUser());
+            }
         });
 
-//        Station::deleting(function($station){
-//            event((new stationDeleted($station))->dontBroadcastToCurrentUser());
-//        });
+        //Station::created() locates at StationController
+
+        //Station::deleting() locates at StationController
+
+        //Station::edited() locates at StationController
     }
 
     /**cd

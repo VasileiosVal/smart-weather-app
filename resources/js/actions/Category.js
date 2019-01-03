@@ -1,94 +1,76 @@
-import {startLogoutUser} from "./Auth";
-import {
-    notifyUnauthorizedAction
-} from "../general_functions/notifiers";
+import {notifyUnauthorizedActionAndLogout} from "../general_functions/generalFunctions";
 
-let SaveCategories = (categories=[]) => {
-    return {
+let saveCategories = (categories=[]) => ({
         type: 'SAVE_CATEGORIES',
         categories
-    }
-};
+    });
 
-export let startSaveCategories = () => {
-    return (dispatch) => {
-       return axios('/api/auth/categories').then((response)=>{
+export let startSaveCategories = () => dispatch => {
+       return axios('/api/auth/categories')
+           .then(response => {
             let arr = [];
-            response.data.forEach((category)=>{
-                arr.push(category)
-            });
-           dispatch(SaveCategories(arr));
-        }).catch((e)=>{
-           startLogoutUser();
+            response.data.forEach(category => arr.push(category));
+           dispatch(saveCategories(arr));
+        }).catch(e => {
+           return 'error';
        });
-    }
 };
 
-export let createCategory = (category) => {
-    return {
+export let createCategory = category => ({
         type: 'CREATE_CATEGORY',
         category
-    }
-};
+    });
 
-export let startCreateCategory = (name='', symbol='') => {
-    return (dispatch) => {
+export let startCreateCategory = (name='', symbol='') => dispatch => {
         return axios.post('/api/auth/categories', {
             name,
             symbol
-        }).then((response)=>{
-            dispatch(createCategory(response.data))
-        }).catch((e)=>{
-            notifyUnauthorizedAction();
-            setTimeout(()=>{startLogoutUser()}, 1500);
-        })
-    }
+        }).then(response => dispatch(createCategory(response.data)))
+            .catch(e => notifyUnauthorizedActionAndLogout())
 };
 
-export let editCategory = (category) => {
-    return {
+export let editCategory = category => ({
         type: 'EDIT_CATEGORY',
         category
-    }
-}
+    });
 
-export let startEditCategory = (lastName='', name='', symbol='') => {
-    return (dispatch) => {
+export let editCategoryOnStations = category => ({
+        type: 'EDIT_CATEGORY_ON_STATIONS',
+        category
+    });
+
+export let startEditCategory = (lastName='', name='', symbol='') => dispatch => {
         return axios.patch(`/api/auth/categories/${lastName}`, {
             name,
             symbol
         }).then((response)=>{
-            dispatch(editCategory(response.data))
-        }).catch((e)=>{
-            notifyUnauthorizedAction();
-            setTimeout(()=>{startLogoutUser()}, 1500)
-        })
-    }
+            if(response.status === 202){
+                return 'same';
+            } else {
+                dispatch(editCategory(response.data));
+                dispatch(editCategoryOnStations(response.data));
+            }
+        }).catch(e => notifyUnauthorizedActionAndLogout())
 };
 
-export let deleteCategory = (category) => {
-    return {
-        type: 'DELETE_CATEGORY',
-        category
-    }
-};
+// export let deleteCategory = (category) => {
+//     return {
+//         type: 'DELETE_CATEGORY',
+//         category
+//     }
+// };
 
-export let startDeleteCategory = (name='') => {
-    return (dispatch) => {
+export let startDeleteCategory = (name='') => () => {
         return axios.delete(`/api/auth/categories/${name}`)
-            .then((response)=>{
-           dispatch(deleteCategory(response.data));
-        }).catch((e)=>{
-            notifyUnauthorizedAction();
-            setTimeout(()=>{startLogoutUser()}, 1500)
-        })
-    }
+            .then(()=>{
+                return 'deleted';
+        }).catch(e => notifyUnauthorizedActionAndLogout())
 };
 
 
-export let deleteCategories = () => {
-    return {
-        type: 'DELETE_CATEGORIES'
-    }
-};
+// export let deleteCategories = () => {
+//     return {
+//         type: 'DELETE_CATEGORIES'
+//     }
+// };
 

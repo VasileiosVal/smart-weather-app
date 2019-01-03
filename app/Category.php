@@ -8,6 +8,10 @@ class Category extends Model
 {
     protected $fillable = ['name', 'symbol'];
 
+    protected $hidden = ['updated_at'];
+
+    protected $casts = ['id' => 'integer', 'name' => 'string', 'symbol' => 'string'];
+
     public function stations(){
         return $this->belongsToMany(Station::class);
     }

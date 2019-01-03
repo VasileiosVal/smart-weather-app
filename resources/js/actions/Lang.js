@@ -1,6 +1,4 @@
-export let setLang = (lang = 'en') => {
-    return {
+export let setLang = (lang = 'en') => ({
         type: 'CHANGE_LANG',
         lang
-    }
-}
+    });

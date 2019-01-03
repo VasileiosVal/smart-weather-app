@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\api;
 
 use App\Collection;
-use App\Measure;
+use App\Events\newCollectionWithMeasuresCreated;
+use App\Events\newCollectionWithMeasuresCreatedListenEveryone;
+use App\Events\newCollectionWithMeasuresCreatedWithUserStationOwner;
 use App\Station;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -12,12 +14,13 @@ class CollectionController extends Controller
 {
     public function index()
     {
+        $stations=[];
         if(request()->user()->isAdmin()){
-            return response()->json(Collection::all(), 200);
+            return Collection::all();
         } else {
             if(request()->user()->stations()->count()){
-                $stations = request()->user()->stations->pluck('id');
-                return response()->json(Collection::whereIn('station_id', $stations)->get(), 200);
+                $stations = request()->user()->stations()->pluck('id');
+                return Collection::whereIn('station_id', $stations)->get();
             } else {
                 return [];
             }
@@ -33,13 +36,13 @@ class CollectionController extends Controller
                foreach ($stations as $station){
                    if($station->collections()->count()){
                        $newestCollection = $station->collections()->latest()->first();
-                       $arr[] = [$station->name, $newestCollection->series_hash, $newestCollection->created_at];
+                       $arr[] = [intval($newestCollection->id), $newestCollection->series_hash, $newestCollection->created_at, $station->name, intval($station->id)];
                    }
                }
-               return response()->json($arr, 200);
+               return $arr;
             }
                 return [];
-            }
+        }
         if(request()->expectsJson()){
             return response()->json([__('messages.error') => __('messages.forbidden')], 403);
         } else {
@@ -55,15 +58,12 @@ class CollectionController extends Controller
                 $arr=[];
                 foreach ($stations as $station){
                     if($station->collections()->count()){
-                        $allCollections = $station->collections->map(function ($collection) {
-                            return [$collection->series_hash, $collection->created_at];
-                        });
-                        $arr[] = [$station->name, $allCollections];
+                        $arr[] = [intval($station->id), $station->name];
                     }
                 }
-                return response()->json($arr, 200);
+                return $arr;
             }
-            return response()->json([], 200);
+            return [];
         }
         if(request()->expectsJson()){
             return response()->json([__('messages.error') => __('messages.forbidden')], 403);
@@ -87,22 +87,22 @@ class CollectionController extends Controller
                     $errors_check = false;
                     $success = false;
 
-                    $input = request()->all();
+                    $data = request()->all();
 
                     $collection = $station->collections()->create([
                     'series_hash' => Collection::roleHashCode()
                     ]);
 
-
                     foreach ($station->categories as $category){
-                        if(array_key_exists($category->name, $input)){
-                            if(!empty($input[$category->name]) || ($input[$category->name]) === '0'){
+                        if(array_key_exists($category->name, $data)){
+                            if(!is_null($data[$category->name]) && !is_bool($data[$category->name]) &&
+                                trim($data[$category->name]) !== '' && is_numeric($data[$category->name])){
                                 //to value ερχεται σε string
-                                $collection->measures()->create(['category_id' => $category->id, 'value' => $input[$category->name]]);
+                                $collection->measures()->create(['category_id' => $category->id, 'value' => $data[$category->name]]);
                                 //success
                                 $success = true;
                             }else{
-                                //null variable or missing
+                                // null/boolean variable or missing or different type
                                 $errors_check = true;
                             }
                         }else{
@@ -111,7 +111,7 @@ class CollectionController extends Controller
                         }
                     }
 
-                    if($station->categories()->count() < (count($input) - 1)){
+                    if($station->categories()->count() < (count($data) - 1)){
                         //more url parameters than existing categories in station
                         $input_sum_check = true;
                     }
@@ -139,6 +139,11 @@ class CollectionController extends Controller
 //                                'user_id'   => $station->user_id]);
 
                         }
+                        event(new newCollectionWithMeasuresCreated($collection));
+                        if(!$station->user->isAdmin()){
+                            event(new newCollectionWithMeasuresCreatedWithUserStationOwner($collection));
+                        }
+                        event(new newCollectionWithMeasuresCreatedListenEveryone($collection));
                         return response()->json('ok', 200);
                     }else{
                         $collection->delete();
@@ -183,7 +188,7 @@ class CollectionController extends Controller
     {
         if(!request()->user()->isAdmin() && $collection->station->user->id === request()->user()->id ){
             $measures = $collection->measures;
-            return response()->json($measures, 200);
+            return $measures;
         }
         if(request()->expectsJson()){
             return response()->json([__('messages.error') => __('messages.forbidden')], 403);
@@ -196,7 +201,7 @@ class CollectionController extends Controller
     {
         if(!request()->user()->isAdmin() && $collection->station->user->id !== request()->user()->id && $collection->station->is_active && $collection->station->privacy === 'public'){
             $measures = $collection->measures;
-            return response()->json($measures, 200);
+            return $measures;
         }
         if(request()->expectsJson()){
             return response()->json([__('messages.error') => __('messages.forbidden')], 403);
@@ -223,7 +228,7 @@ class CollectionController extends Controller
     {
         if(request()->user()->isAdmin()){
             $measures = $collection->measures;
-            return response()->json($measures, 200);
+            return $measures;
         }
         if(request()->expectsJson()){
             return response()->json([__('messages.error') => __('messages.forbidden')], 403);

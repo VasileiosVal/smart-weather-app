@@ -7,7 +7,7 @@ export let categoryReducer = (state=[], action) => {
         case 'CREATE_CATEGORY':
             return [...state, action.category];
         case 'EDIT_CATEGORY':
-            return state.map((category)=>{
+            return state.map(category=>{
                 if(category.id === action.category.id){
                     return {...category, ...action.category}
                 }else{

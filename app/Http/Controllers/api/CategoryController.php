@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\api;
 
 use App\Category;
+use App\Collection;
 use App\Events\categoryEdited;
+use App\Events\categoryEditedWhileOnMeasures;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -14,15 +16,13 @@ class CategoryController extends Controller
         return Category::all();
     }
 
-
     public function store(Request $request) {
         if(request()->user()->isAdmin()) {
             $data = $request->validate([
-                'name' => 'required|string|unique:categories,name',
-                'symbol' => 'required|string|unique:categories,symbol'
+                'name' => 'required|string|max:255|unique:categories,name',
+                'symbol' => 'required|string|max:255|unique:categories,symbol'
             ]);
-            $category = Category::create($data);
-            return response()->json($category, 201);
+            return  Category::create($data);
         }
         if(request()->expectsJson()){
             return response()->json([__('messages.error') => __('messages.forbidden')], 403);
@@ -35,12 +35,18 @@ class CategoryController extends Controller
     {
         if(request()->user()->isAdmin()) {
             $data = $request->validate([
-                'name' => 'required|string|unique:categories,name,'.$category->id,
-                'symbol' => 'required|string|unique:categories,symbol,'.$category->id
+                'name' => 'required|string|max:255|unique:categories,name,'.$category->id,
+                'symbol' => 'required|string|max:255|unique:categories,symbol,'.$category->id
             ]);
-            $category->update($data);
-            event((new categoryEdited($category))->dontBroadcastToCurrentUser());
-            return response()->json($category, 200);
+            $category->fill($data);
+            if($category->isClean()){
+                return response()->json($category, 202);
+            } else {
+                $category->save();
+                event((new categoryEdited($category))->dontBroadcastToCurrentUser());
+                event((new categoryEditedWhileOnMeasures($category))->dontBroadcastToCurrentUser());
+                return $category;
+            }
         }
         if(request()->expectsJson()){
             return response()->json([__('messages.error') => __('messages.forbidden')], 403);
@@ -51,9 +57,13 @@ class CategoryController extends Controller
 
     public function destroy(Category $category) {
         if(request()->user()->isAdmin()){
-            if ($category->delete()) {
-                return response()->json($category, 200);
-            }
+            $category->delete();
+            Collection::all()->each(function($collection){
+                if(!$collection->measures()->count()){
+                    $collection->delete();
+                }
+            });
+            return $category;
         }
         if(request()->expectsJson()){
             return response()->json([__('messages.error') => __('messages.forbidden')], 403);
@@ -61,4 +71,5 @@ class CategoryController extends Controller
             abort(403);
         }
     }
+
 }

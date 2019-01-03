@@ -5,7 +5,7 @@ export let usersReducer = (state=[], action) => {
         case 'CREATE_USER':
             return [...state, action.user];
         case 'EDIT_USER':
-            return state.map((user)=>{
+            return state.map(user=>{
                 if(user.id === action.user.id){
                     return {...user, ...action.user}
                 }else{
@@ -13,9 +13,7 @@ export let usersReducer = (state=[], action) => {
                 }
             });
         case 'DELETE_USER':
-            return state.filter((user)=>{
-                return user.id !== action.user.id
-            });
+            return state.filter(user=>user.id !== action.user.id);
         case 'DELETE_USERS':
             return [];
         default :

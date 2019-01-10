@@ -15,7 +15,11 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         'App\Events\newUserRegistered' => [
             'App\Listeners\userEmailVerificationListener',
-        ],
+        ], 'App\Events\informDeletedUser' => [
+            'App\Listeners\deletedUserInformEmail',
+        ], 'App\Events\informSuspendedUser' => [
+            'App\Listeners\suspendedUserInformEmail',
+        ]
     ];
 
     /**

@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\api;
 
 use App\Category;
-use App\Events\deletedUserAndStationsWhileOnMeasures;
-use App\Events\determineOwnership;
 use App\Events\needForRender;
+use App\Events\stationAllScenariosInformUsersOnMeasures;
 use App\Events\stationCreated;
 use App\Events\stationCreatedFromAdminToUser;
 use App\Events\stationDeleted;
@@ -14,8 +13,6 @@ use App\Events\stationEdited;
 use App\Events\stationEditedBelongToUserOnlyPrivacyActivity;
 use App\Events\stationEditedOwnershipToUser;
 use App\Events\userForcedDeleteOwnStation;
-use App\Events\userForcedDeleteOwnStationRenderWhileOnHistory;
-use App\Events\userForcedDeleteOwnStationRenderWhileOnMeasures;
 use App\Station;
 use App\User;
 use Illuminate\Http\Request;
@@ -39,25 +36,6 @@ class StationController extends Controller
     public function index()
     {
         return request()->user()->isAdmin() ? Station::with('categories')->get() : request()->user()->stations()->with('categories')->get();
-    }
-
-    public function fetchCollections(Station $station)
-    {
-        if (!request()->user()->isAdmin() && ($station->user->id === request()->user()->id || $station->is_active && $station->privacy === 'public')) {
-
-            $arr = [];
-            foreach ($station->collections as $collection) {
-                $arr[] = [intval($collection->id), $collection->series_hash, $collection->created_at, $station->name, intval($station->id)];
-            }
-
-            return $arr;
-        }
-        if (request()->expectsJson()) {
-            return response()->json([__('messages.error') => __('messages.forbidden')], 403);
-        } else {
-            abort(403);
-        }
-
     }
 
     public function storeAdmin(Request $request)
@@ -220,15 +198,11 @@ class StationController extends Controller
                         $collections = $station->collections;
                     }
                     event((new stationEditedOwnershipToUser($station, $collections))->dontBroadcastToCurrentUser());
-                    if(!$needForRender){
-                        event((new determineOwnership($station))->dontBroadcastToCurrentUser());
-                    }
                 }
                 if($needForRender){
                     event((new needForRender())->dontBroadcastToCurrentUser());
                 } else if($changedName){
-                    $stations = collect([$station->id]);
-                    event((new deletedUserAndStationsWhileOnMeasures($stations))->dontBroadcastToCurrentUser());
+                    event((new stationAllScenariosInformUsersOnMeasures(collect([$station->id])))->dontBroadcastToCurrentUser());
                 }
 
                 return $station;
@@ -311,8 +285,7 @@ class StationController extends Controller
                 if($needForRender){
                     event((new needForRender())->dontBroadcastToCurrentUser());
                 } else if($changedName){
-                    $stations = collect([$station->id]);
-                    event((new deletedUserAndStationsWhileOnMeasures($stations))->dontBroadcastToCurrentUser());
+                    event((new stationAllScenariosInformUsersOnMeasures(collect([$station->id])))->dontBroadcastToCurrentUser());
                 }
                 return $station;
             }
@@ -370,21 +343,12 @@ class StationController extends Controller
                 if($ownershipChanged){
                     if(!$lastUser->isAdmin()){
                         event((new userForcedDeleteOwnStation($lastUser, $station))->dontBroadcastToCurrentUser());
-                        if($station->collections()->count()){
-                            event((new userForcedDeleteOwnStationRenderWhileOnHistory($lastUser))->dontBroadcastToCurrentUser());
-                        }
-                        if($station->collections()->count() && $station->is_active && $station->privacy === 'public'){
-                            event((new userForcedDeleteOwnStationRenderWhileOnMeasures($lastUser))->dontBroadcastToCurrentUser());
-                        }
                     }
                     if(!$station->user->isAdmin()){
                         if($station->collections()->count()){
                             $collections = $station->collections;
                         }
                         event((new stationEditedOwnershipToUser($station, $collections))->dontBroadcastToCurrentUser());
-                        if(!$needForRender){
-                            event((new determineOwnership($station))->dontBroadcastToCurrentUser());
-                        }
                     }
                 } else if($notifyUserForUpdatedStation && !$station->user->isAdmin()){
                     event((new stationEditedBelongToUserOnlyPrivacyActivity($station))->dontBroadcastToCurrentUser());
@@ -407,10 +371,10 @@ class StationController extends Controller
     {
         if($station->user_id === request()->user()->id){
             event((new stationDeleted($station))->dontBroadcastToCurrentUser());
-            $stations = collect([$station->id]);
-            event((new deletedUserAndStationsWhileOnMeasures($stations))->dontBroadcastToCurrentUser());
+            if($station->collections()->count() && $station->is_active && $station->privacy==='public'){
+                event((new stationAllScenariosInformUsersOnMeasures(collect([$station->id])))->dontBroadcastToCurrentUser());
+            }
             $station->delete();
-
             return $station;
         }
         if(request()->expectsJson()){
@@ -427,8 +391,9 @@ class StationController extends Controller
             if(!$station->user->isAdmin()){
                 event((new stationDeletedBelongToUser($station))->dontBroadcastToCurrentUser());
             }
-            $stations = collect([$station->id]);
-            event((new deletedUserAndStationsWhileOnMeasures($stations))->dontBroadcastToCurrentUser());
+            if($station->collections()->count() && $station->is_active && $station->privacy==='public'){
+                event((new stationAllScenariosInformUsersOnMeasures(collect([$station->id])))->dontBroadcastToCurrentUser());
+            }
             $station->delete();
 
             return $station;
@@ -439,6 +404,5 @@ class StationController extends Controller
             abort(403);
         }
     }
-
 
 }

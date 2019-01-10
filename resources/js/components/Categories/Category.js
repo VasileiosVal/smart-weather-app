@@ -15,7 +15,7 @@ import CategoryRender from "./CategoryRender";
 import {CategoryEdit} from "./CategoryEdit";
 
 
-class Category extends React.Component{
+class Category extends React.Component {
     state = {
         editCompShow: false,
         editCompCategoryName: undefined,
@@ -31,6 +31,7 @@ class Category extends React.Component{
         if(!this.props.isAdmin) notifyGeneralCategories();
         this.checkForPagination();
     }
+
     checkForPagination = () => {
         let firstIndex = 0;
         let lastIndex = this.state.itemsCountPerPage;
@@ -43,13 +44,14 @@ class Category extends React.Component{
             lastIndex
         })
     }
-    handlePageChange = (pageNumber) => {
+    handlePageChange = pageNumber => {
         this.clearAllInputsAndSetIncomingData();
         this.setState(
             {activePage: pageNumber},
             () => this.checkForPagination()
         );
     }
+
     clearAllInputsAndSetIncomingData = (bool = true, editCompShow=false, editCompCategoryName=undefined, editCompCategorySymbol=undefined) => {
         this.setState({
             editCompShow: false,
@@ -66,6 +68,7 @@ class Category extends React.Component{
             }
         })
     }
+
     closeEditComp = () => this.clearAllInputsAndSetIncomingData();
     submitCategory = (e) => {
         e.preventDefault();
@@ -123,6 +126,7 @@ class Category extends React.Component{
 
         //******CHECK FOR RENDERING CATEGORY_CREATE
         let categoryCreate = (
+            isAdmin &&
             <CategoryCreate
             submitCategory={this.submitCategory}
             clearAllInputsAndSetIncomingData={this.clearAllInputsAndSetIncomingData}

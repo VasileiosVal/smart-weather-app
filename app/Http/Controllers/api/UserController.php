@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\api;
 
+use App\Events\informAdminsMailToDeletedUserNotSendedError;
+use App\Events\informAdminsMailToSuspendedUserNotSendedError;
+use App\Events\informDeletedUser;
+use App\Events\informSuspendedUser;
 use App\Events\userEdited;
 use App\Events\userGeneralEdited;
 use App\User;
@@ -52,6 +56,7 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
+        $suspend = false;
         if (request()->user()->isAdmin() && $user->id !== 1 && $user->id !== request()->user()->id) {
             $data = $request->validate([
                 'role_id' => 'required|integer|in:1,2',
@@ -61,9 +66,14 @@ class UserController extends Controller
             if ($user->isClean()) {
                 return response()->json($user, 202);
             } else {
+                if($user->isDirty('is_active') && !$user->is_active) $suspend = true;
                 $user->save();
                 event((new userEdited($user))->dontBroadcastToCurrentUser());
                 event((new userGeneralEdited($user))->dontBroadcastToCurrentUser());
+                if($suspend) {
+                    $result = event(new informSuspendedUser($user));
+                    if(!$result) event(new informAdminsMailToSuspendedUserNotSendedError($user->name));
+                }
                 return $user;
             }
         }
@@ -77,8 +87,12 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
+        $name='';
         if (request()->user()->isAdmin() && $user->id !== 1 && $user->id !== request()->user()->id) {
+            $name = $user->name;
+            $result = event(new informDeletedUser($user));
             $user->delete();
+            if(!$result) event(new informAdminsMailToDeletedUserNotSendedError($name));
             return $user;
         }
         if (request()->expectsJson()) {

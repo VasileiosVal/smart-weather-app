@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\api;
 
 use App\Collection;
+use App\Events\collectionDeleted;
+use App\Events\collectionDeletedBelongToUserStation;
 use App\Events\newCollectionWithMeasuresCreated;
-use App\Events\newCollectionWithMeasuresCreatedListenEveryone;
+use App\Events\newCollectionWithMeasuresCreatedNotifyUsersGeneral;
 use App\Events\newCollectionWithMeasuresCreatedWithUserStationOwner;
+use App\Events\stationAllScenariosInformUsersOnMeasures;
 use App\Station;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -27,21 +30,46 @@ class CollectionController extends Controller
         }
     }
 
-    public function fetchOther()
-    {
-        if(!request()->user()->isAdmin()){
-            $stations = Station::where('user_id', '!=', request()->user()->id)->where('is_active', 1)->where('privacy', 'public')->get();
-            if($stations->count()){
-               $arr=[];
-               foreach ($stations as $station){
-                   if($station->collections()->count()){
-                       $newestCollection = $station->collections()->latest()->first();
-                       $arr[] = [intval($newestCollection->id), $newestCollection->series_hash, $newestCollection->created_at, $station->name, intval($station->id)];
-                   }
-               }
-               return $arr;
+    public function fetchCollectionsMeasures(Request $request) {
+        $error = false;
+        $collections = [];
+        if(request()->user()->isAdmin()) {
+            return count($request->collectionsIds) ?
+                Collection::with('measures')->findOrFail($request->collectionsIds)
+                : [];
+        } else if(!request()->user()->isAdmin()){
+            if(count($request->collectionsIds)){
+               $collections = Collection::with('measures')->findOrFail($request->collectionsIds)->each(function($collection) use (&$error){
+                    if($collection->station->user->id !== request()->user()->id && (
+                        !$collection->station->is_active ||
+                        $collection->station->privacy === 'private')) $error = true;
+                });
+                if(!$error) return $collections;
+            } else return [];
+        }
+        if(request()->expectsJson()){
+            return response()->json([__('messages.error') => __('messages.forbidden')], 403);
+        } else {
+            abort(403);
+        }
+    }
+
+    public function destroy(Collection $collection) {
+        if(request()->user()->isAdmin()){
+            event((new collectionDeleted($collection, $collection->station))->dontBroadcastToCurrentUser());
+            if(!$collection->station->user->isAdmin()){
+                event((new collectionDeletedBelongToUserStation($collection, $collection->station, $collection->station->user))->dontBroadcastToCurrentUser());
             }
-                return [];
+            event((new stationAllScenariosInformUsersOnMeasures(collect([$collection->station->id])))->dontBroadcastToCurrentUser());
+            $collection->delete();
+            return $collection;
+        } else {
+            if($collection->station->user->id === request()->user()->id){
+                event((new collectionDeleted($collection, $collection->station))->dontBroadcastToCurrentUser());
+                event((new stationAllScenariosInformUsersOnMeasures(collect([$collection->station->id])))->dontBroadcastToCurrentUser());
+                $collection->delete();
+                return $collection;
+            }
         }
         if(request()->expectsJson()){
             return response()->json([__('messages.error') => __('messages.forbidden')], 403);
@@ -58,7 +86,7 @@ class CollectionController extends Controller
                 $arr=[];
                 foreach ($stations as $station){
                     if($station->collections()->count()){
-                        $arr[] = [intval($station->id), $station->name];
+                        $arr[] = [$station->id, $station->name, $station->collections()->latest()->get()];
                     }
                 }
                 return $arr;
@@ -82,12 +110,14 @@ class CollectionController extends Controller
             if($station->is_active){
                 if($station->categories()->count()){
 
-                    $category_sum_check = false;
-                    $input_sum_check = false;
-                    $errors_check = false;
+                    $categoryMissingFromUrl = false;
+                    $more_url_parameters = false;
+                    $categoryGivenValueError = false;
                     $success = false;
 
                     $data = request()->all();
+
+                    //check for timestamp in data
 
                     $collection = $station->collections()->create([
                     'series_hash' => Collection::roleHashCode()
@@ -95,42 +125,43 @@ class CollectionController extends Controller
 
                     foreach ($station->categories as $category){
                         if(array_key_exists($category->name, $data)){
-                            if(!is_null($data[$category->name]) && !is_bool($data[$category->name]) &&
-                                trim($data[$category->name]) !== '' && is_numeric($data[$category->name])){
+                            if(is_string($data[$category->name]) && trim($data[$category->name]) !== '' && is_numeric($data[$category->name])){
                                 //to value ερχεται σε string
                                 $collection->measures()->create(['category_id' => $category->id, 'value' => $data[$category->name]]);
                                 //success
                                 $success = true;
                             }else{
-                                // null/boolean variable or missing or different type
-                                $errors_check = true;
+                                // null/boolean or different type variable or missing
+                                $categoryGivenValueError = true;
                             }
                         }else{
                             //existing category in station doesn't exist in url
-                            $category_sum_check = true;
+                            $categoryMissingFromUrl = true;
                         }
                     }
 
+                    //check also for + timestamp if exists
+
                     if($station->categories()->count() < (count($data) - 1)){
                         //more url parameters than existing categories in station
-                        $input_sum_check = true;
+                        $more_url_parameters = true;
                     }
 
 
                     if($success){
-                        if($errors_check && $category_sum_check && $input_sum_check){
+                        if($categoryGivenValueError && $categoryMissingFromUrl && $more_url_parameters){
 //                            Log::create(['goodtobad' => '2',
-//                                'note'      => 'Επιτυχία συλλογής μετρήσεων. * Σταθμός: '.$station->name.'   * Ημερομηνία: '.Carbon::now().'   * Υπενθύμιση: * Έχουν σταλλεί μηδενικές τιμές * Υπάρχουν λανθασμένα κομμάτια στο URL αποστολής',
+//                                'note'      => 'Επιτυχία συλλογής μετρήσεων. * Σταθμός: '.$station->name.'   * Ημερομηνία: '.Carbon::now().'   * Υπενθύμιση: * Έχουν σταλλεί λανθασμένες τιμές, πιθανώς μηδενικές * Υπάρχουν λανθασμένα κομμάτια στο URL αποστολής',
 //                                'user_id'   => $station->user_id]);
 
-                        }elseif($category_sum_check || $input_sum_check){
+                        }elseif($categoryMissingFromUrl || $more_url_parameters){
 //                            Log::create(['goodtobad' => '2',
 //                                'note'      => 'Επιτυχία συλλογής μετρήσεων. * Σταθμός: '.$station->name.'   * Ημερομηνία: '.Carbon::now().'   * Υπενθύμιση: * Υπάρχουν λανθασμένα κομμάτια στο URL αποστολής',
 //                                'user_id'   => $station->user_id]);
 
-                        }elseif($errors_check){
+                        }elseif($categoryGivenValueError){
 //                            Log::create(['goodtobad' => '2',
-//                                'note'      => 'Επιτυχία συλλογής μετρήσεων. * Σταθμός: '.$station->name.'   * Ημερομηνία: '.Carbon::now().'   * Υπενθύμιση: * Έχουν σταλλεί μηδενικές τιμές',
+//                                'note'      => 'Επιτυχία συλλογής μετρήσεων. * Σταθμός: '.$station->name.'   * Ημερομηνία: '.Carbon::now().'   * Υπενθύμιση: * Έχουν σταλλεί λανθασμένες τιμές, πιθανώς μηδενικές,
 //                                'user_id'   => $station->user_id]);
 
                         }else{
@@ -139,25 +170,28 @@ class CollectionController extends Controller
 //                                'user_id'   => $station->user_id]);
 
                         }
-                        event(new newCollectionWithMeasuresCreated($collection));
+                        event(new newCollectionWithMeasuresCreated($collection, $collection->station->name));
                         if(!$station->user->isAdmin()){
-                            event(new newCollectionWithMeasuresCreatedWithUserStationOwner($collection));
+                            event(new newCollectionWithMeasuresCreatedWithUserStationOwner($collection, $collection->station->name));
                         }
-                        event(new newCollectionWithMeasuresCreatedListenEveryone($collection));
-                        return response()->json('ok', 200);
+                        if($station->is_active && $station->privacy === 'public'){
+                            event(new stationAllScenariosInformUsersOnMeasures(collect([$collection->station->id])));
+                            event(new newCollectionWithMeasuresCreatedNotifyUsersGeneral($station->name));
+                        }
+                        return response()->json('collection created successfully', 200);
                     }else{
                         $collection->delete();
-                        if($errors_check && $category_sum_check && $input_sum_check){
+                        if($categoryGivenValueError && $categoryMissingFromUrl && $more_url_parameters){
 //                            Log::create(['goodtobad' => '3',
 //                                'note'      => 'Αποτυχία συλλογής μετρήσεων. * Σταθμός: '.$station->name.'   * Ημερομηνία: '.Carbon::now().'   * Αιτία: * Έχουν σταλλεί μηδενικές τιμές * Υπάρχουν λανθασμένα κομμάτια στο URL αποστολής',
 //                                'user_id'   => $station->user_id]);
 
-                        }elseif($category_sum_check || $input_sum_check){
+                        }elseif($categoryMissingFromUrl || $more_url_parameters){
 //                            Log::create(['goodtobad' => '3',
 //                                'note'      => 'Αποτυχία συλλογής μετρήσεων. * Σταθμός: '.$station->name.'   * Ημερομηνία: '.Carbon::now().'   * Αιτία: * Υπάρχουν λανθασμένα κομμάτια στο URL αποστολής',
 //                                'user_id'   => $station->user_id]);
 
-                        }elseif($errors_check){
+                        }elseif($categoryGivenValueError){
 //                            Log::create(['goodtobad' => '3',
 //                                'note'      => 'Αποτυχία συλλογής μετρήσεων. * Σταθμός: '.$station->name.'   * Ημερομηνία: '.Carbon::now().'   * Αιτία: * Έχουν σταλλεί μηδενικές τιμές',
 //                                'user_id'   => $station->user_id]);
@@ -179,79 +213,6 @@ class CollectionController extends Controller
     }
 
 
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function showOwn(Collection $collection)
-    {
-        if(!request()->user()->isAdmin() && $collection->station->user->id === request()->user()->id ){
-            $measures = $collection->measures;
-            return $measures;
-        }
-        if(request()->expectsJson()){
-            return response()->json([__('messages.error') => __('messages.forbidden')], 403);
-        } else {
-            abort(403);
-        }
-    }
-
-    public function showOther(Collection $collection)
-    {
-        if(!request()->user()->isAdmin() && $collection->station->user->id !== request()->user()->id && $collection->station->is_active && $collection->station->privacy === 'public'){
-            $measures = $collection->measures;
-            return $measures;
-        }
-        if(request()->expectsJson()){
-            return response()->json([__('messages.error') => __('messages.forbidden')], 403);
-        } else {
-            abort(403);
-        }
-    }
-
-    public function showOtherAndUser(Collection $collection)
-    {
-        if(!request()->user()->isAdmin()){
-            $measures = $collection->measures;
-            return response()->json($measures, 200);
-        }
-        if(request()->expectsJson()){
-            return response()->json([__('messages.error') => __('messages.forbidden')], 403);
-        } else {
-            abort(403);
-        }
-    }
 
 
-    public function showAdmin(Collection $collection)
-    {
-        if(request()->user()->isAdmin()){
-            $measures = $collection->measures;
-            return $measures;
-        }
-        if(request()->expectsJson()){
-            return response()->json([__('messages.error') => __('messages.forbidden')], 403);
-        } else {
-            abort(403);
-        }
-    }
-
-
-    public function edit($id)
-    {
-        //
-    }
-
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-
-    public function destroy($id)
-    {
-        //
-    }
 }

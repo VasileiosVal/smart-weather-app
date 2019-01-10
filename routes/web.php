@@ -48,10 +48,8 @@ Route::view('/stations/{station}/show', 'main')->middleware('auth', 'preventHist
 Route::view('/users/create', 'main')->middleware('auth', 'preventHistory');
 Route::view('/users', 'main')->middleware('auth', 'preventHistory');
 Route::view('/categories', 'main')->middleware('auth', 'preventHistory');
-Route::view('/measures/all', 'main')->middleware('auth', 'preventHistory');
-Route::view('/measures/other', 'main')->middleware('auth', 'preventHistory');
 Route::view('/measures', 'main')->middleware('auth', 'preventHistory');
-Route::view('/history', 'main')->middleware('auth', 'preventHistory');
+Route::view('/graphs', 'main')->middleware('auth', 'preventHistory');
 Route::view('/profile/edit', 'main')->middleware('auth', 'preventHistory');
 Route::view('/profile/{user}', 'main')->middleware('auth', 'preventHistory');
 Route::view('/profile', 'main')->middleware('auth', 'preventHistory');

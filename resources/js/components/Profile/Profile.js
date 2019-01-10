@@ -8,9 +8,9 @@ import ProfileBanner from "./ProfileBanner";
 import ProfileInfo from "./ProfileInfo";
 
 class Profile extends React.Component{
-        state = {
-            deleteProfileEmail: undefined
-        };
+    state = {
+        deleteProfileEmail: undefined
+    };
     deleteProfile = () => {
         $('#modal').modal('hide');
         this.props.dispatch(startDeleteProfile(this.state.deleteProfileEmail)).then(()=>{

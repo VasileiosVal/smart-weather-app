@@ -13,10 +13,10 @@ export let stationReducer = (state=[], action) => {
                 }
             });
         case 'EDIT_CATEGORY_ON_STATIONS':
-            if(state.length > 0){
+            if(state.length){
                 let arr = [];
                state.forEach(station => {
-                   if(station.categories.length > 0){
+                   if(station.categories.length){
                        let newCategoriesArray = station.categories.map(category => {
                            if (category.id === action.category.id) {
                                return {...category, ...action.category}

@@ -8,6 +8,8 @@ export let collectionReducer = (state=[], action) => {
             return [...state, action.collection];
         case 'DELETE_USER_STATIONS_COLLECTIONS':
             return state.filter(collection => !action.collections.includes(collection.id));
+        case 'DELETE_COLLECTION':
+            return state.filter(collection => collection.id !== action.collection.id);
         default:
             return state;
     }

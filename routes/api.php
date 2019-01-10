@@ -32,18 +32,14 @@ Route::middleware('auth:api')->group(function(){
     Route::patch('/stations/{station}/edit/user', 'api\StationController@editUser');
     Route::patch('/stations/{station}/all/edit', 'api\StationController@editAll');
 
-    //return stations with collections (only user)
+    Route::delete('/collections/{collection}', 'api\CollectionController@destroy');
+    //return collections::with(Measures) from given collection_ids array
+    Route::post('/collections/measures', 'api\CollectionController@fetchCollectionsMeasures');
+    //return stations from other users (only user)
     Route::get('/collections/stations', 'api\CollectionController@fetchStations');
 
     //return collections
-    Route::get('/stations/{station}/collections', 'api\StationController@fetchCollections');
     Route::get('/collections', 'api\CollectionController@index');
-    Route::get('/collections/other', 'api\CollectionController@fetchOther');
 
-    //return measures
-    Route::get('/collections/{collection}/admin', 'api\CollectionController@showAdmin');
-    Route::get('/collections/{collection}/other', 'api\CollectionController@showOther');
-    Route::get('/collections/{collection}/otherAndUser', 'api\CollectionController@showOtherAndUser');
-    Route::get('/collections/{collection}', 'api\CollectionController@showOwn');
 });
 

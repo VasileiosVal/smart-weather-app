@@ -31,7 +31,7 @@ class StationAll extends React.Component {
         this.checkForPagination()
     }
     componentDidUpdate(prevProps){
-        if(this.props.stations.length < prevProps.stations.length){
+        if(this.props.stations.length < prevProps.stations.length && this.state.activePage > 1){
             this.setState({activePage: 1}, () => this.checkForPagination());
         }
     }
@@ -165,7 +165,7 @@ class StationAll extends React.Component {
                         <div className="card">
                             <CardBelowHeaderTitle name='Προβολή όλων των σταθμών'/><hr/>
                             <div className="card-body">
-                                {stations.length > 0 ?
+                                {stations.length ?
                                     <div className="table-responsive">
                                         {stationRender}
                                         {pagination}

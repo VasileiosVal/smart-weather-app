@@ -14,10 +14,12 @@ class newCollectionWithMeasuresCreated implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $collection;
+    public $stationName;
 
-    public function __construct(Collection $collection)
+    public function __construct(Collection $collection, $stationName='')
     {
         $this->collection = $collection;
+        $this->stationName = $stationName;
     }
 
     /**

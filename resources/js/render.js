@@ -1,7 +1,6 @@
 //*******react configuration*******
 import React from 'react';
 import Echo from 'laravel-echo';
-window.Pusher = require('pusher-js');
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import AppRouter from "./routes/AppRouter";
@@ -20,9 +19,10 @@ import {
     startSaveUsers
 } from "./actions/User";
 import {
+    notifyAdminsDeletedUserEmailNotSent, notifyAdminsSuspendedUserEmailNotSent,
     notifyGeneralCreatedCollection,
     notifyGeneralCreatedEl, notifyGeneralCreatedStation, notifyGeneralCreatedStationWithOwnership,
-    notifyGeneralCreatedUser, notifyGeneralDeletedEl,
+    notifyGeneralCreatedUser, notifyGeneralDeletedCollection, notifyGeneralDeletedEl,
     notifyGeneralDeletedStation, notifyGeneralDeletedStationCollections,
     notifyGeneralDeletedUser, notifyGeneralDeletedUserCollections, notifyGeneralDeletedUserStations,
     notifyGeneralEditedEl, notifyGeneralEditedStation, notifyGeneralEditedStationWithOwnership, notifyGeneralEditedUser,
@@ -30,7 +30,7 @@ import {
     notifyTheInactiveUser, notifyTheUpgradedUser
 } from "./general_functions/notifiers";
 import {logout, refreshPage, refreshToDashboard} from "./general_functions/generalFunctions";
-import {createCollection, createStationCollections, startSaveCollections} from "./actions/Collection";
+import {createCollection, createStationCollections, deleteCollection, startSaveCollections} from "./actions/Collection";
 
 
 if (document.getElementById('app_component')) {
@@ -121,6 +121,14 @@ if (document.getElementById('app_component')) {
                         }
                     }
                 });
+                //user suspended email not sent error, inform all admins (private)
+                if(store.getState().user.role_id === 1){
+                    window.Echo.private('private_user').listen('informAdminsMailToSuspendedUserNotSendedError', e => {
+                        if(store.getState().user.name !== e.name) {
+                            notifyAdminsSuspendedUserEmailNotSent(e.name)
+                        }
+                    })
+                }
                 //user deleted (private)
                 if(store.getState().user.role_id === 1) {
                     window.Echo.private('private_user').listen('userDeleted', e => {
@@ -167,10 +175,17 @@ if (document.getElementById('app_component')) {
                 window.Echo.channel('user').listen('userGeneralDeleted', e => {
                     if(e.user.id === store.getState().user.id){
                         notifyTheDeletedUser();
-                        //email?
                         setTimeout(()=>logout(), 2000);
                     }
                 });
+                //user deleted email not sent error, inform all admins (private)
+                if(store.getState().user.role_id === 1){
+                    window.Echo.private('private_user').listen('informAdminsMailToDeletedUserNotSendedError', e => {
+                        if(store.getState().user.name !== e.name) {
+                            notifyAdminsDeletedUserEmailNotSent(e.name);
+                        }
+                    })
+                }
                 //station created (private)
                 if(store.getState().user.role_id === 1){
                     window.Echo.private('private_user').listen('stationCreated', e => {
@@ -296,19 +311,38 @@ if (document.getElementById('app_component')) {
                 if(store.getState().user.role_id === 1) {
                     window.Echo.private('private_user').listen('newCollectionWithMeasuresCreated', e => {
                         store.dispatch(createCollection(e.collection));
-                        let stationName=store.getState().stations.find(station=>e.collection.station_id === station.id).name
-                        notifyGeneralCreatedCollection(stationName);
+                        notifyGeneralCreatedCollection(e.stationName);
                     });
                 }
                 //collection created notify station owner(user) (public)
                 window.Echo.channel('collection').listen('newCollectionWithMeasuresCreatedWithUserStationOwner', e => {
-                    if(store.getState().stations.find(station=>station.id === e.collection.station_id)){
-                        store.dispatch(createCollection(e.collection));
-                        let stationName=store.getState().stations.find(station=>e.collection.station_id === station.id).name
-                        notifyGeneralCreatedCollection(stationName);
+                    if( store.getState().user.role_id === 2 &&
+                        store.getState().stations.find(station => station.id === e.collection.station_id)){
+                            store.dispatch(createCollection(e.collection));
+                            notifyGeneralCreatedCollection(e.stationName);
                     }
                 });
-
+                //collection created notify general users (only notification message) (public)
+                window.Echo.channel('collection').listen('newCollectionWithMeasuresCreatedNotifyUsersGeneral', e => {
+                   if(store.getState().user.role_id === 2 &&
+                       !store.getState().stations.find(station => station.name === e.stationName)){
+                            notifyGeneralCreatedCollection(e.stationName);
+                   }
+                });
+                //collection deleted (private)
+                if(store.getState().user.role_id === 1) {
+                    window.Echo.private('private_user').listen('collectionDeleted', e => {
+                        store.dispatch(deleteCollection(e.collection));
+                        notifyGeneralDeletedCollection(e.collection, e.station);
+                    });
+                }
+                //collection deleted belong to user_station (public)
+                window.Echo.channel('collection').listen('collectionDeletedBelongToUserStation', e => {
+                   if(store.getState().user.id === e.user.id){
+                       store.dispatch(deleteCollection(e.collection));
+                       notifyGeneralDeletedCollection(e.collection, e.station);
+                   }
+                });
 
             } else{
                 logout();

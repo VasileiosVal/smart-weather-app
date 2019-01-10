@@ -222,6 +222,20 @@ export let notifyDeleteProfile = () => {
         type: 'danger'
     });
 };
+export let notifyAdminsDeletedUserEmailNotSent = (name='') => {
+    $.notify({
+        message: `Παρουσιάστηκε σφάλμα κατά την αποστολή του email διαγραφής στον χρήστη: ${name}`
+    },{
+        type: 'danger'
+    });
+};
+export let notifyAdminsSuspendedUserEmailNotSent = (name='') => {
+    $.notify({
+        message: `Παρουσιάστηκε σφάλμα κατά την αποστολή του email απενεργοποίησης στον χρήστη: ${name}`
+    },{
+        type: 'danger'
+    });
+};
 export let notifyEditedUserEmptyFields = () => {
     $.notify({
         message: 'Συμπληρώστε όλα τα πεδία στην φόρμα αλλαγής στοιχείων χρήστη.'
@@ -388,5 +402,19 @@ export let notifyTextCopiedToClipboard = () => {
             enter: 'animated fadeInRight',
             exit: 'animated fadeOutRight'
         }
+    });
+};
+export let notifyDeletedCollection = () => {
+    $.notify({
+        message: 'Η συλλογή έχει διαγραφεί.'
+    },{
+        type: 'danger'
+    });
+};
+export let notifyGeneralDeletedCollection = (collection, station) => {
+    $.notify({
+        message: `Η συλλογή με κωδικό: ${collection.series_hash} του σταθμού ${station.name}, έχει διαγραφεί.`
+    },{
+        type: 'info'
     });
 };

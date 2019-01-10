@@ -5,7 +5,6 @@ namespace App\Http\Controllers\api;
 use App\Category;
 use App\Collection;
 use App\Events\categoryEdited;
-use App\Events\categoryEditedWhileOnMeasures;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -44,7 +43,6 @@ class CategoryController extends Controller
             } else {
                 $category->save();
                 event((new categoryEdited($category))->dontBroadcastToCurrentUser());
-                event((new categoryEditedWhileOnMeasures($category))->dontBroadcastToCurrentUser());
                 return $category;
             }
         }

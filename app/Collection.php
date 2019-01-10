@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Collection extends Model
 {
-    protected $fillable = ['series_hash', 'station_id'];
+    protected $fillable = ['series_hash', 'station_id', 'created_at'];
 
     protected $hidden = ['updated_at'];
 

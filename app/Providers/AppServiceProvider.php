@@ -5,13 +5,10 @@ namespace App\Providers;
 use App\Category;
 use App\Events\categoryCreated;
 use App\Events\categoryDeleted;
-use App\Events\deletedUserAndStationsWhileOnMeasures;
-use App\Events\stationDeleted;
+use App\Events\stationAllScenariosInformUsersOnMeasures;
 use App\Events\userCreated;
 use App\Events\userDeleted;
 use App\Events\userGeneralDeleted;
-use App\Events\userGeneralDeletedWhileOnMeasures;
-use App\Station;
 use App\User;
 use Illuminate\Support\ServiceProvider;
 
@@ -41,7 +38,7 @@ class AppServiceProvider extends ServiceProvider
             event((new userGeneralDeleted($user))->dontBroadcastToCurrentUser());
             if($user->stations()->count()){
                 $stations = $user->stations()->pluck('id');
-                event((new deletedUserAndStationsWhileOnMeasures($stations))->dontBroadcastToCurrentUser());
+                event((new stationAllScenariosInformUsersOnMeasures($stations))->dontBroadcastToCurrentUser());
             }
         });
 
@@ -50,6 +47,7 @@ class AppServiceProvider extends ServiceProvider
         //Station::deleting() locates at StationController
 
         //Station::edited() locates at StationController
+
     }
 
     /**cd

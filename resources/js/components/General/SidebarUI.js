@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 
 const SidebarUI = ({isAdmin}) => (
@@ -38,7 +38,7 @@ const SidebarUI = ({isAdmin}) => (
                                     </Link>
                                 </li>
                                 {isAdmin &&
-                                <li className="nav-item ">
+                                <li className="nav-item">
                                     <Link to='/stations/all'>
                                         <span className="sidebar-normal">Προβολή όλων</span>
                                     </Link>
@@ -83,43 +83,16 @@ const SidebarUI = ({isAdmin}) => (
                             <p>Κατηγορίες</p>
                         </Link>
                     </li>
-                    {isAdmin ?
-                        <li>
-                            <Link to='/measures/all'>
-                                <i className="fa fa-chart-area"/>
-                                <p>Μετρήσεις</p>
-                            </Link>
-                        </li>
-                        :
-                        <li>
-                            <a id='collapse-link' data-toggle="collapse" href="#componentsExamples3">
-                                <i className="fa fa-chart-area"/>
-                                <p>
-                                    Μετρήσεις
-                                    <b className="caret"/>
-                                </p>
-                            </a>
-                            <div className="collapse" id="componentsExamples3">
-                                <ul>
-                                    <li className="nav-item ">
-                                        <Link to='/measures'>
-                                            <span className="sidebar-normal">Προβολή μετρήσεων των σταθμών μου</span>
-                                        </Link>
-                                    </li>
-                                    <li className="nav-item ">
-                                        <Link to='/measures/other'>
-                                            <span className="sidebar-normal">Προβολή μετρήσεων άλλων σταθμών</span>
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    }
-
                     <li>
-                        <Link to='/history' >
-                            <i className="fa fa-history"/>
-                            <p>Ιστορικό</p>
+                        <Link to='/measures'>
+                            <i className="fa fa-thermometer-half"/>
+                            <p>Μετρήσεις</p>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to='/graphs'>
+                            <i className="fa fa-chart-area"/>
+                            <p>Γραφήματα</p>
                         </Link>
                     </li>
                     <li>
@@ -160,4 +133,4 @@ const mapStateToProps = state =>  ({
         isAdmin: state.user.role_id === 1
 });
 
-export default connect(mapStateToProps)(SidebarUI)
+export default withRouter(connect(mapStateToProps)(SidebarUI))

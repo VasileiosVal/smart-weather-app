@@ -16,13 +16,10 @@ import StationOwn from "../components/Stations/StationOwn";
 import StationCreate from "../components/Stations/StationCreate";
 import StationAll from "../components/Stations/StationAll";
 import StationEdit from "../components/Stations/StationEdit";
-import MeasureAll from "../components/Measures/MeasureAll";
-import MeasureOwn from "../components/Measures/MeasureOwn";
-import MeasureOther from "../components/Measures/MeasureOther";
-import UserRoute from "./UserRoute";
-import History from '../components/History/History';
 import ProfileShowOther from "../components/Profile/ProfileShowOther";
 import StationShow from "../components/Stations/StationShow";
+import Measures from "../components/Measures/Measures";
+import Graphs from "../components/Graphs/Graphs";
 
 
 let AppRouter = (props) => {
@@ -47,10 +44,8 @@ let AppRouter = (props) => {
                         <AdminRoute exact path='/users' component={User}/>
                         <AdminRoute exact path='/users/create' component={UserCreate}/>
                         <Route exact path='/categories' component={Category}/>
-                        <AdminRoute exact path='/measures/all' component={MeasureAll}/>
-                        <UserRoute exact path='/measures/other' component={MeasureOther}/>
-                        <UserRoute exact path='/measures' component={MeasureOwn}/>
-                        <Route exact path='/history' component={History}/>
+                        <Route exact path='/measures' component={Measures}/>
+                        <Route exact path='/graphs' component={Graphs}/>
                         <Route exact path='/profile' component={Profile}/>
                         <Route exact path='/profile/edit' component={ProfileEdit}/>
                         <AdminRoute exact path='/profile/:email' component={ProfileShowOther}/>

@@ -1,9 +1,8 @@
 import React from 'react';
 import moment from "moment/moment";
 import {Scrollbars} from "react-custom-scrollbars";
-import {MiniLoader} from "../General/MiniLoader";
 import DatePicker from "react-datepicker";
-import {CardHeaderTitleMeasures, NoSearchResults, TooltipInfo} from "../../containers/generalContainers";
+import {CardHeaderTitleMeasures, NoSearchResults, TooltipInfo, WaitingLoader} from "../../containers/generalContainers";
 import {findCategory} from "../../general_functions/generalFunctions";
 
 
@@ -29,7 +28,7 @@ let MeasuresStationCollectionsRenderOnUsers = props => {
         <CardHeaderTitleMeasures title='Συλλογές μετρήσεων' label='Επιλέξτε συλλογή μετρήσεων για να εμφανιστούν οι μετρήσεις'/>
         <div className="card-body py-0">
             {initCollectionsLoader ?
-                <MiniLoader/>
+                <WaitingLoader/>
                 :
                 showCollections ?
                     selectedStationCollections.length ?

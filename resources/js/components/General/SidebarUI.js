@@ -92,12 +92,12 @@ const SidebarUI = ({isAdmin}) => (
                     <li>
                         <Link to='/graphs'>
                             <i className="fa fa-chart-area"/>
-                            <p>Γραφήματα</p>
+                            <p>Συγκρίσεις</p>
                         </Link>
                     </li>
                     <li>
                         <a id='collapse-link' data-toggle="collapse" href="#componentsExamples4">
-                            <i className="nc-icon nc-app"/>
+                            <i className="fa fa-bell"/>
                             <p>
                                 Ενημερώσεις
                                 <b className="caret"/>

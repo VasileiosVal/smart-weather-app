@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from "moment/moment";
-import {CardHeaderTitleMeasures, NoSearchResults, TooltipInfo} from "../../containers/generalContainers";
+import {CardHeaderTitleMeasures, NoSearchResults, SearchBar, TooltipInfo} from "../../containers/generalContainers";
 import {Scrollbars} from "react-custom-scrollbars";
 import {figureIfAndReturnMyStation} from "../../general_functions/generalFunctions";
 
@@ -32,10 +32,12 @@ let MeasuresStationsRenderOnUsers = props => {
                     </div>
                     <div className="col-lg-7 mx-0">
                         <div className="input-group my-0 py-0">
-                            <input type="text" name='searchQuery' value={searchQuery} onChange={onChangeFilters} className="form-control" placeholder="Αναζητήστε τον σταθμό..."/>
-                            <div className="input-group-append">
-                                <span className="input-group-text bg-light text-info"><i className="fas fa-search ml-2"/></span>
-                            </div>
+                            <SearchBar
+                                name='searchQuery'
+                                value={searchQuery}
+                                handler={onChangeFilters}
+                                placeHolder='Αναζητήστε τον σταθμό...'
+                            />
                         </div>
                     </div>
                     <div className="col-lg-1">
@@ -67,7 +69,7 @@ let MeasuresStationsRenderOnUsers = props => {
                                         {figureIfAndReturnMyStation(myStationsWithCollections, station) ?
                                             <small>Ημ. δημιουργιας: {moment(figureIfAndReturnMyStation(myStationsWithCollections, station).created_at).format('ddd D MMM YY')}</small>
                                         :
-                                            <i className="text-red fas fa-user-secret"/>
+                                            <i className="text-red fas fa-user-secret" title='Πληροφορία μη προσβάσιμη'/>
                                         }
                                     </div>
                                     <p className='mb-1'>Στοιχεία σταθμού:

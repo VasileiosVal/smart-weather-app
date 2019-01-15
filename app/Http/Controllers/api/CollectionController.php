@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Collection;
 use App\Events\collectionDeleted;
 use App\Events\collectionDeletedBelongToUserStation;
+use App\Events\needForRender;
 use App\Events\newCollectionWithMeasuresCreated;
 use App\Events\newCollectionWithMeasuresCreatedNotifyUsersGeneral;
 use App\Events\newCollectionWithMeasuresCreatedWithUserStationOwner;
@@ -175,7 +176,7 @@ class CollectionController extends Controller
                             event(new newCollectionWithMeasuresCreatedWithUserStationOwner($collection, $collection->station->name));
                         }
                         if($station->is_active && $station->privacy === 'public'){
-                            event(new stationAllScenariosInformUsersOnMeasures(collect([$collection->station->id])));
+                            event(new needForRender());
                             event(new newCollectionWithMeasuresCreatedNotifyUsersGeneral($station->name));
                         }
                         return response()->json('collection created successfully', 200);

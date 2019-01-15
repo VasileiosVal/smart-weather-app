@@ -1,6 +1,5 @@
 import React from 'react';
-import {CardBelowHeaderTitle} from "../../containers/generalContainers";
-import {MiniLoader} from "../General/MiniLoader";
+import {CardBelowHeaderTitle, TooltipInfo, WaitingLoader} from "../../containers/generalContainers";
 import {findCategory} from "../../general_functions/generalFunctions";
 
 let MeasuresCollectionMeasuresRender = ({initMeasuresLoader, showMeasures, collectionMeasures, showCollectionHash, categories}) => (
@@ -8,7 +7,7 @@ let MeasuresCollectionMeasuresRender = ({initMeasuresLoader, showMeasures, colle
         <CardBelowHeaderTitle name={showMeasures && collectionMeasures.length ? `Μετρήσεις συλλογής ${showCollectionHash.substr(0, 7)}...` : 'Μετρήσεις'}/><hr/>
         <div className="card-body">
             {initMeasuresLoader ?
-                <MiniLoader/>
+                <WaitingLoader/>
             :
                 showMeasures &&
                 (
@@ -26,8 +25,16 @@ let MeasuresCollectionMeasuresRender = ({initMeasuresLoader, showMeasures, colle
                                                 </div>
                                                 <div className="col-8 col-md-9">
                                                     <div className="numbers">
-                                                        <p className="card-category">{findCategory(measure.cat_id, categories).name}</p>
-                                                        <p className="card-values">{measure.value}&nbsp;{findCategory(measure.cat_id, categories).symbol}</p>
+                                                        <div className="card-category">
+                                                            {findCategory(measure.cat_id, categories).name === 'rain' &&
+                                                            <TooltipInfo
+                                                                id='rain'
+                                                                label='Υπάρχουν 3 πιθανές τιμές για την συγκεκριμένη κατηγορία: 0, 1, 2'
+                                                                text='0: Όχι βροχή  -  1: Αίσθηση πιθανής βροχής(ψιχάλα, υγρασία)  -  2: Βροχή'/>
+                                                            }&nbsp;
+                                                            {findCategory(measure.cat_id, categories).name}
+                                                        </div>
+                                                        <p className="card-values">{measure.value}&nbsp;&nbsp;{findCategory(measure.cat_id, categories).symbol}</p>
                                                     </div>
                                                 </div>
                                             </div>

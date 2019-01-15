@@ -20,6 +20,33 @@ class Category extends Model
         return $this->hasMany(Measure::class);
     }
 
+    public function takeMinMeasure(){
+        return $this->measures()->orderBy('value')->get()->first();
+    }
+    public function takeMaxMeasure(){
+        return $this->measures()->orderBy('value')->get()->last();
+    }
+
+    public function measuresAllowedForUser($user){
+        $allow = false;
+        $this->measures->each(function($measure) use(&$user, &$allow){
+            if (Measure::checkMeasureAllowance($measure, $user)) $allow = true;
+        });
+        return $allow;
+    }
+
+    public function takeMinMeasureAllowForUser($user){
+        return $this->measures()->orderBy('value')->get()->filter(function($measure) use(&$user){
+            return (Measure::checkMeasureAllowance($measure, $user));
+        })->first();
+    }
+
+    public function takeMaxMeasureAllowForUser($user){
+        return $this->measures()->orderBy('value')->get()->filter(function($measure) use(&$user){
+            return (Measure::checkMeasureAllowance($measure, $user));
+        })->last();
+    }
+
     public function getRouteKeyName()
     {
         return 'name';

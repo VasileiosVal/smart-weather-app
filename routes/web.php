@@ -2,6 +2,7 @@
 
 use App\Category;
 use App\Collection;
+use App\Measure;
 use App\Station;
 use App\User;
 use Illuminate\Support\Facades\Auth;
@@ -14,29 +15,10 @@ Route::get('/account/verify/{code}', 'VerifyUserController@verify')->name('accou
 
 Auth::routes();
 
-//Route::get('/example', function(){
-//    if(is_string(request()->name)){
-//        return 'true';
-//    } else {
-//        return 'false';
-//    }
-//    if(!is_null(request()->name) && !is_bool(request()->name) &&
-//        trim(request()->name) !== '' && is_numeric(request()->name) ){
-//            return 'true';
-//            } else {
-//            return 'false';
-//    }
-//});
-
-//********** Προσοχή
-//$arr=[];
-//    Collection::all()->each(function($collection) use (&$arr){
-//        $arr[] = $collection;
-//    });
-//    dd($arr);
-
-
 Route::get('/home', 'HomeController@index')->name('home')->middleware('auth', 'preventHistory');
+
+//Route::get('/example', function(){
+//});
 
 
 Route::view('/dashboard', 'main')->middleware('auth', 'preventHistory');
@@ -60,4 +42,24 @@ Route::view('/profile', 'main')->middleware('auth', 'preventHistory');
 //Route::get('/auth', function() {
 //    return view('example');
 //});
+
+//    if(is_string(request()->name)){
+//        return 'true';
+//    } else {
+//        return 'false';
+//    }
+//    if(!is_null(request()->name) && !is_bool(request()->name) &&
+//        trim(request()->name) !== '' && is_numeric(request()->name) ){
+//            return 'true';
+//            } else {
+//            return 'false';
+//    }
+
+
+//********** Προσοχή
+//$arr=[];
+//    Collection::all()->each(function($collection) use (&$arr){
+//        $arr[] = $collection;
+//    });
+//    dd($arr);
 

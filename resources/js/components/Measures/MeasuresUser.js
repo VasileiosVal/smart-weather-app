@@ -1,13 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Bar} from 'react-chartjs-2';
 import {
     filterDate,
     filterOnUsers, findStationsWithCollections,
     notifyUnauthorizedActionAndLogout, returnCategoryNamesWithSymbolArrayFromMeasures
 } from "../../general_functions/generalFunctions";
-import {MiniLoader} from "../General/MiniLoader";
-import {NoMeasuresMessage} from "../../containers/generalContainers";
+import {BarChart, NoMeasuresMessage, WaitingLoader} from "../../containers/generalContainers";
 import MeasuresStationsRenderOnUsers from "./MeasuresStationsRenderOnUsers";
 import MeasuresStationCollectionsRenderOnUsers from "./MeasuresStationCollectionsRenderOnUsers";
 import ModalCollectionDelete from "./ModalCollectionDelete";
@@ -37,13 +35,10 @@ class MeasuresUser extends React.Component {
         this.fetchAllStations(this.listenAllEvents);
     }
     componentDidUpdate(prevProps){
-        if(this.props.myStationsWithCollections < prevProps.myStationsWithCollections){
-            this.loadDefaultState(this.fetchAllStations);
-        } else if(this.props.myCollections < prevProps.myCollections){
-            this.loadDefaultState(this.fetchAllStations);
-        } else if(this.props.myStationsWithCollections > prevProps.myStationsWithCollections){
-            this.loadDefaultState(this.fetchAllStations);
-        } else if(this.props.myCollections > prevProps.myCollections){
+        if(this.props.myStationsWithCollections < prevProps.myStationsWithCollections ||
+            this.props.myCollections < prevProps.myCollections ||
+            this.props.myStationsWithCollections > prevProps.myStationsWithCollections ||
+            this.props.myCollections > prevProps.myCollections){
             this.loadDefaultState(this.fetchAllStations);
         }
     }
@@ -265,35 +260,17 @@ class MeasuresUser extends React.Component {
             />
         );
 
-        //***** DATA FOR CHARTS
-        let data = {
-            labels: this.state.showMeasures && this.state.collectionMeasures.length ?
-                returnCategoryNamesWithSymbolArrayFromMeasures(this.state.collectionMeasures, categories)
-                : [] ,
-            datasets: [
-                {
-                    label: 'Πίνακας τιμών μετρήσεων',
-                    backgroundColor: 'rgba(41, 125, 226, 0.55)',
-                    borderColor: 'rgba(41, 125, 226, 1)',
-                    borderWidth: 1,
-                    hoverBackgroundColor: 'rgba(41, 125, 226, 0.70)',
-                    hoverBorderColor: 'rgba(41, 125, 226, 1)',
-                    data: this.state.showMeasures && this.state.collectionMeasures.length ?
-                        this.state.collectionMeasures.map(measure => measure.value) : []
-                }
-            ]
-        };
-
         //****** CHART RENDER
         let chart = (
             this.state.showMeasures && this.state.collectionMeasures.length &&
             <div className="card">
                 <div className="card-body">
-                    <Bar
-                        data={data}
+                    <BarChart
+                        legend='Γράφημα τιμών μετρήσεων'
+                        labelNames={returnCategoryNamesWithSymbolArrayFromMeasures(this.state.collectionMeasures, categories)}
+                        labelValues={this.state.collectionMeasures.map(measure => measure.value)}
                         width={100}
                         height={300}
-                        options={{maintainAspectRatio: false}}
                     />
                 </div>
             </div>
@@ -302,10 +279,7 @@ class MeasuresUser extends React.Component {
         return (
             <div className="content swipe-up-content">
                 {this.state.showFirstInitLoader ?
-                    <div>
-                        <h5 className='text-center'>Παρακαλώ περιμένετε...</h5>
-                        <MiniLoader/>
-                    </div>
+                    <WaitingLoader/>
                 :
                     this.state.stationsWithCollections.length ?
                         <div className="row">
@@ -320,7 +294,7 @@ class MeasuresUser extends React.Component {
                             </div>
                         </div>
                     :
-                        <NoMeasuresMessage/>
+                        <NoMeasuresMessage header='Μετρήσεις'/>
                 }
             </div>
         );

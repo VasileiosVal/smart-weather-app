@@ -35,11 +35,17 @@ Route::middleware('auth:api')->group(function(){
     Route::delete('/collections/{collection}', 'api\CollectionController@destroy');
     //return collections::with(Measures) from given collection_ids array
     Route::post('/collections/measures', 'api\CollectionController@fetchCollectionsMeasures');
-    //return stations from other users (only user)
+    //return stations(active/public) from other users and user's stations (only user)
     Route::get('/collections/stations', 'api\CollectionController@fetchStations');
-
     //return collections
     Route::get('/collections', 'api\CollectionController@index');
+
+    //return highest/lowest measures per category
+    Route::get('/measures/latest', 'api\MeasuresController@fetchLatest');
+    //return all categories that have measures with stations-count
+    Route::get('/measures/categories', 'api\MeasuresController@fetchAllCategories');
+    //return from given station_id's array, all stations measures with specific category
+    Route::post('/measures/category/stations', 'api\MeasuresController@fetchAllMeasuresFromSpecificStationsAndCategory');
 
 });
 

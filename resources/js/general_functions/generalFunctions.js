@@ -21,6 +21,8 @@ export let findUserCollections = (stations, collections) => {
     return foundCollections
 };
 export let findUserFromStation = (users, station) => users.find(user => user.id === station.user_id);
+export let findStationFromStationId = (id, stations) => stations.find(station => station.id === id);
+export let findStationAndIfExistsAndReturnName = (id, stations) => findStationFromStationId(id, stations) ? findStationFromStationId(id, stations).name : '';
 export let findCategoryNameFromId = (checkedCategories, allCategories) => {
     return checkedCategories.map(checkedCategoryId => allCategories.find(category=>category.id === checkedCategoryId).name)
 };
@@ -50,11 +52,18 @@ export let filter = (stations, collections, profile, sortBy, search) => {
             case 'inactive':
                 return stations.filter(station => !station.is_active);
             case 'most':
-                let sortedStations = [...stations];
-                return sortedStations.sort((a, b) => findCollectionsFromStation(b, collections).length - findCollectionsFromStation(a, collections).length)
+                let spreadStations = [...stations];
+                return spreadStations.sort((a, b) => findCollectionsFromStation(b, collections).length - findCollectionsFromStation(a, collections).length)
             default:
                 return stations;
         }
+    }
+};
+export let filterSearchCategoriesOnGraphs = (categories, search) => {
+    if(search !== ''){
+        return categories.filter(category => category.name.toLowerCase().startsWith(search.toLowerCase()))
+    } else {
+        return categories;
     }
 };
 export let figureIfAndReturnMyStation = (myStations, station) => myStations.find(myStation => myStation.id === station.id);
@@ -87,3 +96,40 @@ export let filterDate = (collections, start, end) => {
     return collections.filter(collection => moment(collection.created_at).format("YYYY-MM-DD") >= start.format("YYYY-MM-DD")
         && moment(collection.created_at).format("YYYY-MM-DD") <= end.format("YYYY-MM-DD"))
 }
+export let filterDateOnStationsWithMeasures = (stationsWithMeasures, start, end) => {
+    if(!start || !end) return stationsWithMeasures;
+    return stationsWithMeasures.map(data => {
+
+        let filteredMeasures = data.measures.filter(measure => moment.unix(measure.created_at_tmstp).format("YYYY-MM-DD") >= start.format("YYYY-MM-DD")
+            && moment.unix(measure.created_at_tmstp).format("YYYY-MM-DD") <= end.format("YYYY-MM-DD"))
+
+        return {...data, measures: filteredMeasures}
+    })
+};
+export let returnCategoriesArrayFromCategoriesIdsArray = (selectedCategories, categories) => {
+    return selectedCategories.map(data => {
+       let category = findCategory(data.category_id, categories);
+       return {...category, stations: data.stations_ids}
+    });
+}
+export let checkUpdatesOnUserStations = (stations, myStations) => {
+    if(!myStations.length) return stations;
+    return stations.map(station => (findStationFromStationId(station.id, myStations) && findStationFromStationId(station.id, myStations).name !== station.name) ?
+        {...station, name: findStationFromStationId(station.id, myStations).name}
+        :
+        station
+    )
+};
+//
+//****SLIDER SETTINGS
+export let loadSliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 1000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplaySpeed: 5000,
+    autoplay: true,
+    fade: true,
+    pauseOnFocus: true
+};

@@ -1,5 +1,11 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
+import {Bar} from "react-chartjs-2";
+import {Line} from 'react-chartjs-2';
+import moment from "moment/moment";
+import {MiniLoader} from "../components/General/MiniLoader";
+import {findStationAndIfExistsAndReturnName} from "../general_functions/generalFunctions";
+
 
 export let CardHeaderTitle = ({name=''}) => (
     <div className='pb-3'>
@@ -21,9 +27,9 @@ export let CardHeaderTitleMeasures = ({title='', label=''}) => (
     </React.Fragment>
 );
 
-export let NoMeasuresMessage = () => (
+export let NoMeasuresMessage = ({header=''}) => (
     <React.Fragment>
-        <h5 className="card-title text-center">Μετρήσεις</h5><hr/>
+        <h5 className="card-title text-center">{header}</h5><hr/>
         <h4 className='text-danger text-center mt-0'>Δεν υπάρχουν μετρήσεις</h4>
     </React.Fragment>
 );
@@ -38,14 +44,156 @@ export let NoSearchResults = () => (
     </div>
 );
 
-export let TooltipInfo = ({id='global', text=''}) => (
+export let TooltipInfo = ({id='global', label=false, text='', giveClass='', place='right'}) => (
     <React.Fragment>
-        <i className="fas fa-info-circle" data-tip data-for={id}/>
-        <ReactTooltip id={id} place="right" type="dark" effect="float">
+        <i className={`fas fa-info-circle ${giveClass && giveClass}`} data-tip data-for={id}/>
+        <ReactTooltip id={id} place={place} type="dark" effect="float">
+            {label && <p className='text-center'>{label}</p>}
             <p>{text}</p>
         </ReactTooltip>
     </React.Fragment>
 );
+
+export let WaitingLoader = ({text=true}) => (
+    <div>
+        {text && <h5 className='text-center'>Παρακαλώ περιμένετε...</h5>}
+        <MiniLoader/>
+    </div>
+);
+
+export let SearchBar  = ({name='', value='', handler, placeHolder=''}) => (
+    <React.Fragment>
+        <input type="text" name={name} value={value} onChange={handler} className="form-control" placeholder={placeHolder}/>
+        <div className="input-group-append">
+            <span className="input-group-text bg-light text-info"><i className="fas fa-search ml-2"/></span>
+        </div>
+    </React.Fragment>
+);
+
+//************CHARTS*************
+
+//*****CREATING DATA FOR CHART BAR
+let createBarData = (legend, labelNames, labelValues) => ({
+    labels: labelNames,
+    datasets: [
+        {
+            label: legend,
+            backgroundColor: 'rgba(41, 125, 226, 0.55)',
+            borderColor: 'rgba(41, 125, 226, 1)',
+            borderWidth: 1,
+            hoverBackgroundColor: 'rgba(41, 125, 226, 0.70)',
+            hoverBorderColor: 'rgba(41, 125, 226, 1)',
+            data: labelValues
+        }
+    ]
+});
+
+//****** BAR CHART
+export let BarChart = ({title='', legend='', labelNames=[], labelValues=[], width=100, height=100, tooltipEnabled=true}) => {
+    let data = createBarData(legend, labelNames, labelValues);
+    return (
+        <Bar
+            data={data}
+            width={width}
+            height={height}
+            options={{
+                maintainAspectRatio: false,
+                responsive: true,
+                title: {
+                    display: true,
+                    text: title
+                },
+                tooltips: {
+                    enabled: tooltipEnabled
+                }
+            }}
+        />
+    )
+};
+
+
+//*****CREATING DATA FOR LINE CHART
+let createLineDataSets = (filteredStationsWithMeasuresPerCategory, stationsWithCollections) => {
+    return filteredStationsWithMeasuresPerCategory.map(data => {
+
+        let randomColor = `#${Math.floor(Math.random() * 0x1000000).toString(16).padStart(6, 0)}`;
+
+        let measures = data.measures.map(measure => ({
+            x: moment.unix(measure.created_at_tmstp),
+            y: measure.value
+        }));
+        return {
+            label: findStationAndIfExistsAndReturnName(data.station_id, stationsWithCollections),
+            fill: false,
+            backgroundColor: randomColor,  //stations
+            pointBorderColor: randomColor,
+            data: measures
+        }
+    })
+};
+
+
+//****** LINE CHART
+export let LineChart = ({filteredStationsWithMeasuresPerCategory, stationsWithCollections, height=350}) => {
+
+    let datasets = createLineDataSets(filteredStationsWithMeasuresPerCategory, stationsWithCollections);
+    let data = {datasets};
+
+    return (
+        <Line
+            data={data}
+            options={{
+                maintainAspectRatio: false,
+                responsive: true,
+                showLines: false,
+                elements: {
+                    point: {
+                        pointStyle: 'circle',
+                        borderWidth: 9,
+                        HoverRadius: 2,
+                    }
+                },
+                title: {
+                    display: true,
+                    text: 'Σταθμοί'
+                },
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        time: {
+                            displayFormats: {
+                                hour: 'D MMM',
+                                day: 'D MMM YY'
+                            }
+                        },
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Χρόνος',
+                            fontColor: 'rgba(147,0,19,1)',
+                            fontSize: 16
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'τιμές',
+                            fontColor: 'rgba(147,0,19,1)',
+                            fontSize: 16
+                        }
+                    }]
+                }
+            }}
+            height={height}
+        />
+    )
+};
+
+
+
+
+
 
 
 

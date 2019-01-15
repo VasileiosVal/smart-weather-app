@@ -1,12 +1,11 @@
 import React from 'react';
-import {Bar} from 'react-chartjs-2';
 import {connect} from 'react-redux';
 import {
     returnCategoryNamesWithSymbolArrayFromMeasures,
     filter, findStationsWithCollections,
     notifyUnauthorizedActionAndLogout, filterDate, findCollectionsFromStationId
 } from "../../general_functions/generalFunctions";
-import {NoMeasuresMessage} from "../../containers/generalContainers";
+import {BarChart, NoMeasuresMessage} from "../../containers/generalContainers";
 import {startDeleteCollection} from "../../actions/Collection";
 import {notifyDeletedCollection} from "../../general_functions/notifiers";
 import ModalCollectionDelete from "./ModalCollectionDelete";
@@ -217,38 +216,20 @@ class MeasuresAdmin extends React.Component {
             />
         );
 
-        //***** DATA FOR CHARTS
-        let data = {
-            labels: this.state.showMeasures && this.state.collectionMeasures.length ?
-                returnCategoryNamesWithSymbolArrayFromMeasures(this.state.collectionMeasures, categories)
-                : [] ,
-            datasets: [
-                {
-                    label: 'Πίνακας τιμών μετρήσεων',
-                    backgroundColor: 'rgba(41, 125, 226, 0.55)',
-                    borderColor: 'rgba(41, 125, 226, 1)',
-                    borderWidth: 1,
-                    hoverBackgroundColor: 'rgba(41, 125, 226, 0.70)',
-                    hoverBorderColor: 'rgba(41, 125, 226, 1)',
-                    data: this.state.showMeasures && this.state.collectionMeasures.length ?
-                        this.state.collectionMeasures.map(measure => measure.value) : []
-                }
-            ]
-        };
-
         //****** CHART RENDER
         let chart = (
             this.state.showMeasures && this.state.collectionMeasures.length &&
-                <div className="card">
-                    <div className="card-body">
-                        <Bar
-                            data={data}
-                            width={100}
-                            height={300}
-                            options={{maintainAspectRatio: false}}
-                        />
-                    </div>
+            <div className="card">
+                <div className="card-body">
+                    <BarChart
+                        legend='Γράφημα τιμών μετρήσεων'
+                        labelNames={returnCategoryNamesWithSymbolArrayFromMeasures(this.state.collectionMeasures, categories)}
+                        labelValues={this.state.collectionMeasures.map(measure => measure.value)}
+                        width={100}
+                        height={300}
+                    />
                 </div>
+            </div>
         );
 
         return (
@@ -266,7 +247,7 @@ class MeasuresAdmin extends React.Component {
                         </div>
                     </div>
                 :
-                    <NoMeasuresMessage/>
+                    <NoMeasuresMessage header='Μετρήσεις'/>
                 }
             </div>
         );

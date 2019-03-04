@@ -17,6 +17,8 @@ class CreateCategoriesTable extends Migration
             $table->increments('id');
             $table->string('name')->unique();
             $table->string('symbol')->unique();
+            $table->decimal('minValue', 6, 1);
+            $table->decimal('maxValue', 6, 1);
             $table->timestamps();
         });
     }

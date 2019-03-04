@@ -1,6 +1,5 @@
 import React from 'react';
 import {Route, Switch, BrowserRouter, Redirect} from 'react-router-dom';
-import {connect} from 'react-redux';
 import Sidebar from '../components/General/SidebarUI';
 import Navbar from '../components/General/NavbarUi';
 import Footer from '../components/General/Footer';
@@ -22,13 +21,7 @@ import Measures from "../components/Measures/Measures";
 import Graphs from "../components/Graphs/Graphs";
 
 
-let AppRouter = (props) => {
-    console.log(props.user);
-    console.log(props.categories);
-    console.log(props.users)
-    console.log(props.stations)
-    console.log(props.collections)
-    return (
+let AppRouter = () => (
         <BrowserRouter>
             <div className="wrapper">
                 <Sidebar/>
@@ -57,14 +50,5 @@ let AppRouter = (props) => {
             </div>
         </BrowserRouter>
     );
-}
 
-const mapStateToProps = state => ({
-        user: state.user,
-        users: state.users,
-        categories: state.categories,
-        stations: state.stations,
-        collections: state.collections,
-    });
-
-export default connect(mapStateToProps)(AppRouter)
+export default AppRouter

@@ -19,8 +19,11 @@ class CategoryController extends Controller
         if(request()->user()->isAdmin()) {
             $data = $request->validate([
                 'name' => 'required|string|max:255|unique:categories,name',
-                'symbol' => 'required|string|max:255|unique:categories,symbol'
+                'symbol' => 'required|string|max:255|unique:categories,symbol',
+                'minValue' => 'required|numeric|between:-1000.0,10000.0',
+                'maxValue' => 'required|numeric|between:-1000.0,10000.0'
             ]);
+            if($data['minValue'] > $data['maxValue']) return response()->json([__('messages.error') => __('messages.conflict')], 422);
             return  Category::create($data);
         }
         if(request()->expectsJson()){
@@ -35,8 +38,13 @@ class CategoryController extends Controller
         if(request()->user()->isAdmin()) {
             $data = $request->validate([
                 'name' => 'required|string|max:255|unique:categories,name,'.$category->id,
-                'symbol' => 'required|string|max:255|unique:categories,symbol,'.$category->id
+                'symbol' => 'required|string|max:255|unique:categories,symbol,'.$category->id,
+                'minValue' => 'required|numeric|between:-1000.0,10000.0',
+                'maxValue' => 'required|numeric|between:-1000.0,10000.0'
             ]);
+
+            if($data['minValue'] > $data['maxValue']) return response()->json([__('messages.error') => __('messages.conflict')], 422);
+
             $category->fill($data);
             if($category->isClean()){
                 return response()->json($category, 202);

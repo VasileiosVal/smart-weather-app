@@ -16,10 +16,12 @@ export let createCategory = (category={}) => ({
         category
     });
 
-export let startCreateCategory = (name='', symbol='') => dispatch => {
+export let startCreateCategory = (name='', symbol='', minValue=0, maxValue=0) => dispatch => {
         return axios.post('/api/auth/categories', {
             name,
-            symbol
+            symbol,
+            minValue,
+            maxValue
         }).then(response => dispatch(createCategory(response.data)))
             .catch(e => notifyUnauthorizedActionAndLogout())
 };
@@ -34,10 +36,12 @@ export let editCategoryOnStations = (category={}) => ({
         category
     });
 
-export let startEditCategory = (lastName='', name='', symbol='') => dispatch => {
+export let startEditCategory = (lastName='', name='', symbol='', minValue=0, maxValue=0) => dispatch => {
         return axios.patch(`/api/auth/categories/${lastName}`, {
             name,
-            symbol
+            symbol,
+            minValue,
+            maxValue
         }).then(response => {
             if(response.status === 202){
                 return 'same';

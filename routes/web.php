@@ -1,5 +1,7 @@
 <?php
 
+use App\Collection;
+use App\Station;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -10,7 +12,10 @@ Route::get('/account/verify/{code}', 'VerifyUserController@verify')->name('accou
 Auth::routes();
 
 //Route::get('/example', function(){
-//    return User::find(1)->stations()->with('categories')->find(1);
+//   return Station::find(1)->collections()->create([
+//        'series_hash' => Collection::roleHashCode(),
+//        'created_at' => date("Y-m-d H:i:s", '1551712787')
+//    ]);
 //});
 
 Route::middleware('auth', 'preventHistory')->group(function(){

@@ -19,6 +19,13 @@ export let notifySameSymbol = () => {
         type: 'warning'
     });
 };
+export let notifyNumberError = () => {
+    $.notify({
+        message: 'Υπάρχει σφάλμα στο όριο των αριθμητικών τιμών.'
+    },{
+        type: 'warning'
+    });
+};
 export let notifyCreatedEl = () => {
     $.notify({
         message: 'Η καινούργια κατηγορία δημιουργήθηκε.'

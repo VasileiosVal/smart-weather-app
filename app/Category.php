@@ -6,14 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $fillable = ['name', 'symbol'];
+    protected $fillable = ['name', 'symbol', 'minValue', 'maxValue'];
 
     protected $hidden = ['updated_at'];
 
     protected $casts = [
         'id' => 'integer',
         'name' => 'string',
-        'symbol' => 'string'
+        'symbol' => 'string',
+        'minValue' => 'string',
+        'maxValue' => 'string'
     ];
 
     public function stations(){

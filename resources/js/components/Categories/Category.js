@@ -6,6 +6,7 @@ import {startCreateCategory, startDeleteCategory, startEditCategory} from "../..
 import Modal from './ModalCategoryDelete'
 import {
     notifyCreatedEl, notifyDeletedEl, notifyEditedEl, notifyEmptyEl, notifyGeneralCategories, notifyNoChangesMade,
+    notifyNumberError,
     notifySameName,
     notifySameSymbol
 } from "../../general_functions/notifiers";
@@ -19,9 +20,13 @@ class Category extends React.Component {
     state = {
         name: '',
         symbol: '',
+        minValue: '',
+        maxValue: '',
         editCompShow: false,
         editCompCategoryName: undefined,
         editCompCategorySymbol: undefined,
+        editCompCategoryMinValue: undefined,
+        editCompCategoryMaxValue: undefined,
         deleteCategoryName: undefined,
         activePage: 1,
         itemsCountPerPage: 5,
@@ -53,20 +58,27 @@ class Category extends React.Component {
         );
     }
 
-    clearAllInputsAndSetIncomingData = (editCompShow=false, editCompCategoryName=undefined, editCompCategorySymbol=undefined) => {
+    clearAllInputsAndSetIncomingData = (editCompShow=false, editCompCategoryName=undefined, editCompCategorySymbol=undefined, editCompCategoryMinValue=undefined, editCompCategoryMaxValue=undefined) => {
         this.setState({
             name: '',
             symbol: '',
+            minValue: '',
+            maxValue: '',
             editCompShow: false,
             editCompCategoryName: undefined,
             editCompCategorySymbol: undefined,
+            editCompCategoryMinValue: undefined,
+            editCompCategoryMaxValue: undefined,
             deleteCategoryName: undefined
         }, () => {
-            if(editCompShow && editCompCategoryName && editCompCategorySymbol){
+            if(editCompShow && editCompCategoryName && editCompCategorySymbol && editCompCategoryMaxValue && editCompCategoryMinValue){
                 this.setState({
                     editCompShow,
                     editCompCategoryName,
-                    editCompCategorySymbol})
+                    editCompCategorySymbol,
+                    editCompCategoryMinValue,
+                    editCompCategoryMaxValue
+                })
             }
         })
     }
@@ -76,6 +88,8 @@ class Category extends React.Component {
             editCompShow: false,
             editCompCategoryName: undefined,
             editCompCategorySymbol: undefined,
+            editCompCategoryMinValue: undefined,
+            editCompCategoryMaxValue: undefined,
             deleteCategoryName: undefined
         })
     }
@@ -95,10 +109,14 @@ class Category extends React.Component {
         let foundObjWithSymbol;
         let lastName = this.state.editCompCategoryName;
         let lastSymbol = this.state.editCompCategorySymbol;
+        let lastMinValue = this.state.editCompCategoryMinValue;
+        let lastMaxValue = this.state.editCompCategoryMaxValue;
 
-        let name = lastName && lastSymbol ? e.target.elements.name.value.trim() : this.state.name.trim();
-        let symbol = lastName && lastSymbol ? e.target.elements.symbol.value.trim() : this.state.symbol.trim();
-        if(!name || !symbol) {
+        let name = lastName ? e.target.elements.name.value.trim() : this.state.name.trim();
+        let symbol = lastSymbol ? e.target.elements.symbol.value.trim() : this.state.symbol.trim();
+        let minValue = lastMinValue ? e.target.elements.minValue.value.trim() : this.state.minValue.trim();
+        let maxValue = lastMaxValue ? e.target.elements.maxValue.value.trim() : this.state.maxValue.trim();
+        if(!name || !symbol || !minValue || !maxValue) {
             notifyEmptyEl();
         } else {
             foundObjWithName = this.props.categories.find(category => category.name === name);
@@ -109,14 +127,19 @@ class Category extends React.Component {
                 notifySameName();
             } else if(foundObjWithSymbol) {
                 notifySameSymbol();
+            } else if(parseFloat(minValue) > parseFloat(maxValue)) {
+                notifyNumberError();
             } else {
+                minValue = parseFloat(minValue);
+                maxValue = parseFloat(maxValue);
+
                 if(!lastName){
-                    this.props.dispatch(startCreateCategory(name, symbol)).then(()=>{
+                    this.props.dispatch(startCreateCategory(name, symbol, minValue, maxValue)).then(()=>{
                         notifyCreatedEl();
                         this.clearAllInputsAndSetIncomingData();
                     })
                 } else {
-                    this.props.dispatch(startEditCategory(lastName, name, symbol)).then((val='')=>{
+                    this.props.dispatch(startEditCategory(lastName, name, symbol, minValue, maxValue)).then((val='')=>{
                         if(val!=='same'){
                             notifyEditedEl();
                             this.clearAllInputsAndSetIncomingData();
@@ -149,6 +172,8 @@ class Category extends React.Component {
             <CategoryCreate
                 name={this.state.name}
                 symbol={this.state.symbol}
+                minValue={this.state.minValue}
+                maxValue={this.state.maxValue}
                 onChangeValue={this.handleChangeValue}
                 onSubmitCategory={this.submitCategory}
             />
@@ -159,7 +184,7 @@ class Category extends React.Component {
             <CategoryRender
                 {...this.props}
                 {...this.state}
-                onClickUpdate={(name, symbol) => this.clearAllInputsAndSetIncomingData(true, name, symbol)}
+                onClickUpdate={(name, symbol, minValue, maxValue) => this.clearAllInputsAndSetIncomingData(true, name, symbol, minValue, maxValue)}
                 onClickDelete={name => {
                     this.clearAllInputsAndSetIncomingData();
                     this.setState({deleteCategoryName: name}, () => $('#modal').modal())
@@ -190,6 +215,8 @@ class Category extends React.Component {
                 show={this.state.editCompShow}
                 name={this.state.editCompCategoryName}
                 symbol={this.state.editCompCategorySymbol}
+                minValue={this.state.editCompCategoryMinValue}
+                maxValue={this.state.editCompCategoryMaxValue}
                 closeEdit={()=> this.clearAllInputsAndSetIncomingData()}
             />
         );

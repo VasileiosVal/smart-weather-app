@@ -103,23 +103,32 @@ class CollectionController extends Controller
                 if($station->categories()->count()){
 
                     $categoryMissingFromUrl = false;
-                    $more_url_parameters = false;
+                    $moreUrlParameters = false;
                     $categoryGivenValueError = false;
                     $success = false;
 
                     $data = $request->all();
 
-                    //check for timestamp in data
-
-                    $collection = $station->collections()->create([
-                    'series_hash' => Collection::roleHashCode()
-                    ]);
+                    if(array_key_exists('time', $data) && is_string($data['time']) && trim($data['time']) !== '' && is_numeric($data['time'])){
+                        $collection = $station->collections()->create([
+                            'series_hash' => Collection::roleHashCode(),
+                            'created_at' => gmdate("Y-m-d H:i:s", $data['time'])
+                        ]);
+                    } else {
+                        $collection = $station->collections()->create([
+                        'series_hash' => Collection::roleHashCode()
+                        ]);
+                    }
 
                     foreach ($station->categories as $category){
                         if(array_key_exists($category->name, $data)){
                             if(is_string($data[$category->name]) && trim($data[$category->name]) !== '' && is_numeric($data[$category->name])){
-                                //to value ερχεται σε string
-                                $collection->measures()->create(['category_id' => $category->id, 'value' => trim($data[$category->name])]);
+                                // value is coming in string type
+                                //checking for min/max value and assignment
+                                if(floatval($data[$category->name]) <= floatval($category->minValue)) $data[$category->name] = $category->minValue;
+                                if(floatval($data[$category->name]) > floatval($category->maxValue)) $data[$category->name] = $category->maxValue;
+
+                                $collection->measures()->create(['category_id' => $category->id, 'value' => floatval($data[$category->name])]);
                                 //success
                                 $success = true;
                             }else{
@@ -136,17 +145,17 @@ class CollectionController extends Controller
 
                     if($station->categories()->count() < (count($data) - 1)){
                         //more url parameters than existing categories in station
-                        $more_url_parameters = true;
+                        $moreUrlParameters = true;
                     }
 
 
                     if($success){
-                        if($categoryGivenValueError && $categoryMissingFromUrl && $more_url_parameters){
+                        if($categoryGivenValueError && $categoryMissingFromUrl && $moreUrlParameters){
 //                            Log::create(['goodtobad' => '2',
 //                                'note'      => 'Επιτυχία συλλογής μετρήσεων. * Σταθμός: '.$station->name.'   * Ημερομηνία: '.Carbon::now().'   * Υπενθύμιση: * Έχουν σταλλεί λανθασμένες τιμές, πιθανώς μηδενικές * Υπάρχουν λανθασμένα κομμάτια στο URL αποστολής',
 //                                'user_id'   => $station->user_id]);
 
-                        }elseif($categoryMissingFromUrl || $more_url_parameters){
+                        }elseif($categoryMissingFromUrl || $moreUrlParameters){
 //                            Log::create(['goodtobad' => '2',
 //                                'note'      => 'Επιτυχία συλλογής μετρήσεων. * Σταθμός: '.$station->name.'   * Ημερομηνία: '.Carbon::now().'   * Υπενθύμιση: * Υπάρχουν λανθασμένα κομμάτια στο URL αποστολής',
 //                                'user_id'   => $station->user_id]);
@@ -173,12 +182,12 @@ class CollectionController extends Controller
                         return response()->json('collection created successfully', 200);
                     }else{
                         $collection->delete();
-                        if($categoryGivenValueError && $categoryMissingFromUrl && $more_url_parameters){
+                        if($categoryGivenValueError && $categoryMissingFromUrl && $moreUrlParameters){
 //                            Log::create(['goodtobad' => '3',
 //                                'note'      => 'Αποτυχία συλλογής μετρήσεων. * Σταθμός: '.$station->name.'   * Ημερομηνία: '.Carbon::now().'   * Αιτία: * Έχουν σταλλεί μηδενικές τιμές * Υπάρχουν λανθασμένα κομμάτια στο URL αποστολής',
 //                                'user_id'   => $station->user_id]);
 
-                        }elseif($categoryMissingFromUrl || $more_url_parameters){
+                        }elseif($categoryMissingFromUrl || $moreUrlParameters){
 //                            Log::create(['goodtobad' => '3',
 //                                'note'      => 'Αποτυχία συλλογής μετρήσεων. * Σταθμός: '.$station->name.'   * Ημερομηνία: '.Carbon::now().'   * Αιτία: * Υπάρχουν λανθασμένα κομμάτια στο URL αποστολής',
 //                                'user_id'   => $station->user_id]);

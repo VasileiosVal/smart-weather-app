@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image} from "../../containers/generalContainers";
-import background from '../../../../public/img/background.jpg';
-import person from '../../../../public/img/sample.jpeg';
+import background from '../../../../public/images/background.jpg';
+import person from '../../../../public/images/sample.jpeg';
 
 let ProfileBanner = ({profile, stations, collections}) => (
         <div className="card card-user animated pulse delay-1s fast">

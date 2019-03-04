@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {
-    checkUpdatesOnUserStations,
+    checkUpdatesOnUserStations, examineValue,
     filterDateOnStationsWithMeasures,
     filterSearchCategoriesOnGraphs,
     findStationsWithCollections, notifyUnauthorizedActionAndLogout,
@@ -23,7 +23,7 @@ class GraphsUser extends React.Component {
         showStationsWithMeasuresPerCategory: false,     //2  2
         stationsWithMeasuresPerCategory: [],            //2  2
         selectedCategory: null,                         //2  2
-        searchQuery: '',                    //2  1
+        searchQuery: '',                                //2  1
         startDate: null,                                //2  2
         endDate: null,                                  //2  2
     };
@@ -100,6 +100,8 @@ class GraphsUser extends React.Component {
                     let minMaxMeasuresPerCategory=[];
                     response.data.forEach(data => {
                         let {category_id, min, max} = data;
+                        min = {...min, value: examineValue(min.value)};
+                        max = {...max, value: examineValue(max.value)};
                         let obj = {category_id, min, max};
                         minMaxMeasuresPerCategory.push(obj)
                     })
@@ -154,6 +156,7 @@ class GraphsUser extends React.Component {
 
                     response.data.forEach(data => {
                         let {station_id, measures} = data;
+                        measures = measures.map(measure => ({...measure, value: examineValue(measure.value)}));
                         let obj={station_id, measures};
                         stationsWithMeasuresPerCategory.push(obj);
                     })

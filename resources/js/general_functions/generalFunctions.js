@@ -3,17 +3,18 @@ import moment from "moment";
 
 export let logout = () => location.assign(document.location.origin + '/logout');
 export let refreshToDashboard = () => location.assign(document.location.origin + '/dashboard');
-export let measuresInputUrl = (unique='', url='') => `${Laravel.baseUrl}/measures/input?unique=${unique}${url}`;
+export let measuresInputUrl = (unique='', url='') => `http://${window.location.hostname}/measures/input?unique=${unique}${url}`;
 export let refreshPage = () => location.reload(true);
 export let notifyUnauthorizedActionAndLogout = () => {
     notifyUnauthorizedAction();
     setTimeout(()=>logout(), 1500);
-    throw new Error("Error found");
+    throw new Error("Error or suspicious action detected");
 };
+export let findUserStations = (user, stations) => stations.filter(station => station.user_id === user.id);
 export let findUserCollections = (stations, collections) => {
     let foundCollections = [];
-    stations.forEach(station=>{
-        let collectionsFoundPerStation = collections.filter(collection=>collection.station_id === station.id);
+    stations.forEach(station => {
+        let collectionsFoundPerStation = collections.filter(collection => collection.station_id === station.id);
         if(collectionsFoundPerStation.length){
             foundCollections = [...foundCollections, ...collectionsFoundPerStation]
         }
@@ -24,9 +25,9 @@ export let findUserFromStation = (users, station) => users.find(user => user.id 
 export let findStationFromStationId = (id, stations) => stations.find(station => station.id === id);
 export let findStationAndIfExistsAndReturnName = (id, stations) => findStationFromStationId(id, stations) ? findStationFromStationId(id, stations).name : '';
 export let findCategoryNameFromId = (checkedCategories, allCategories) => {
-    return checkedCategories.map(checkedCategoryId => allCategories.find(category=>category.id === checkedCategoryId).name)
+    return checkedCategories.map(checkedCategoryId => allCategories.find(category => category.id === checkedCategoryId).name)
 };
-export let convertCategoryNamesToStr = (categoryNames=[]) => categoryNames.map(category=>`&${category}=τιμή`).join('');
+export let convertCategoryNamesToStr = (categoryNames=[]) => categoryNames.map(category => `&${category}=τιμή`).join('');
 export let regexFindGreek = data => data.match(/[Α-Ωα-ωίϊΐόάέύϋΰήώΆΈΊΌΎΏΉ]+/);
 export let findStationsWithCollections = (stations=[], collections=[]) => {
     let acceptedStations = [];
@@ -41,7 +42,7 @@ export let findCollectionsFromStationId = (id, collections) => collections.filte
 export let filter = (stations, collections, profile, sortBy, search) => {
     if(search !== ''){
         return stations.filter(station => station.name.toLowerCase().startsWith(search.toLowerCase()))
-    } else{
+    } else {
         switch(sortBy){
             case 'all':
                 return stations;
@@ -120,7 +121,12 @@ export let checkUpdatesOnUserStations = (stations, myStations) => {
         station
     )
 };
-//
+export let findIfUserIsAdmin = (id, users) => users.find(user => user.id === id).role_id === 1;
+export let findIfStationHasCollections = (id, collections) => !!collections.filter(collection => collection.station_id === id).length;
+export let examineValue = val => Number.isInteger(parseFloat(val)) ? parseInt(val) : Number(parseFloat(val).toFixed(3));
+
+
+
 //****SLIDER SETTINGS
 export let loadSliderSettings = {
     dots: true,

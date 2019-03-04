@@ -7,16 +7,11 @@ let saveCategories = (categories=[]) => ({
 
 export let startSaveCategories = () => dispatch => {
        return axios('/api/auth/categories')
-           .then(response => {
-            let arr = [];
-            response.data.forEach(category => arr.push(category));
-           dispatch(saveCategories(arr));
-        }).catch(e => {
-           return 'error';
-       });
+           .then(response => dispatch(saveCategories([...response.data])))
+           .catch(e => 'error');
 };
 
-export let createCategory = category => ({
+export let createCategory = (category={}) => ({
         type: 'CREATE_CATEGORY',
         category
     });
@@ -29,12 +24,12 @@ export let startCreateCategory = (name='', symbol='') => dispatch => {
             .catch(e => notifyUnauthorizedActionAndLogout())
 };
 
-export let editCategory = category => ({
+export let editCategory = (category={}) => ({
         type: 'EDIT_CATEGORY',
         category
     });
 
-export let editCategoryOnStations = category => ({
+export let editCategoryOnStations = (category={}) => ({
         type: 'EDIT_CATEGORY_ON_STATIONS',
         category
     });
@@ -43,7 +38,7 @@ export let startEditCategory = (lastName='', name='', symbol='') => dispatch => 
         return axios.patch(`/api/auth/categories/${lastName}`, {
             name,
             symbol
-        }).then((response)=>{
+        }).then(response => {
             if(response.status === 202){
                 return 'same';
             } else {
@@ -53,24 +48,8 @@ export let startEditCategory = (lastName='', name='', symbol='') => dispatch => 
         }).catch(e => notifyUnauthorizedActionAndLogout())
 };
 
-// export let deleteCategory = (category) => {
-//     return {
-//         type: 'DELETE_CATEGORY',
-//         category
-//     }
-// };
-
 export let startDeleteCategory = (name='') => () => {
         return axios.delete(`/api/auth/categories/${name}`)
-            .then(()=>{
-                return 'deleted';
-        }).catch(e => notifyUnauthorizedActionAndLogout())
+            .then(() => 'deleted')
+            .catch(e => notifyUnauthorizedActionAndLogout())
 };
-
-
-// export let deleteCategories = () => {
-//     return {
-//         type: 'DELETE_CATEGORIES'
-//     }
-// };
-

@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {
     returnCategoryNamesWithSymbolArrayFromMeasures,
     filter, findStationsWithCollections,
-    notifyUnauthorizedActionAndLogout, filterDate, findCollectionsFromStationId
+    notifyUnauthorizedActionAndLogout, filterDate, findCollectionsFromStationId, examineValue
 } from "../../general_functions/generalFunctions";
 import {BarChart, NoMeasuresMessage} from "../../containers/generalContainers";
 import {startDeleteCollection} from "../../actions/Collection";
@@ -112,20 +112,20 @@ class MeasuresAdmin extends React.Component {
             let stationCollections = this.props.collections.filter(collection => collection.station_id === id);
             let collectionsIds = stationCollections.map(collection => collection.id);
             axios.post('/api/auth/collections/measures', {collectionsIds})
-                .then(response=>{
+                .then(response => {
                     let collectionsWithMeasures = [];
                     stationCollections.forEach(collection => {
-                        let obj = {};
-                        let collectionMeasures =[];
-                        obj.col_id = collection.id;
-                        response.data.find(col => col.id === collection.id).measures.forEach(measure=>{
+                        let collectionMeasures = [];
+                        response.data.find(col => col.id === collection.id).measures.forEach(measure => {
                             collectionMeasures.push({
                                 cat_id: measure.category_id,
-                                value: measure.value
+                                value: examineValue(measure.value)
                             })
                         })
-                        obj.measures = collectionMeasures;
-                        collectionsWithMeasures.push(obj);
+                        collectionsWithMeasures.push({
+                            col_id: collection.id,
+                            measures: collectionMeasures
+                        });
                     })
                     this.setState({
                         showCollections: true,
@@ -148,7 +148,7 @@ class MeasuresAdmin extends React.Component {
     handleOpenModalForDelete = hash => {
         this.setState({
             deleteStationHash: hash
-        }, () => {$('#modal').modal()})
+        }, () => $('#modal').modal())
     }
     handleCloseModal = () => {
         $('#modal').modal('hide');
@@ -179,7 +179,7 @@ class MeasuresAdmin extends React.Component {
         );
 
         //***** FILTERING SELECTED_STATION_COLLECTIONS
-        let selectedStationCollections = findCollectionsFromStationId(this.state.selectedStationId, collections).sort((a, b)=> b.id - a.id);
+        let selectedStationCollections = findCollectionsFromStationId(this.state.selectedStationId, collections).sort((a, b) => b.id - a.id);
         let filteredSelectedStationCollections = filterDate(selectedStationCollections, this.state.startDate, this.state.endDate);
         //*****SELECTED_STATION_COLLECTIONS RENDER
         let selectedStationCollectionsRender = (
@@ -197,7 +197,7 @@ class MeasuresAdmin extends React.Component {
 
         //******CHECK FOR RENDERING MODAL_FOR_DELETE
         let deleteCollectionModal = (
-            this.state.deleteStationHash &&
+            !!this.state.deleteStationHash &&
             <ModalCollectionDelete
                 collectionHash={this.state.deleteStationHash}
                 onTriggerCloseModal={this.handleCloseModal}
@@ -205,6 +205,7 @@ class MeasuresAdmin extends React.Component {
 
             />
         );
+
         //*****SELECTED COLLECTION MEASURES RENDER
         let selectedCollectionMeasuresRender = (
             <MeasuresCollectionMeasuresRender
@@ -218,8 +219,8 @@ class MeasuresAdmin extends React.Component {
 
         //****** CHART RENDER
         let chart = (
-            this.state.showMeasures && this.state.collectionMeasures.length &&
-            <div className="card">
+            this.state.showMeasures && !!this.state.collectionMeasures.length &&
+            <div className="card animated pulse">
                 <div className="card-body">
                     <BarChart
                         legend='Γράφημα τιμών μετρήσεων'
@@ -234,7 +235,7 @@ class MeasuresAdmin extends React.Component {
 
         return (
             <div className="content swipe-up-content">
-                {stationsWithCollections.length ?
+                {!!stationsWithCollections.length ?
                     <div className="row">
                         <div className="col-sm-5">
                             {stationsWithCollectionsRender}

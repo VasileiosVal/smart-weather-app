@@ -10,7 +10,11 @@ class Collection extends Model
 
     protected $hidden = ['updated_at'];
 
-    protected $casts = ['id' => 'integer', 'series_hash' => 'string', 'station_id' => 'integer'];
+    protected $casts = [
+        'id' => 'integer',
+        'series_hash' => 'string',
+        'station_id' => 'integer'
+    ];
 
     public function station(){
         return $this->belongsTo(Station::class);

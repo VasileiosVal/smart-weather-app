@@ -3,7 +3,7 @@ import {greekCapitalCities} from '../../general_functions/cities';
 import {CardBelowHeaderTitle} from "../../containers/generalContainers";
 
 let StationCreateOrEditFormDetails = props => (
-    <div className="card">
+    <div className="card animated fadeIn faster">
         <CardBelowHeaderTitle name={props.lastName ? `Επεξεργασία σταθμού: ${props.lastName}` : 'Δημιουργία σταθμού'}/>
         <hr/>
         <div className="card-body">

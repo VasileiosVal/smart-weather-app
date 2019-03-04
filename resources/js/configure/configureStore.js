@@ -1,7 +1,6 @@
-import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
+import {createStore, combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
-import {langReducer} from "../reducers/langReducer";
 import {userReducer} from "../reducers/userReducer";
 import {categoryReducer} from "../reducers/categoryReducer";
 import {stationReducer} from "../reducers/stationReducer";
@@ -11,7 +10,6 @@ import {collectionReducer} from "../reducers/collectionReducer";
 export let configureStore = () => {
 
     let store = createStore(combineReducers({
-        language: langReducer,
         user: userReducer,
         categories: categoryReducer,
         stations: stationReducer,

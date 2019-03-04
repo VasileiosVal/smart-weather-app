@@ -23,19 +23,13 @@ let NavbarUI = ({name}) => (
                 </button>
                 <div className="collapse navbar-collapse justify-content-end" id="navigation">
                     <ul className="navbar-nav">
-                        <li className="nav-item">
-                            <a className="nav-link btn-magnify">
-                                <i className="fas fa-cogs"/>
-                                <p><span className="d-lg-none d-md-block">Stats</span></p>
-                            </a>
-                        </li>
                         <li title='ενέργειες' className="nav-item btn-rotate dropdown">
                             <a className="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i className="fa fa-user"/>
-                                <p><span className="d-lg-none d-md-block">Some Actions</span></p>
+                                <p><span className="d-lg-none d-md-block">Ενέργειες</span></p>
                             </a>
                             <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                                <button onClick={()=>logout()} className="dropdown-item"><i className="fas fa-sign-out-alt"/>Αποσύνδεση</button>
+                                <a onClick={()=>logout()} className="dropdown-item"><i className="fas fa-sign-out-alt"/>Αποσύνδεση</a>
                             </div>
                         </li>
                     </ul>
@@ -45,7 +39,7 @@ let NavbarUI = ({name}) => (
     );
 
 const mapStateToProps = state => ({
-        name: state.user.name,
+        name: state.user.name
     });
 
 export default connect(mapStateToProps)(NavbarUI)

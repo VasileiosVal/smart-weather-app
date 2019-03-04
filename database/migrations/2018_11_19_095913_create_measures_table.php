@@ -16,7 +16,7 @@ class CreateMeasuresTable extends Migration
         Schema::create('measures', function (Blueprint $table) {
             $table->integer('category_id')->unsigned()->index();
             $table->integer('collection_id')->unsigned()->index();
-            $table->decimal('value', 5, 3);
+            $table->decimal('value', 6, 1);
             $table->timestamps();
 
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');

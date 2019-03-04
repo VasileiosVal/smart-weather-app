@@ -5,7 +5,7 @@
 Route::post('/measures/input', 'api\CollectionController@createNewMeasure');
 
 
-Route::middleware('auth:api')->group(function(){
+Route::middleware('auth:api', 'httpsProtocol')->group(function(){
 
     Route::get('/categories', 'api\CategoryController@index');
     Route::post('/categories', 'api\CategoryController@store');

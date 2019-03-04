@@ -10,22 +10,24 @@
         </title>
         <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
         <!-- CSS Files -->
-        <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     </head>
 
     <body>
-
+        <!--   React DOM render   -->
         <div id="app_component"></div>
-        <!--   Core JS Files   -->
+
+        <!--   Authorized user's api_token assignment for requests to backend api   -->
         <script>
             window.Laravel = {!! json_encode([
-            'csrfToken' => csrf_token(),
             'apiToken' => auth()->user()->api_token ?? null,
             'baseUrl' => env('APP_URL')
         ]) !!};
         </script>
-        <script src="{{ mix('js/app.js') }}"></script>
-        <script src="{{ mix('js/render.js') }}"></script>
+
+        <!--   Core JS Files   -->
+        <script src="{{ asset('js/app.js') }}"></script>
+        <script src="{{ asset('js/render.js') }}"></script>
 
     </body>
     </html>

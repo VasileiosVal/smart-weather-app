@@ -49,14 +49,14 @@ export let notifyGeneralEditedEl = (name='') => {
 };
 export let notifyDeletedEl = () => {
     $.notify({
-        message: 'Η κατηγορία έχει διαγραφεί. Θα γίνει ανανέωση της σελίδας για να πραγματοποιηθούν οι αλλαγές.'
+        message: 'Η κατηγορία έχει διαγραφεί. Θα γίνει ανακατεύθυνση της σελίδας για να πραγματοποιηθούν οι αλλαγές.'
     },{
         type: 'danger'
     });
 };
 export let notifyGeneralDeletedEl = (name='') => {
     $.notify({
-        message: `'Εχει διαγραφεί η κατηγορία: ${name} απο την λίστα. Θα γίνει ανανέωση της σελίδας για να πραγματοποιηθούν οι αλλαγές.`
+        message: `'Εχει διαγραφεί η κατηγορία: ${name} απο την λίστα. Θα γίνει ανακατεύθυνση της σελίδας για να πραγματοποιηθούν οι αλλαγές.`
     },{
         type: 'danger'
     });
@@ -103,16 +103,16 @@ export let notifyTheDeletedUser = () => {
         type: 'danger'
     });
 };
-export let notifyGeneralDeletedUser = (name='') => {
+export let notifyGeneralDeletedUser = (email='') => {
     $.notify({
-        message: `'Εχει διαγραφεί απο το σύστημα ο χρήστης με email: ${name}.`
+        message: `'Εχει διαγραφεί απο το σύστημα ο χρήστης με email: ${email}.`
     },{
         type: 'info'
     });
 };
-export let notifyGeneralDeletedUserStations = (name='', arr=[]) => {
+export let notifyGeneralDeletedUserStations = (email='', arr=[]) => {
     $.notify({
-        message: `'Εχουν διαγραφεί οι σταθμοί με id: ${arr.join(', ')} του χρήστη: ${name}.`
+        message: `'Εχουν διαγραφεί οι σταθμοί με id: ${arr.join(', ')} (σύνολο: ${arr.length}) του χρήστη με email: ${email}.`
     },{
         type: 'info'
     });
@@ -154,7 +154,7 @@ export let notifyBiggerPasswordsInUserFields = () => {
 };
 export let notifyInvalidEmailOnInput = () => {
     $.notify({
-        message: 'To Email που συμπληρώσατε δεν αποτελεί εγκυρο Email.'
+        message: 'To Email που συμπληρώσατε δεν αποτελεί έγκυρο Email.'
     },{
         type: 'warning'
     });

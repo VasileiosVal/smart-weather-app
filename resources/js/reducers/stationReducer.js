@@ -35,9 +35,9 @@ export let stationReducer = (state=[], action) => {
                 return state;
             }
         case 'DELETE_STATION':
-            return state.filter(station=>station.id !== action.station.id);
+            return state.filter(station => station.id !== action.station.id);
         case 'DELETE_USER_STATIONS':
-            return state.filter(station=>!action.stations.includes(station.id));
+            return state.filter(station => !action.stations.includes(station.id));
         case 'DELETE_STATIONS':
             return [];
         default :

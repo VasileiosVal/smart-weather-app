@@ -3,10 +3,16 @@ import {
 } from "../general_functions/notifiers";
 import {notifyUnauthorizedActionAndLogout} from "../general_functions/generalFunctions";
 
-export let saveUser = (user = {}) => ({
+let saveUser = (user = {}) => ({
         type: 'SAVE_USER',
         user
     });
+
+export let startCheckAuthAndSaveUser = () => dispatch => {
+    return axios('/api/auth/user')
+        .then(response => dispatch(saveUser(response.data)))
+        .catch(() => 'error');
+};
 
 let saveUsers = (users=[]) => ({
         type: 'SAVE_USERS',
@@ -15,16 +21,11 @@ let saveUsers = (users=[]) => ({
 
 export let startSaveUsers = () => dispatch => {
         return axios('/api/auth/users')
-            .then(response => {
-            let arr = [];
-            response.data.forEach(user => arr.push(user));
-            dispatch(saveUsers(arr))
-        }).catch(e => {
-            return 'error';
-        });
+            .then(response => dispatch(saveUsers([...response.data])))
+            .catch(e => 'error');
 };
 
-export let createUser = (user) => ({
+export let createUser = (user={}) => ({
         type: 'CREATE_USER',
         user: {...user, confirmed: user.confirmed ? user.created_at : null}
     });
@@ -42,12 +43,12 @@ export let startCreateUser = (email='', password='', password_confirmation='', n
             .catch(e => notifyUnauthorizedActionAndLogout())
 };
 
-export let editUser = user => ({
+export let editUser = (user={}) => ({
       type: 'EDIT_USER',
       user
   });
 
-export let startEditUser = (email='', role_id=null, is_active=0) => dispatch => {
+export let startEditUser = (email='', role_id=null, is_active=null) => dispatch => {
         return axios.patch(`/api/auth/users/${email}`, {
             role_id,
             is_active
@@ -62,17 +63,17 @@ export let startEditUser = (email='', role_id=null, is_active=0) => dispatch => 
             .catch(e => notifyUnauthorizedActionAndLogout())
 };
 
-export let deleteUser = user => ({
+export let deleteUser = (user={}) => ({
         type: 'DELETE_USER',
         user
     });
 
-export let deleteUserStations = stations => ({
+export let deleteUserStations = (stations=[]) => ({
         type: 'DELETE_USER_STATIONS',
         stations
     });
 
-export let deleteUserStationsCollections = collections => ({
+export let deleteUserStationsCollections = (collections=[]) => ({
         type: 'DELETE_USER_STATIONS_COLLECTIONS',
         collections
     });
@@ -117,7 +118,7 @@ export let startDeleteUser = (email='') => (dispatch, getState) => {
             .catch(e => notifyUnauthorizedActionAndLogout())
 };
 
-export let editProfileDetails = user => ({
+export let editProfileDetails = (user={}) => ({
         type: 'EDIT_PROFILE',
         user
     });
@@ -172,9 +173,3 @@ export let startDeleteProfile = (email='') => () => {
         .then(response=>{})
         .catch(e => notifyUnauthorizedActionAndLogout())
 };
-
-// export let deleteUsers = () => {
-//     return {
-//         type: 'DELETE_USERS'
-//     }
-// };

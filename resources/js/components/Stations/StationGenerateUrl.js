@@ -15,14 +15,14 @@ let StationGenerateUrl = ({lastName, unique, is_active, checkedCategories, allCa
     //***** FONTAWESOME LAMP
     let fontAwesomeLamp = <i className="text-warning fas fa-lightbulb"/>;
 
-    let url= unique && checkedCategories.length && parseInt(is_active) &&
+    let url = !!unique && !!checkedCategories.length && !!parseInt(is_active) &&
         measuresInputUrl(unique, convertCategoryNamesToStr(findCategoryNameFromId(checkedCategories, allCategories)));
 
     return (
         <div className={fadeInClass}>
             <CardBelowHeaderTitle font={fontAwesomeLamp} name='Πληροφοριες για Url αποστολής'/><hr/>
-            {unique && checkedCategories.length ?
-                parseInt(is_active) ?
+            {!!unique && !!checkedCategories.length ?
+                !!parseInt(is_active) ?
                     <div className="card-body pt-0">
                         <p className='styled-text'>Παρακάτω εμφανίζεται το url αποστολής, σύμφωνα με τις
                             πληροφορίες που επιλέγετε για τον σταθμό σας.
@@ -50,7 +50,6 @@ let StationGenerateUrl = ({lastName, unique, is_active, checkedCategories, allCa
                             </p>
                         </div>
                     </div>
-
             :
                 <div className="card-body pt-0">
                     <p className='styled-text'>Καθώς συμπληρώνετε τα στοιχεία και επιλέξετε κάποια κατηγορία, θα δημιουργείται το url αποστολής.</p>

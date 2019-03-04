@@ -7,7 +7,7 @@ import AppRouter from "./routes/AppRouter";
 import moment from 'moment';
 moment.locale('el');
 import {configureStore} from "./configure/configureStore";
-import {startCheckAuthAndSaveUser} from "./actions/Auth";
+import {startCheckAuthAndSaveUser} from "./actions/User";
 import {Loader} from "./components/General/Loader";
 import {
     createCategory, editCategory, editCategoryOnStations,
@@ -63,13 +63,11 @@ if (document.getElementById('app_component')) {
                 store.dispatch(startSaveStations()),
                 store.dispatch(startSaveUsers()),
                 store.dispatch(startSaveCollections())
-    ])
+        ])
         .then(values => {
             let result;
             values.forEach(val => {
-                if(val === 'error'){
-                    result = val;
-                }
+                if(val === 'error') result = val;
             })
             if(result !== 'error'){
                 renderApp();
@@ -86,7 +84,6 @@ if (document.getElementById('app_component')) {
                 });
                 // category deleted (public)
                 window.Echo.channel('category').listen('categoryDeleted', e => {
-                    // store.dispatch(deleteCategory(e.category));
                     notifyGeneralDeletedEl(e.category.name);
                     setTimeout(()=>refreshPage(), 2000)
                 });
@@ -135,6 +132,7 @@ if (document.getElementById('app_component')) {
                         if(e.user.id !== store.getState().user.id){
 
                             let completedJobs = 1;
+
                             //find possible stations that belong to deleted user
                             let deletedUserStations = [];
                             store.getState().stations.forEach(station => {
@@ -145,7 +143,7 @@ if (document.getElementById('app_component')) {
                             });
                             //find possible collections that belong to deleted stations
                             let deletedUserStationsCollections = [];
-                            store.getState().collections.forEach(collection=>{
+                            store.getState().collections.forEach(collection => {
                                 if(deletedUserStations.includes(collection.station_id)){
                                     deletedUserStationsCollections.push(collection.id);
                                     completedJobs = 3;
@@ -369,3 +367,4 @@ if (document.getElementById('app_component')) {
 //     notifyUnauthorizedAction();
 //     setTimeout(()=>{startLogoutUser()}, 1500);
 // }
+

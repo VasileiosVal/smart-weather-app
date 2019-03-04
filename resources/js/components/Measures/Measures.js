@@ -3,11 +3,12 @@ import {connect} from 'react-redux';
 import MeasuresAdmin from "./MeasuresAdmin";
 import MeasuresUser from "./MeasuresUser";
 
-let Measures = ({isAdmin}) => isAdmin ? (
+let Measures = ({isAdmin}) => (
+    isAdmin ?
         <MeasuresAdmin/>
-        ) : (
+    :
         <MeasuresUser/>
-        );
+);
 
 const mapStateToProps = state => ({
         isAdmin: state.user.role_id === 1

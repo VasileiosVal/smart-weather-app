@@ -1,12 +1,13 @@
 import React from 'react';
 
-export class UserEdit extends React.Component {
+class UserEdit extends React.Component {
     state = {
         role: this.props.editCompUserRole.toString(),
         active: this.props.editCompUserActive.toString()
     };
-    changeValue = (e) => this.setState({[e.target.name]: e.target.value})
+    changeValue = e => this.setState({[e.target.name]: e.target.value})
     render(){
+
         return this.props.editCompShow && (
             <div className="editUser card animated fadeInDown delay-0.5s">
                 <span className='closeButton' onClick={this.props.closeEdit}><i className="fas fa-times"/></span>
@@ -45,4 +46,6 @@ export class UserEdit extends React.Component {
         );
     }
 }
+
+export default UserEdit;
 

@@ -13,12 +13,12 @@ class ProfileEditDetails extends React.Component {
     state = {
         email: this.props.profile.email,
         name: this.props.profile.name,
-        surname: this.props.profile.surname,
+        surname: this.props.profile.surname
     };
-    changeValue = (e) => {
-        this.setState({[e.target.name]: e.target.value})
-    }
-    submit = (e) => {
+
+    changeValue = e => this.setState({[e.target.name]: e.target.value});
+
+    submit = e => {
         e.preventDefault();
         let email = this.state.email.trim();
         let name = this.state.name.trim();
@@ -35,7 +35,7 @@ class ProfileEditDetails extends React.Component {
                         notifyNoChangesMade();
                     }else {
                         notifyUpdatedProfile();
-                        this.props.history.push('/profile')
+                        this.props.history.push('/profile');
                     }
                 }
             })

@@ -1,16 +1,22 @@
 import React from 'react';
+import {regexFindGreek} from "../../general_functions/generalFunctions";
 
-export class CategoryEdit extends React.Component{
+class CategoryEdit extends React.Component {
     state = {
         name: this.props.name,
-        symbol: this.props.symbol,
+        symbol: this.props.symbol
     }
-    changeValue = (e) => {
-        this.setState({[e.target.name]: e.target.value})
+    changeValue = e => {
+        if(e.target.name !== 'name'){
+            this.setState({[e.target.name]: e.target.value})
+        } else {
+            !regexFindGreek(e.target.value) && this.setState({[e.target.name]: e.target.value})
+        }
     }
+
     render(){
         return this.props.show && (
-            <div className="editCategory card animated fadeInDown delay-0.5s">
+            <div className="editCategory card animated fadeIn fast">
                 <span className='closeButton' onClick={this.props.closeEdit}><i className="fas fa-times"/></span>
                 <div className="card-header d-flex flex-row align-items-center justify-content-center py-0">
                     <h4 className="text-center">Επεξεργασία κατηγορίας: {this.props.name}</h4>
@@ -27,6 +33,7 @@ export class CategoryEdit extends React.Component{
                             <input type='text' name='symbol' value={this.state.symbol} onChange={this.changeValue} placeholder='Σύμβολο' className='form-control' autoComplete='off'/>
                         </div>
                         <div className="form-group">
+                            <p className='mb-0'><label>*Υποσημείωση: Στο πεδίο Όνομα δεν είναι αποδεκτοί οι ελληνικοί χαρακτήρες.</label></p>
                             <button className=" btn btn-primary btn-round">Υποβολή</button>
                         </div>
                     </form>
@@ -35,3 +42,5 @@ export class CategoryEdit extends React.Component{
         )
     }
 }
+
+export default CategoryEdit

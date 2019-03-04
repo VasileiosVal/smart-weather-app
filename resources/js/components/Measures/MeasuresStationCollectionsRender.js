@@ -24,14 +24,14 @@ let MeasuresStationCollectionsRender = props => {
         categories} = props;
 
     return (
-        <div className="card">
+        <div className="card animated fadeIn slow">
             <CardHeaderTitleMeasures title='Συλλογές μετρήσεων' label='Επιλέξτε συλλογή μετρήσεων για να εμφανιστούν οι μετρήσεις'/>
             <div className="card-body py-0">
                 {initCollectionsLoader ?
                     <WaitingLoader text={false}/>
                 :
                     showCollections ?
-                        selectedStationCollections.length ?
+                        !!selectedStationCollections.length ?
                             <React.Fragment>
                                 <div className="row align-items-center my-1">
                                     <div className="offset-md-1 col-md-5">
@@ -63,19 +63,23 @@ let MeasuresStationCollectionsRender = props => {
                                         />
                                     </div>
                                     <div className="col-md-1">
-                                        <TooltipInfo id='collections' text='Συμπληρώνοντας τα πεδία, επιλέγετε την προβολή συλλογών, που βρίσκονται μεταξύ του χρονικού διαστήματος που έχετε δηλώσει.'/>
+                                        <TooltipInfo
+                                            id='collections'
+                                            text='Στα πεδία δίνονται επιλογές προβολής συλλογών, που βρίσκονται μεταξύ του χρονικού διαστήματος που έχετε δηλώσει.'
+                                            place='top'
+                                        />
                                     </div>
                                 </div>
                                 <Scrollbars autoHeight autoHeightMin={200} autoHeightMax={300}>
                                     <React.Fragment>
-                                        {filteredSelectedStationCollections.length ?
+                                        {!!filteredSelectedStationCollections.length ?
                                             filteredSelectedStationCollections.map(collection => (
                                                 <div key={collection.id} className="make-border position-relative point">
                                                     <div onClick={()=>onClickRenderMeasures(collection.id)}>
                                                         <p className='text-right py-0 mb-2'><small>Ημ. καταγραφής: {moment(collection.created_at).format('ddd D MMM YY, h:mm:ss a')}</small></p>
                                                         <div>
                                                             <h6>Μετρήσεις για:
-                                                                {collectionsWithMeasures.find(data => data.col_id === collection.id) &&
+                                                                {!!collectionsWithMeasures.find(data => data.col_id === collection.id) &&
                                                                     collectionsWithMeasures.find(data => data.col_id === collection.id).measures
                                                                     .map(measure => <span key={measure.cat_id} className="badge badge-warning ml-1">&nbsp;{findCategory(measure.cat_id, categories).name}</span>)
                                                                 }

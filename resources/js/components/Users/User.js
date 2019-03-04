@@ -7,7 +7,7 @@ import {
     notifyDeletedUser, notifyDeletedUserStations, notifyDeletedUserStationsCollections, notifyEditedUser,
     notifyNoChangesMade
 } from "../../general_functions/notifiers";
-import {UserEdit} from "./UserEdit";
+import UserEdit from "./UserEdit";
 import {CardBelowHeaderTitle, CardHeaderTitle} from "../../containers/generalContainers";
 import UserRender from "./UserRender";
 
@@ -44,7 +44,7 @@ class User extends React.Component {
             lastIndex
         })
     }
-    handlePageChange = (pageNumber) => {
+    handlePageChange = pageNumber => {
         this.clearAllInputsAndSetIncomingData();
         this.setState(
             {activePage: pageNumber},
@@ -68,8 +68,7 @@ class User extends React.Component {
             }
         })
     }
-    closeEditComp = () => this.clearAllInputsAndSetIncomingData()
-    editUser = (e) => {
+    editUser = e => {
         e.preventDefault();
         let role_id = parseInt(e.target.elements.role.value.trim());
         let is_active = parseInt(e.target.elements.active.value.trim());
@@ -77,10 +76,10 @@ class User extends React.Component {
         this.props.dispatch(startEditUser(this.state.editCompUserEmail, role_id, is_active)).then((val='')=>{
             if(val !== 'same'){
                 notifyEditedUser();
+                this.clearAllInputsAndSetIncomingData();
             } else {
                 notifyNoChangesMade();
             }
-            this.clearAllInputsAndSetIncomingData();
         })
     }
     deleteUser = () => {
@@ -102,13 +101,13 @@ class User extends React.Component {
         //******RENDER USERS
         let renderUsers = (
             <UserRender
-            {...this.props}
-            {...this.state}
-            onClickUpdate={(email, role_id, is_active) => this.clearAllInputsAndSetIncomingData(true, email, role_id, is_active)}
-            onClickDelete={(email) => {
-                this.clearAllInputsAndSetIncomingData();
-                this.setState({deleteUserEmail: email}, ()=> $('#modal').modal())
-            }}
+                {...this.props}
+                {...this.state}
+                onClickUpdate={(email, role_id, is_active) => this.clearAllInputsAndSetIncomingData(true, email, role_id, is_active)}
+                onClickDelete={email => {
+                    this.clearAllInputsAndSetIncomingData();
+                    this.setState({deleteUserEmail: email}, () => $('#modal').modal())
+                }}
             />
         );
 
@@ -132,16 +131,17 @@ class User extends React.Component {
             this.state.editCompShow &&
             <UserEdit
                 {...this.state}
-                closeEdit={this.closeEditComp}
+                closeEdit={()=>this.clearAllInputsAndSetIncomingData()}
                 edit={this.editUser}
             />
         );
 
         //******CHECK FOR RENDERING MODAL_FOR_DELETE
         let modalForDelete = (
-            this.state.deleteUserEmail &&
+            !!this.state.deleteUserEmail &&
             <ModalUserDelete
                 deleteUser={this.deleteUser}
+                clearDelete={()=>this.clearAllInputsAndSetIncomingData()}
                 emailOfUser={this.state.deleteUserEmail}
             />
         );
@@ -150,13 +150,13 @@ class User extends React.Component {
             <div className="content">
                 <CardHeaderTitle name='Χρήστες'/>
                 <div className="row">
-                    <div className="col-sm-12">
-                        <div className="card">
+                    <div className="col-12">
+                        <div className="card animated fadeIn fast">
                             <CardBelowHeaderTitle name='Προβολή όλων των χρηστών'/><hr/>
                             <div className="card-body">
                                 <div className="table-responsive">
-                                {renderUsers}
-                                {pagination}
+                                    {renderUsers}
+                                    {pagination}
                                 </div>
                             </div>
                         </div>

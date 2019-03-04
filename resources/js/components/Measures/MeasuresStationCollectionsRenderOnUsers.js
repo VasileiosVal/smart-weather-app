@@ -24,7 +24,7 @@ let MeasuresStationCollectionsRenderOnUsers = props => {
         myCollections} = props;
 
     return (
-        <div className="card">
+        <div className="card card animated fadeIn slow">
         <CardHeaderTitleMeasures title='Συλλογές μετρήσεων' label='Επιλέξτε συλλογή μετρήσεων για να εμφανιστούν οι μετρήσεις'/>
         <div className="card-body py-0">
             {initCollectionsLoader ?

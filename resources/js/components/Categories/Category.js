@@ -9,14 +9,16 @@ import {
     notifySameName,
     notifySameSymbol
 } from "../../general_functions/notifiers";
-import {refreshPage} from "../../general_functions/generalFunctions";
+import {refreshPage, regexFindGreek} from "../../general_functions/generalFunctions";
 import {CardBelowHeaderTitle, CardHeaderTitle} from "../../containers/generalContainers";
 import CategoryRender from "./CategoryRender";
-import {CategoryEdit} from "./CategoryEdit";
+import CategoryEdit from "./CategoryEdit";
 
 
 class Category extends React.Component {
     state = {
+        name: '',
+        symbol: '',
         editCompShow: false,
         editCompCategoryName: undefined,
         editCompCategorySymbol: undefined,
@@ -28,7 +30,7 @@ class Category extends React.Component {
         lastIndex: 0
     };
     componentDidMount() {
-        if(!this.props.isAdmin) notifyGeneralCategories();
+        !this.props.isAdmin && notifyGeneralCategories();
         this.checkForPagination();
     }
 
@@ -46,20 +48,20 @@ class Category extends React.Component {
     }
     handlePageChange = pageNumber => {
         this.clearAllInputsAndSetIncomingData();
-        this.setState(
-            {activePage: pageNumber},
+        this.setState({activePage: pageNumber},
             () => this.checkForPagination()
         );
     }
 
-    clearAllInputsAndSetIncomingData = (bool = true, editCompShow=false, editCompCategoryName=undefined, editCompCategorySymbol=undefined) => {
+    clearAllInputsAndSetIncomingData = (editCompShow=false, editCompCategoryName=undefined, editCompCategorySymbol=undefined) => {
         this.setState({
+            name: '',
+            symbol: '',
             editCompShow: false,
             editCompCategoryName: undefined,
             editCompCategorySymbol: undefined,
             deleteCategoryName: undefined
         }, () => {
-            bool && this.props.isAdmin && document.getElementById('formData').reset();
             if(editCompShow && editCompCategoryName && editCompCategorySymbol){
                 this.setState({
                     editCompShow,
@@ -68,28 +70,45 @@ class Category extends React.Component {
             }
         })
     }
+    clearDeleteEditAndSetCreateValues = e => {
+        this.setState({
+            [e.target.name]: e.target.value,
+            editCompShow: false,
+            editCompCategoryName: undefined,
+            editCompCategorySymbol: undefined,
+            deleteCategoryName: undefined
+        })
+    }
 
-    closeEditComp = () => this.clearAllInputsAndSetIncomingData();
-    submitCategory = (e) => {
+    handleChangeValue = e => {
+        if(e.target.name !== 'name'){
+            this.clearDeleteEditAndSetCreateValues(e);
+        } else {
+            !regexFindGreek(e.target.value) &&
+            this.clearDeleteEditAndSetCreateValues(e);
+        }
+    }
+
+    submitCategory = e => {
         e.preventDefault();
         let foundObjWithName;
         let foundObjWithSymbol;
         let lastName = this.state.editCompCategoryName;
         let lastSymbol = this.state.editCompCategorySymbol;
 
-        let name = e.target.elements.name.value.trim();
-        let symbol = e.target.elements.symbol.value.trim();
+        let name = lastName && lastSymbol ? e.target.elements.name.value.trim() : this.state.name.trim();
+        let symbol = lastName && lastSymbol ? e.target.elements.symbol.value.trim() : this.state.symbol.trim();
         if(!name || !symbol) {
-            notifyEmptyEl()
+            notifyEmptyEl();
         } else {
             foundObjWithName = this.props.categories.find(category => category.name === name);
             foundObjWithSymbol = this.props.categories.find(category => category.symbol === symbol);
             if(foundObjWithName && foundObjWithName.name === lastName) foundObjWithName=undefined;
             if(foundObjWithSymbol && foundObjWithSymbol.symbol === lastSymbol) foundObjWithSymbol=undefined;
             if(foundObjWithName) {
-                notifySameName()
+                notifySameName();
             } else if(foundObjWithSymbol) {
-                notifySameSymbol()
+                notifySameSymbol();
             } else {
                 if(!lastName){
                     this.props.dispatch(startCreateCategory(name, symbol)).then(()=>{
@@ -128,21 +147,23 @@ class Category extends React.Component {
         let categoryCreate = (
             isAdmin &&
             <CategoryCreate
-            submitCategory={this.submitCategory}
-            clearAllInputsAndSetIncomingData={this.clearAllInputsAndSetIncomingData}
+                name={this.state.name}
+                symbol={this.state.symbol}
+                onChangeValue={this.handleChangeValue}
+                onSubmitCategory={this.submitCategory}
             />
         );
 
         //******RENDER CATEGORIES
         let categoryRender = (
             <CategoryRender
-            {...this.props}
-            {...this.state}
-            onClickUpdate={(name, symbol) => this.clearAllInputsAndSetIncomingData(true, true, name, symbol)}
-            onClickDelete={name => {
-                this.clearAllInputsAndSetIncomingData();
-                this.setState({deleteCategoryName: name}, () => $('#modal').modal())
-            }}
+                {...this.props}
+                {...this.state}
+                onClickUpdate={(name, symbol) => this.clearAllInputsAndSetIncomingData(true, name, symbol)}
+                onClickDelete={name => {
+                    this.clearAllInputsAndSetIncomingData();
+                    this.setState({deleteCategoryName: name}, () => $('#modal').modal())
+                }}
             />
         );
 
@@ -163,20 +184,21 @@ class Category extends React.Component {
 
         //******CHECK FOR RENDERING CATEGORY_EDIT
         let categoryEdit = (
-            isAdmin && categories.length && this.state.editCompShow &&
+            isAdmin && !!categories.length && this.state.editCompShow &&
             <CategoryEdit
                 edit={this.submitCategory}
                 show={this.state.editCompShow}
                 name={this.state.editCompCategoryName}
                 symbol={this.state.editCompCategorySymbol}
-                closeEdit={this.closeEditComp}
+                closeEdit={()=> this.clearAllInputsAndSetIncomingData()}
             />
         );
 
         //******CHECK FOR RENDERING MODAL_FOR_DELETE
         let modalForDelete = (
-            isAdmin && categories.length && this.state.deleteCategoryName &&
+            isAdmin && !!categories.length && !!this.state.deleteCategoryName &&
             <Modal
+                closeDelete={()=> this.clearAllInputsAndSetIncomingData()}
                 deleteCategory={this.deleteCategory}
                 nameOfCategory={this.state.deleteCategoryName}
             />
@@ -187,15 +209,15 @@ class Category extends React.Component {
                 <CardHeaderTitle name='Κατηγορίες'/>
                     <div className="row">
                         {isAdmin &&
-                            <div className="col-sm-4">
+                            <div className="col-md-4">
                                 {categoryCreate}
                             </div>
                         }
                         <div className="col">
-                            <div className="card">
+                            <div className="card animated fadeIn fast">
                                 <CardBelowHeaderTitle name='Προβολή όλων των κατηγοριών'/><hr/>
                                 <div className="card-body">
-                                    {categories.length ?
+                                    {!!categories.length ?
                                         <div className="table-responsive">
                                         {categoryRender}
                                         {pagination}

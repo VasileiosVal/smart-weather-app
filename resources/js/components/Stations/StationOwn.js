@@ -35,7 +35,7 @@ class StationOwn extends React.Component {
             lastIndex
         })
     }
-    handlePageChange = (pageNumber) => {
+    handlePageChange = pageNumber => {
         this.setState(
             {activePage: pageNumber},
             () => this.checkForPagination()
@@ -59,7 +59,7 @@ class StationOwn extends React.Component {
                 {...this.props}
                 {...this.state}
                 onClickDelete={name => this.setState({deleteStation: name}, ()=>$('#modal').modal())}
-                />
+            />
         );
 
         //******CHECK AND RENDER PAGINATION
@@ -79,10 +79,11 @@ class StationOwn extends React.Component {
 
         //******CHECK FOR RENDERING MODAL_FOR_DELETE
         let modalForDelete = (
-            this.state.deleteStation &&
+            !!this.state.deleteStation &&
             <ModalStationDelete
                 deleteStation={this.deleteStation}
                 nameOfStation={this.state.deleteStation}
+                clearDelete={() => this.setState({deleteStation: undefined})}
             />
         );
 
@@ -90,11 +91,11 @@ class StationOwn extends React.Component {
             <div className="content">
                 <div><CardHeaderTitle name='Σταθμοί'/></div>
                 <div className="row">
-                    <div className="col-sm-12">
-                        <div className="card">
+                    <div className="col-12">
+                        <div className="card animated fadeIn fast">
                             <CardBelowHeaderTitle name='Προβολή όλων των σταθμών μου'/><hr/>
                             <div className="card-body">
-                                {this.props.stations.length ?
+                                {!!this.props.stations.length ?
                                     <div className="table-responsive">
                                         {stationOwnRender}
                                         {pagination}
@@ -113,7 +114,7 @@ class StationOwn extends React.Component {
 }
 
 const mapStateToProps = state => ({
-        stations: state.stations.filter(station=>station.user_id === state.user.id),
+        stations: state.stations.filter(station => station.user_id === state.user.id),
         collections: state.collections,
         isAdmin: state.user.role_id === 1
     });

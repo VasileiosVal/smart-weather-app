@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {
+    examineValue,
     filterDate,
     filterOnUsers, findStationsWithCollections,
     notifyUnauthorizedActionAndLogout, returnCategoryNamesWithSymbolArrayFromMeasures
@@ -162,7 +163,7 @@ class MeasuresUser extends React.Component {
                         response.data.find(col => col.id === collection.id).measures.forEach(measure=>{
                             collectionMeasures.push({
                                 cat_id: measure.category_id,
-                                value: measure.value
+                                value: examineValue(measure.value)
                             })
                         })
                         obj.measures = collectionMeasures;
@@ -206,7 +207,7 @@ class MeasuresUser extends React.Component {
 
     render(){
         //***** DESTRUCT
-        let {myStationsWithCollections, myCollections, myStations, profile, categories} = this.props;
+        let {myStationsWithCollections, myCollections, profile, categories} = this.props;
 
         //***** SORTING_FILTERING STATIONS
         let filteredStationsWithCollections = filterOnUsers(this.state.stationsWithCollections, myStationsWithCollections, profile, this.state.sortBy, this.state.searchQuery);

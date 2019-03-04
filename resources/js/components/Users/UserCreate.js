@@ -10,14 +10,24 @@ import {CardBelowHeaderTitle, CardHeaderTitle} from "../../containers/generalCon
 import UserCreateForm from "./UserCreateForm";
 
 class UserCreate extends React.Component {
-    handleSubmit = (e) => {
+    state = {
+        email: '',
+        name: '',
+        surname: '',
+        password: '',
+        password_confirmation: '',
+        role_id: ''
+    };
+
+    handleChangeValue = e => this.setState({[e.target.name]: e.target.value});
+    handleSubmitForm = e => {
         e.preventDefault();
-        let email = e.target.elements.email.value.trim();
-        let name =  e.target.elements.name.value.trim();
-        let surname = e.target.elements.surname.value.trim();
-        let password = e.target.elements.password.value.trim();
-        let password_confirmation = e.target.elements.password_confirmation.value.trim();
-        let role_id = e.target.elements.category.value.trim();
+        let email = this.state.email.trim();
+        let name =  this.state.name.trim();
+        let surname = this.state.surname.trim();
+        let password = this.state.password.trim();
+        let password_confirmation = this.state.password_confirmation.trim();
+        let role_id = this.state.role_id.trim();
         if(!email || !name || !surname || !password || !password_confirmation || !role_id){
             notifyFormEmptyUserFields();
         } else if(password !== password_confirmation) {
@@ -27,7 +37,7 @@ class UserCreate extends React.Component {
         }else if(!EmailValidator.validate(email)){
             notifyInvalidEmailOnInput();
         } else {
-            let foundUser = this.props.users.find(user=>user.email === email);
+            let foundUser = this.props.users.find(user => user.email === email);
             if(foundUser){
                 notifyUserEmailExists();
             } else {
@@ -41,16 +51,26 @@ class UserCreate extends React.Component {
         }
     }
     render(){
+
+        //******CREATE USER FORM
+        let userCreateForm = (
+            <UserCreateForm
+                {...this.state}
+                onChangeValue={this.handleChangeValue}
+                onSubmitForm={this.handleSubmitForm}
+            />
+        );
+
         return (
             <div className="content">
                 <CardHeaderTitle name='Χρήστες'/>
                 <div className="row">
-                    <div className="col-sm-12">
-                        <div className="card">
+                    <div className="col-12">
+                        <div className="card animated fadeIn fast">
                             <CardBelowHeaderTitle name='Δημιουργία χρήστη'/>
                             <hr/>
                             <div className="card-body">
-                                <UserCreateForm onSubmitForm={this.handleSubmit}/>
+                                {userCreateForm}
                             </div>
                         </div>
                     </div>

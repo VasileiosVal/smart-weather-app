@@ -4,17 +4,14 @@ import DashboardAdmin from "./DashboardAdmin";
 import DashboardUser from "./DashboardUser";
 
 
-let Dashboard = ({isAdmin}) => {
-    return isAdmin ? (
+let Dashboard = ({isAdmin}) => isAdmin ? (
         <DashboardAdmin/>
     ) : (
         <DashboardUser/>
     );
-}
 
-const mapStateToProps = (state) => {
-    return {
+const mapStateToProps = state => ({
         isAdmin: state.user.role_id === 1
-    }
-};
+    });
+
 export default connect(mapStateToProps)(Dashboard)

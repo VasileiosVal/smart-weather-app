@@ -10,7 +10,10 @@ class Measure extends Model
 
     protected $hidden = ['created_at', 'updated_at'];
 
-    protected $casts = ['category_id' => 'integer', 'collection_id' => 'integer'];
+    protected $casts = [
+        'category_id' => 'integer',
+        'collection_id' => 'integer'
+    ];
 
     public function collection(){
         return $this->belongsTo(Collection::class);

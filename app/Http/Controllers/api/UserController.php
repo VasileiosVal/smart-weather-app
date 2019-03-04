@@ -18,17 +18,13 @@ class UserController extends Controller
 {
     public function getAuth()
     {
-        return [
-            'lang' => App::getLocale(),
-            'user' => request()->user()
-        ];
+        return request()->user();
     }
 
     public function index()
     {
         return request()->user()->isAdmin() ? User::all() : [];
     }
-
 
     public function store(Request $request)
     {
@@ -52,7 +48,6 @@ class UserController extends Controller
             abort(403);
         }
     }
-
 
     public function update(Request $request, User $user)
     {
@@ -83,7 +78,6 @@ class UserController extends Controller
             abort(403);
         }
     }
-
 
     public function destroy(User $user)
     {

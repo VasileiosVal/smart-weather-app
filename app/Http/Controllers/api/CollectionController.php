@@ -26,7 +26,7 @@ class CollectionController extends Controller
                 $stations = request()->user()->stations()->pluck('id');
                 return Collection::whereIn('station_id', $stations)->get();
             } else {
-                return [];
+                return $stations;
             }
         }
     }
@@ -34,11 +34,12 @@ class CollectionController extends Controller
     public function fetchCollectionsMeasures(Request $request) {
         $error = false;
         $collections = [];
+
         if(request()->user()->isAdmin()) {
             return count($request->collectionsIds) ?
                 Collection::with('measures')->findOrFail($request->collectionsIds)
                 : [];
-        } else if(!request()->user()->isAdmin()){
+        } else {
             if(count($request->collectionsIds)){
                $collections = Collection::with('measures')->findOrFail($request->collectionsIds)->each(function($collection) use (&$error){
                     if($collection->station->user->id !== request()->user()->id && (
@@ -47,11 +48,6 @@ class CollectionController extends Controller
                 });
                 if(!$error) return $collections;
             } else return [];
-        }
-        if(request()->expectsJson()){
-            return response()->json([__('messages.error') => __('messages.forbidden')], 403);
-        } else {
-            abort(403);
         }
     }
 
@@ -71,11 +67,6 @@ class CollectionController extends Controller
                 $collection->delete();
                 return $collection;
             }
-        }
-        if(request()->expectsJson()){
-            return response()->json([__('messages.error') => __('messages.forbidden')], 403);
-        } else {
-            abort(403);
         }
     }
 
@@ -101,9 +92,9 @@ class CollectionController extends Controller
         }
     }
 
-    public function createNewMeasure()
+    public function createNewMeasure(Request $request)
     {
-        $data = request()->validate([
+        $data = $request->validate([
             'unique' => 'required|string|exists:stations,unique'
         ]);
 
@@ -116,7 +107,7 @@ class CollectionController extends Controller
                     $categoryGivenValueError = false;
                     $success = false;
 
-                    $data = request()->all();
+                    $data = $request->all();
 
                     //check for timestamp in data
 
@@ -128,7 +119,7 @@ class CollectionController extends Controller
                         if(array_key_exists($category->name, $data)){
                             if(is_string($data[$category->name]) && trim($data[$category->name]) !== '' && is_numeric($data[$category->name])){
                                 //to value ερχεται σε string
-                                $collection->measures()->create(['category_id' => $category->id, 'value' => $data[$category->name]]);
+                                $collection->measures()->create(['category_id' => $category->id, 'value' => trim($data[$category->name])]);
                                 //success
                                 $success = true;
                             }else{
@@ -212,8 +203,4 @@ class CollectionController extends Controller
             return response()->json([__('messages.error') => __('messages.content_not_found')], 404);
         }
     }
-
-
-
-
 }

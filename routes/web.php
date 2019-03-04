@@ -1,40 +1,36 @@
 <?php
 
-use App\Category;
-use App\Collection;
-use App\Measure;
-use App\Station;
-use App\User;
 use Illuminate\Support\Facades\Auth;
 
-Route::get('/', function (){
-   return view('welcome');
-})->middleware('guest');
+
+Route::view('/', 'welcome')->middleware('guest');
 
 Route::get('/account/verify/{code}', 'VerifyUserController@verify')->name('account.verify')->middleware('guest');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home')->middleware('auth', 'preventHistory');
-
 //Route::get('/example', function(){
+//    return User::find(1)->stations()->with('categories')->find(1);
 //});
 
+Route::middleware('auth', 'preventHistory')->group(function(){
+    Route::view('/dashboard', 'main');
+    Route::view('/stations/all', 'main');
+    Route::view('/stations/create', 'main');
+    Route::view('/stations', 'main');
+    Route::view('/stations/{station}/edit', 'main');
+    Route::view('/stations/{station}/show', 'main');
+    Route::view('/users/create', 'main');
+    Route::view('/users', 'main');
+    Route::view('/categories', 'main');
+    Route::view('/measures', 'main');
+    Route::view('/graphs', 'main');
+    Route::view('/profile/edit', 'main');
+    Route::view('/profile/{user}', 'main');
+    Route::view('/profile', 'main');
+});
 
-Route::view('/dashboard', 'main')->middleware('auth', 'preventHistory');
-Route::view('/stations/all', 'main')->middleware('auth', 'preventHistory');
-Route::view('/stations/create', 'main')->middleware('auth', 'preventHistory');
-Route::view('/stations', 'main')->middleware('auth', 'preventHistory');
-Route::view('/stations/{station}/edit', 'main')->middleware('auth', 'preventHistory');
-Route::view('/stations/{station}/show', 'main')->middleware('auth', 'preventHistory');
-Route::view('/users/create', 'main')->middleware('auth', 'preventHistory');
-Route::view('/users', 'main')->middleware('auth', 'preventHistory');
-Route::view('/categories', 'main')->middleware('auth', 'preventHistory');
-Route::view('/measures', 'main')->middleware('auth', 'preventHistory');
-Route::view('/graphs', 'main')->middleware('auth', 'preventHistory');
-Route::view('/profile/edit', 'main')->middleware('auth', 'preventHistory');
-Route::view('/profile/{user}', 'main')->middleware('auth', 'preventHistory');
-Route::view('/profile', 'main')->middleware('auth', 'preventHistory');
+
 
 
 

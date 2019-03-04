@@ -1,11 +1,11 @@
 import React from 'react';
-import {Link, withRouter} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 
-const SidebarUI = ({isAdmin}) => (
+let SidebarUI = ({isAdmin}) => (
         <div className="sidebar" data-color="orange" data-active-color="info">
             <div className="logo">
-                <a href="http://www.creative-tim.com" className="simple-text logo-mini">
+                <a className="simple-text logo-mini">
                     <div className="logo-image-small">
                         <i className="fas fa-globe-americas"/>
                     </div>
@@ -96,29 +96,6 @@ const SidebarUI = ({isAdmin}) => (
                         </Link>
                     </li>
                     <li>
-                        <a id='collapse-link' data-toggle="collapse" href="#componentsExamples4">
-                            <i className="fa fa-bell"/>
-                            <p>
-                                Ενημερώσεις
-                                <b className="caret"/>
-                            </p>
-                        </a>
-                        <div className="collapse " id="componentsExamples4">
-                            <ul>
-                                <li className="nav-item ">
-                                    <a href="./components/notifications.html">
-                                        <span className="sidebar-normal">Notifications</span>
-                                    </a>
-                                </li>
-                                <li className="nav-item ">
-                                    <a href="./components/icons.html">
-                                        <span className="sidebar-normal">Icons</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li>
                         <Link to='/profile' >
                             <i className="fa fa-users"/>
                             <p>Προφίλ</p>
@@ -129,8 +106,8 @@ const SidebarUI = ({isAdmin}) => (
         </div>
     );
 
-const mapStateToProps = state =>  ({
+const mapStateToProps = state => ({
         isAdmin: state.user.role_id === 1
 });
 
-export default withRouter(connect(mapStateToProps)(SidebarUI))
+export default connect(mapStateToProps)(SidebarUI)

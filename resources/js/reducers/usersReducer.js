@@ -13,7 +13,7 @@ export let usersReducer = (state=[], action) => {
                 }
             });
         case 'DELETE_USER':
-            return state.filter(user=>user.id !== action.user.id);
+            return state.filter(user => user.id !== action.user.id);
         case 'DELETE_USERS':
             return [];
         default :

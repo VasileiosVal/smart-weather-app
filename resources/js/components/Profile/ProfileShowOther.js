@@ -8,12 +8,12 @@ import ProfileInfo from "./ProfileInfo";
 let ProfileShowOther = props => props.profile ? (
         <div className="content">
             <div className="row">
-                <div className="col-sm-4">
+                <div className="col-md-4">
                     <ProfileBanner
                         {...props}
                     />
                 </div>
-                <div className="col-sm-8">
+                <div className="col-md-8">
                     <ProfileInfo
                         profile={props.profile}
                         edit={false}
@@ -26,10 +26,10 @@ let ProfileShowOther = props => props.profile ? (
         <Redirect to='/dashboard'/>;
 
 const mapStateToProps = (state, props) => {
-    let user = state.users.find(user=>user.email === props.match.params.email);
-    if(!user || user.id === state.user.id) user = undefined;
+    let user = state.users.find(user => user.email === props.match.params.email);
+    if(!user || (!!user && user.id === state.user.id)) user = undefined;
 
-    let stations = user ? state.stations.filter(station=>station.user_id === user.id) : [];
+    let stations = user ? state.stations.filter(station => station.user_id === user.id) : [];
     let collections = findUserCollections(stations, state.collections);
     return {
         profile: user,

@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import {
+    examineValue,
     filterDateOnStationsWithMeasures,
     filterSearchCategoriesOnGraphs, findStationsWithCollections,
     notifyUnauthorizedActionAndLogout, returnCategoriesArrayFromCategoriesIdsArray
@@ -62,6 +63,8 @@ class GraphsAdmin extends React.Component {
                     let minMaxMeasuresPerCategory=[];
                     response.data.forEach(data => {
                         let {category_id, min, max} = data;
+                        min = {...min, value: examineValue(min.value)};
+                        max = {...max, value: examineValue(max.value)};
                         let obj = {category_id, min, max};
                         minMaxMeasuresPerCategory.push(obj)
                     })
@@ -116,6 +119,8 @@ class GraphsAdmin extends React.Component {
 
                     response.data.forEach(data => {
                         let {station_id, measures} = data;
+                        measures = measures.map(measure => ({...measure, value: examineValue(measure.value)}));
+
                         let obj={station_id, measures};
                         stationsWithMeasuresPerCategory.push(obj);
                     })

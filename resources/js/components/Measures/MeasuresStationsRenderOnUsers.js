@@ -14,7 +14,7 @@ let MeasuresStationsRenderOnUsers = props => {
         onClickRenderCollections} = props;
 
     return (
-        <div className="card">
+        <div className="card animated fadeIn fast">
             <CardHeaderTitleMeasures title='Σταθμοί' label='Επιλέξτε σταθμό απο την λίστα για να εμφανιστούν οι συλλογές μετρήσεων του'/>
             <div className="card-body py-0">
                 <div className="row align-items-center my-1">

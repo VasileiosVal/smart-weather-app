@@ -1,10 +1,10 @@
 import React from 'react';
 import {Image} from "../../containers/generalContainers";
-import background from '../../../../public/img/background.jpg'
-import person from '../../../../public/img/sample.jpeg'
+import background from '../../../../public/img/background.jpg';
+import person from '../../../../public/img/sample.jpeg';
 
 let ProfileBanner = ({profile, stations, collections}) => (
-        <div className="card card-user">
+        <div className="card card-user animated pulse delay-1s fast">
             <div className="image">
                 <Image src={background} />
             </div>

@@ -1,25 +1,42 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Link} from "react-router-dom";
+import moment from "moment";
+import {DonutStationsChart, DonutUsersChart} from "../../containers/generalContainers";
 
-let DashboardAdmin = ({users, stations,categories, collections}) => {
+let DashboardAdmin = ({users, stations, categories, collections}) => {
+
+    let stationChart = (
+        users.length && stations.length ?
+            <DonutStationsChart
+                stations={stations}
+                users={users}
+                collections={collections}
+            />
+        :
+            <h5 className='text-center text-danger'>Δεν υπάρχουν δεδομένα</h5>
+    );
+
+    let userChart = (
+        !!users.length &&
+            <DonutUsersChart
+                users={users}
+                height={250}
+            />
+    );
+
     return (
         <div className="content">
             <div className="row">
                 <div className="col-lg-3 col-md-6 col-sm-6">
-                    <div className="card card-stats">
-                        <div className="card-body ">
-                            <div className="row">
-                                <div className="col-5 col-md-4">
-                                    <div className="icon-big text-center icon-warning">
-                                        <i className="fa fa-users"/>
-                                    </div>
-                                </div>
-                                <div className="col-7 col-md-8">
+                    <div className="card card-stats hidden animated fadeIn fast">
+                        <div className="card-body">
+                            <div className="row position-relative">
+                                <i className="fa fa-users text-success rotate-icon"/>
+                                <div className="col-12">
                                     <div className="numbers">
                                         <p className="card-category">Χρήστες</p>
-                                        <p className="card-title">{users.length}
-                                        </p>
+                                        <p className="card-title">{users.length}</p>
                                     </div>
                                 </div>
                             </div>
@@ -33,19 +50,14 @@ let DashboardAdmin = ({users, stations,categories, collections}) => {
                     </div>
                 </div>
                 <div className="col-lg-3 col-md-6 col-sm-6">
-                    <div className="card card-stats">
-                        <div className="card-body ">
-                            <div className="row">
-                                <div className="col-5 col-md-4">
-                                    <div className="icon-big text-center icon-warning">
-                                        <i className="fas fa-broadcast-tower"/>
-                                    </div>
-                                </div>
-                                <div className="col-7 col-md-8">
+                    <div className="card card-stats hidden animated fadeIn fast">
+                        <div className="card-body">
+                            <div className="row position-relative">
+                                <i className="fas fa-broadcast-tower text-warning rotate-icon"/>
+                                <div className="col-12">
                                     <div className="numbers">
                                         <p className="card-category">Σταθμοί</p>
-                                        <p className="card-title">{stations.length}
-                                        </p>
+                                        <p className="card-title">{stations.length}</p>
                                     </div>
                                 </div>
                             </div>
@@ -59,15 +71,11 @@ let DashboardAdmin = ({users, stations,categories, collections}) => {
                     </div>
                 </div>
                 <div className="col-lg-3 col-md-6 col-sm-6">
-                    <div className="card card-stats">
-                        <div className="card-body ">
-                            <div className="row">
-                                <div className="col-5 col-md-4">
-                                    <div className="icon-big text-center icon-warning">
-                                        <i className="fas fa-edit"/>
-                                    </div>
-                                </div>
-                                <div className="col-7 col-md-8">
+                    <div className="card card-stats hidden animated fadeIn fast">
+                        <div className="card-body">
+                            <div className="row position-relative">
+                                <i className="fa fa-edit text-danger rotate-icon"/>
+                                <div className="col-12">
                                     <div className="numbers">
                                         <p className="card-category">Κατηγορίες</p>
                                         <p className="card-title">{categories.length}</p>
@@ -84,15 +92,11 @@ let DashboardAdmin = ({users, stations,categories, collections}) => {
                     </div>
                 </div>
                 <div className="col-lg-3 col-md-6 col-sm-6">
-                    <div className="card card-stats">
-                        <div className="card-body ">
-                            <div className="row">
-                                <div className="col-5 col-md-4">
-                                    <div className="icon-big text-center icon-warning">
-                                        <i className="fas fa-folder-open"/>
-                                    </div>
-                                </div>
-                                <div className="col-7 col-md-8">
+                    <div className="card card-stats hidden animated fadeIn fast">
+                        <div className="card-body">
+                            <div className="row position-relative">
+                                <i className="fas fa-chart-line text-info rotate-icon"/>
+                                <div className="col-12">
                                     <div className="numbers">
                                         <p className="card-category">Σειρές μετρήσεων</p>
                                         <p className="card-title">{collections.length}</p>
@@ -103,88 +107,71 @@ let DashboardAdmin = ({users, stations,categories, collections}) => {
                         <div className="card-footer py-0">
                             <hr/>
                             <div className="stats">
-                                <p><Link to='/history' className='card-link'>Δείτε πληροφορίες</Link></p>
+                                <p><Link to='/measures' className='card-link'>Δείτε πληροφορίες</Link></p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="row">
-                <div className="col-md-12">
-                    <div className="card ">
+            <div className="row mt-2">
+                <div className="col-md-7">
+                    <div className="card animated bounceIn slower">
                         <div className="card-header ">
-                            <h5 className="card-title">Users Behavior</h5>
-                            <p className="card-category">24 Hours performance</p>
+                            <h5 className="card-title">Στοιχεία σταθμών</h5>
                         </div>
-                        <div className="card-body ">
-                            {/*<canvas id=chartHours width="400" height="100"></canvas>*/}
+                        <div className="card-body my-2">
+                            {stationChart}
                         </div>
-                        <div className="card-footer ">
-                            <hr/>
-                            <div className="stats">
-                                <i className="fa fa-history"></i> Updated 3 minutes ago
-                            </div>
-                        </div>
+                        <div className="card-footer"/>
                     </div>
                 </div>
-            </div>
-            <div className="row">
-                <div className="col-md-4">
-                    <div className="card ">
+                <div className="col-md-5">
+                    <div className="card animated fadeIn slow">
                         <div className="card-header ">
-                            <h5 className="card-title">Email Statistics</h5>
-                            <p className="card-category">Last Campaign Performance</p>
+                            <h5 className="card-title">Ειδοποιήσεις</h5>
                         </div>
                         <div className="card-body ">
-                            {/*<canvas id="chartEmail"></canvas>*/}
+                            <ul className="list-group">
+                                <li className="list-group-item dashboard-notify-li d-flex justify-content-between align-items-center">
+                                    <span><i className='fa fa-fw fa-university'/>&nbsp;Νέος σταθμός</span>
+                                    <label>{stations.length ? moment([...stations].pop().created_at).fromNow() : 'Δεν υπάρχουν δεδομένα' }</label>
+                                </li>
+                                <li className="list-group-item dashboard-notify-li d-flex justify-content-between align-items-center">
+                                    <span><i className='fa fa-user'/>&nbsp;Νέος χρήστης</span>
+                                    <label>{users.length ? moment([...users].pop().created_at).fromNow() : 'Δεν υπάρχουν δεδομένα' }</label>
+                                </li>
+                                <li className="list-group-item dashboard-notify-li d-flex justify-content-between align-items-center">
+                                    <span><i className='fa fa-fw fa-list'/>&nbsp;Νέα κατηγορία</span>
+                                    <label>{categories.length ? moment([...categories].pop().created_at).fromNow() : 'Δεν υπάρχουν δεδομένα' }</label>
+                                </li>
+                                <li className="list-group-item dashboard-notify-li d-flex justify-content-between align-items-center">
+                                    <span><i className='fas fa-chart-line'/>&nbsp;Νέα συλλογή μετρήσεων</span>
+                                    <label>{collections.length ? moment([...collections].pop().created_at).fromNow() : 'Δεν υπάρχουν δεδομένα' }</label>
+                                </li>
+                            </ul>
                         </div>
-                        <div className="card-footer ">
-                            <div className="legend">
-                                <i className="fa fa-circle text-primary"></i> Opened
-                                <i className="fa fa-circle text-warning"></i> Read
-                                <i className="fa fa-circle text-danger"></i> Deleted
-                                <i className="fa fa-circle text-gray"></i> Unopened
-                            </div>
-                            <hr/>
-                            <div className="stats">
-                                <i className="fa fa-calendar"></i> Number of emails sent
-                            </div>
-                        </div>
+                        <div className="card-footer "/>
                     </div>
-                </div>
-                <div className="col-md-8">
-                    <div className="card card-chart">
-                        <div className="card-header">
-                            <h5 className="card-title">NASDAQ: AAPL</h5>
-                            <p className="card-category">Line Chart with Points</p>
+                    <div className="card animated bounceIn slower">
+                        <div className="card-header ">
+                            <h5 className="card-title">Στοιχεία χρηστών</h5>
                         </div>
-                        <div className="card-body">
-                            {/*<canvas id="speedChart" width="400" height="100"></canvas>*/}
+                        <div className="card-body ">
+                            {userChart}
                         </div>
-                        <div className="card-footer">
-                            <div className="chart-legend">
-                                <i className="fa fa-circle text-info"></i> Tesla Model S
-                                <i className="fa fa-circle text-warning"></i> BMW 5 Series
-                            </div>
-                            <hr/>
-                            <div className="card-stats">
-                                <i className="fa fa-check"></i> Data information certified
-                            </div>
-                        </div>
+                        <div className="card-footer "/>
                     </div>
                 </div>
             </div>
         </div>
-    );
+    )
 };
 
-const mapStateToProps = (state) => {
-    return {
+const mapStateToProps = state => ({
         users: state.users,
         stations: state.stations,
         collections: state.collections,
         categories: state.categories
-    }
-};
+});
 
 export default connect(mapStateToProps)(DashboardAdmin)

@@ -3013,8 +3013,11 @@ a[data-toggle="collapse"][aria-expanded="true"] .caret,
 }
 
 .navbar .navbar-toggler {
+  padding: 0 !important;
+  font-size: inherit !important;
   width: 37px;
   height: 27px;
+  margin: 5px;
   vertical-align: middle;
   outline: 0;
   cursor: pointer;
@@ -4485,7 +4488,7 @@ img {
 }
 
 .footer {
-  padding: 24px 0;
+  padding-bottom: 10px;
 }
 
 .footer.footer-default {
@@ -5189,9 +5192,9 @@ img {
     margin: 0;
     margin-top: 5px;
   }
-  .navbar .navbar-nav .nav-item:first-child {
-    margin-top: 10px;
-  }
+  //.navbar .navbar-nav .nav-item:first-child {
+  //  margin-top: 10px;
+  //}
   .navbar .navbar-nav .nav-item:not(:last-child) {
     margin-bottom: 10px;
   }
@@ -6088,6 +6091,62 @@ div.content.swipe-up-content {
   position: absolute;
   left: 0%;
   top: 50%;
+}
+.rotate-icon {
+  position: absolute;
+  z-index: 0;
+  top: -27px;
+  left: -8px;
+  font-size: 5rem;
+  transform: rotate(-15deg);
+}
+.hidden {
+  overflow: hidden;
+}
+.dashboard-notify-li {
+  font-size: 1rem;
+}
+.bottom-to-top {
+  border-width: 3px;
+  border-style: solid;
+  -webkit-border-image:
+          -webkit-gradient(linear, 0 100%, 0 0, from(black), to(rgba(0, 0, 0, 0))) 1 100%;
+  -webkit-border-image:
+          -webkit-linear-gradient(bottom, black, rgba(0, 0, 0, 0)) 1 100%;
+  -moz-border-image:
+          -moz-linear-gradient(bottom, black, rgba(0, 0, 0, 0)) 1 100%;
+  -o-border-image:
+          -o-linear-gradient(bottom, black, rgba(0, 0, 0, 0)) 1 100%;
+  border-image:
+          linear-gradient(to top, black, rgba(0, 0, 0, 0)) 1 100%;
+}
+.box-shadow {
+  box-shadow: 21px 22px 37px -1px rgba(0,0,0,0.63);
+}
+#skeleton {
+  //background: linear-gradient(to bottom right, rgba(72,144,75,0.7), rgba(44,113,169,0.8)), url('/images/arduino.jpeg');
+  background: linear-gradient(to bottom right, rgba(3, 4, 9, 0.9), rgba(173, 133, 146, 0.75)), url('/images/arduino.jpeg');
+  background-size: cover;
+}
+html {
+  height: 100%;
+}
+nav.navbar {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+.font-custom {
+  font-family: 'Noto Serif SC', serif;
+}
+.guest-form-background {
+  background-color: rgba(237, 237, 237, 0.91);
+}
+.landing-page-footer {
+  color: white;
+  display: block;
+  width: 100%;
+  position: absolute;
+  height: 40px;
+  bottom: 0px;
 }
 
 

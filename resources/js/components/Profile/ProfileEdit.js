@@ -8,12 +8,12 @@ import ProfileInfoEdit from "./ProfileInfoEdit";
 let ProfileEdit = props => (
         <div className="content">
             <div className="row">
-                <div className="col-sm-4">
+                <div className="col-md-4">
                     <ProfileBanner
                         {...props}
                     />
                 </div>
-                <div className="col-sm-8">
+                <div className="col-md-8">
                     <ProfileInfoEdit/>
                 </div>
             </div>
@@ -22,7 +22,7 @@ let ProfileEdit = props => (
 
 const mapStateToProps = state => {
     let profile = state.user;
-    let stations = state.stations.filter(station=>station.user_id === profile.id);
+    let stations = state.stations.filter(station => station.user_id === profile.id);
     let collections = findUserCollections(stations, state.collections);
     return {
         profile,

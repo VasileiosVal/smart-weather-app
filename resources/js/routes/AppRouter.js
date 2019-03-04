@@ -23,9 +23,9 @@ import Graphs from "../components/Graphs/Graphs";
 
 
 let AppRouter = (props) => {
-    console.log(props.user)
+    console.log(props.user);
+    console.log(props.categories);
     console.log(props.users)
-    console.log(props.categories)
     console.log(props.stations)
     console.log(props.collections)
     return (
@@ -60,7 +60,6 @@ let AppRouter = (props) => {
 }
 
 const mapStateToProps = state => ({
-        // language: state.language,
         user: state.user,
         users: state.users,
         categories: state.categories,

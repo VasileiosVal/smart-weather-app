@@ -50,13 +50,4 @@ class AppServiceProvider extends ServiceProvider
 
     }
 
-    /**cd
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
-    }
 }

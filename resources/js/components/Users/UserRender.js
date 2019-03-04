@@ -1,6 +1,7 @@
 import React from 'react'
 import moment from "moment/moment";
 import {Link} from 'react-router-dom';
+import {findUserStations} from "../../general_functions/generalFunctions";
 
 let UserRender = props => (
     <table className="table text-center">
@@ -27,10 +28,8 @@ let UserRender = props => (
                 <td>{user.email}</td>
                 <td>{user.id === 1 ? 'Δημιουργός' : user.role_id === 1 ? 'Διαχειριστής' : 'Χρήστης'}</td>
                 <td>{user.is_active ? 'Ναι' : 'Οχι'}</td>
-                <td>{user.confirmed ? moment(user.created_at).format('dddd, D MMM YY') : 'Οχι'}</td>
-                <td>{props.stations.filter(station=>station.user_id === user.id).length ?
-                    props.stations.filter(station=>station.user_id === user.id).length :
-                    'Οχι'}</td>
+                <td>{user.confirmed ? moment(user.confirmed).format('dddd, D MMM YY') : 'Οχι'}</td>
+                <td>{findUserStations(user, props.stations).length ? findUserStations(user, props.stations).length : 'Οχι'}</td>
                 <td>{moment(user.created_at).format('dddd, D MMM YY')} ({moment(user.created_at).fromNow()})</td>
                 <td>
                     {user.id === props.myId ?

@@ -6,7 +6,7 @@ import {findCollectionsFromStation} from "../../general_functions/generalFunctio
 
 
 let MeasuresStationsRender = ({sortBy, searchQuery, onChangeFilters, filteredStationsWithCollections, collections, onClickRenderCollections}) => (
-    <div className="card">
+    <div className="card animated fadeIn fast">
         <CardHeaderTitleMeasures title='Σταθμοί' label='Επιλέξτε σταθμό απο την λίστα για να εμφανιστούν οι συλλογές μετρήσεων του'/>
         <div className="card-body py-0">
             <div className="row align-items-center my-1">
@@ -33,12 +33,16 @@ let MeasuresStationsRender = ({sortBy, searchQuery, onChangeFilters, filteredSta
                     </div>
                 </div>
                 <div className="col-lg-1">
-                    <TooltipInfo id='stations' text='Στα πεδία υπάρχουν οι επιλογές για ταξινόμηση και αναζήτηση σταθμών.'/>
+                    <TooltipInfo
+                        id='stations'
+                        text='Στα πεδία υπάρχουν οι επιλογές για ταξινόμηση και αναζήτηση σταθμών.'
+                        place='left'
+                    />
                 </div>
             </div>
             <Scrollbars autoHeight autoHeightMin={200} autoHeightMax={300}>
                 <React.Fragment>
-                    {filteredStationsWithCollections.length ?
+                    {!!filteredStationsWithCollections.length ?
                         filteredStationsWithCollections.map(station => (
                             <div key={station.id} onClick={() => onClickRenderCollections(station.id)} className="make-border point">
                                 <div className="d-flex justify-content-between">
@@ -48,7 +52,8 @@ let MeasuresStationsRender = ({sortBy, searchQuery, onChangeFilters, filteredSta
                                         :
                                             <i className="mr-2 text-danger fas fa-broadcast-tower"/>
                                         }
-                                        {station.name}&nbsp;<span className="badge badge-warning badge-pill">{findCollectionsFromStation(station, collections).length}</span>
+                                        {station.name}&nbsp;
+                                        <span className="badge badge-warning badge-pill">{findCollectionsFromStation(station, collections).length}</span>
                                     </h5>
                                     <small>Ημ. δημιουργιας: {moment(station.created_at).format('ddd D MMM YY')}</small>
                                 </div>

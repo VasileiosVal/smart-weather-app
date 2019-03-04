@@ -11,16 +11,11 @@ let saveStations = (stations=[]) => ({
 
 export let startSaveStations = () => dispatch => {
         return axios('/api/auth/stations')
-            .then(response => {
-            let arr = [];
-            response.data.forEach(station => arr.push(station));
-            dispatch(saveStations(arr))
-        }).catch(()=>{
-            return 'error';
-        });
+            .then(response => dispatch(saveStations([...response.data])))
+            .catch(()=> 'error');
 };
 
-export let createStation = station => ({
+export let createStation = (station={}) => ({
         type: 'CREATE_STATION',
         station
     });
@@ -51,7 +46,7 @@ export let startCreateStationForUser = (name='', unique='', user_id='', location
             description,
             categories
         })
-            .then(response=>dispatch(createStation(response.data)))
+            .then(response => dispatch(createStation(response.data)))
             .catch(e => {
                 if(e.response.status === 422){
                     if(e.response.data.errors.name){
@@ -124,7 +119,7 @@ export let startEditStationForUser = (lastName='', name='', unique='', user_id='
             })
 };
 
-export let startEditStationFromAll = (name='', user_id=0, is_active=0, privacy='') => dispatch => {
+export let startEditStationFromAll = (name='', user_id='', is_active='', privacy='') => dispatch => {
         return axios.patch(`/api/auth/stations/${name}/all/edit`, {
             user_id,
             is_active,
@@ -135,13 +130,12 @@ export let startEditStationFromAll = (name='', user_id=0, is_active=0, privacy='
                     return 'same';
                 } else {
                     dispatch(editStation(response.data))
-                    //mporeis na kaneis kai edw return timh px: return 'ok'
                 }
             })
             .catch(e => notifyUnauthorizedActionAndLogout())
 };
 
-export let deleteStation = station => ({
+export let deleteStation = (station={}) => ({
         type: 'DELETE_STATION',
         station
 });
@@ -152,7 +146,7 @@ export let startDeleteStation = (name='') => (dispatch, getState) => {
 
                 //find possible collections that belong to deleted station
                 let deletedStationCollections = [];
-                getState().collections.forEach(collection=>{
+                getState().collections.forEach(collection => {
                     if(collection.station_id === response.data.id){
                       deletedStationCollections.push(collection.id)
                     }
@@ -193,10 +187,3 @@ export let startDeleteStationFromAdmin = (name='') => (dispatch, getState) => {
             })
             .catch(e => notifyUnauthorizedActionAndLogout())
 };
-
-
-// export let deleteStations = () => {
-//     return {
-//         type: 'DELETE_STATIONS'
-//     }
-// };

@@ -35,7 +35,10 @@ class StationController extends Controller
 
     public function index()
     {
-        return request()->user()->isAdmin() ? Station::with('categories')->get() : request()->user()->stations()->with('categories')->get();
+        return request()->user()->isAdmin() ?
+            Station::with('categories')->get()
+            :
+            request()->user()->stations()->with('categories')->get();
     }
 
     public function storeAdmin(Request $request)
@@ -176,7 +179,7 @@ class StationController extends Controller
                         $station->categories()->detach();
                     }
                 }
-                if($station->isDirty('name') && $station->collections()->count()){
+                if($station->isDirty('name') || $station->isDirty('location') && $station->collections()->count()){
                     $changedName=true;
                 }
                 if((!($lastIsActive && $lastPrivacy==='public') && !($station->is_active && $station->privacy==='public')) ||
@@ -335,7 +338,7 @@ class StationController extends Controller
                     $ownershipChanged=true;
                 }
                 if($station->isDirty('is_active') || $station->isDirty('privacy') && !$ownershipChanged){
-                        $notifyUserForUpdatedStation=true;
+                    $notifyUserForUpdatedStation=true;
                 }
                 $station->save();
                 $station = Station::with('categories')->find($station->id);
@@ -371,7 +374,7 @@ class StationController extends Controller
     {
         if($station->user_id === request()->user()->id){
             event((new stationDeleted($station))->dontBroadcastToCurrentUser());
-            if($station->collections()->count() && $station->is_active && $station->privacy==='public'){
+            if($station->collections()->count() && $station->is_active && $station->privacy === 'public'){
                 event((new stationAllScenariosInformUsersOnMeasures(collect([$station->id])))->dontBroadcastToCurrentUser());
             }
             $station->delete();

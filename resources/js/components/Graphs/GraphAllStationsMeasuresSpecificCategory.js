@@ -75,7 +75,7 @@ let GraphAllStationsMeasuresSpecificCategory = props => {
                                             id='rain'
                                             giveClass='tooltip-rain-absolute'
                                             label='Υπάρχουν 3 πιθανές τιμές για την συγκεκριμένη κατηγορία: 0, 1, 2'
-                                            text='0: Όχι βροχή  -  1: Αίσθηση πιθανής βροχής(ψιχάλα, υγρασία)  -  2: Βροχή'
+                                            text='0: Βροχή  -  1: Αίσθηση πιθανής βροχής(ψιχάλα, υγρασία)  -  2: Όχι βροχή'
                                         />
                                     }
                                     <LineChart

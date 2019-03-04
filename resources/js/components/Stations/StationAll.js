@@ -47,7 +47,7 @@ class StationAll extends React.Component {
             lastIndex
         })
     }
-    handlePageChange = (pageNumber) => {
+    handlePageChange = pageNumber => {
         this.clearAllInputsAndSetIncomingData();
         this.setState({activePage: pageNumber}, () => this.checkForPagination());
     }
@@ -70,9 +70,8 @@ class StationAll extends React.Component {
             }
         })
     }
-    closeEditComp = () => this.clearAllInputsAndSetIncomingData();
-    handleChangeValue = (e) => this.setState({[e.target.name]: e.target.value})
-    editStation = (e) => {
+    handleChangeValue = e => this.setState({[e.target.name]: e.target.value})
+    editStation = e => {
         e.preventDefault();
         let name = this.state.editStation;
         let user_id = parseInt(this.state.user_id.trim());
@@ -110,7 +109,7 @@ class StationAll extends React.Component {
                 {...this.props}
                 {...this.state}
                 onClickEdit={(name, user_id, is_active, privacy) => this.clearAllInputsAndSetIncomingData(true, name, user_id, is_active, privacy)}
-                onClickDelete={(name) => {
+                onClickDelete={name => {
                     this.clearAllInputsAndSetIncomingData();
                     this.setState({deleteStation: name}, ()=>$('#modal').modal())
                 }}
@@ -140,17 +139,18 @@ class StationAll extends React.Component {
                 onChangeValue={this.handleChangeValue}
                 users={users}
                 profile={profile}
-                closeEdit={this.closeEditComp}
+                closeEdit={()=>this.clearAllInputsAndSetIncomingData()}
                 edit={this.editStation}
             />
         );
 
         //******CHECK FOR RENDERING MODAL_FOR_DELETE
         let modalForDelete = (
-            this.state.deleteStation &&
+            !!this.state.deleteStation &&
             <ModalStationDelete
                 deleteStation={this.deleteStation}
                 nameOfStation={this.state.deleteStation}
+                clearDelete={()=>this.clearAllInputsAndSetIncomingData()}
             />
 
         );
@@ -161,11 +161,11 @@ class StationAll extends React.Component {
                     <CardHeaderTitle name='Σταθμοί'/>
                 </div>
                 <div className="row">
-                    <div className="col-sm-12">
-                        <div className="card">
+                    <div className="col-12">
+                        <div className="card animated fadeIn fast">
                             <CardBelowHeaderTitle name='Προβολή όλων των σταθμών'/><hr/>
                             <div className="card-body">
-                                {stations.length ?
+                                {!!stations.length ?
                                     <div className="table-responsive">
                                         {stationRender}
                                         {pagination}

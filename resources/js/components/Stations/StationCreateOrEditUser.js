@@ -21,7 +21,7 @@ class StationCreateOrEditUser extends React.Component {
             is_active:  this.props.station.is_active.toString(),
             privacy:  this.props.station.privacy,
             description: this.props.station.description ? this.props.station.description : '',
-            categories: this.props.station.categories.length ? this.props.station.categories.map(category=>category.id) : [],
+            categories: this.props.station.categories.length ? this.props.station.categories.map(category => parseInt(category.id)) : [],
             lastName: this.props.station.name
         }
         :
@@ -38,14 +38,14 @@ class StationCreateOrEditUser extends React.Component {
     componentDidMount(){
         !this.state.lastName && notifyGeneralStationCreateInfo();
     }
-    handleChangeValue = (e) => {
+    handleChangeValue = e => {
         if (e.target.name !== 'unique') {
             this.setState({[e.target.name]: e.target.value})
         } else {
             !regexFindGreek(e.target.value) && this.setState({[e.target.name]: e.target.value})
         }
     }
-    handleChangeCategoryList = (e) => {
+    handleChangeCategoryList = e => {
         let insertId = parseInt(e.target.value.trim());
         let checked = e.target.checked;
         this.setState(prev=>({categories: checked ?
@@ -54,7 +54,7 @@ class StationCreateOrEditUser extends React.Component {
                 prev.categories.filter(id => id !== insertId)
         }))
     }
-    handleSubmit = (e) => {
+    handleSubmit = e => {
         e.preventDefault();
         let name = this.state.name.trim();
         let unique = this.state.unique.trim();
@@ -68,7 +68,7 @@ class StationCreateOrEditUser extends React.Component {
         if(!name || !unique || !location || !is_active || !privacy){
             notifyCreatedStationEmptyFields();
         }else{
-            description = description.trim() === '' ? null : description.trim();
+            description = !!description.trim() ? description.trim() : null;
             is_active = parseInt(is_active);
             let user_id = this.props.profile.id;
             if(lastName){
@@ -118,7 +118,7 @@ class StationCreateOrEditUser extends React.Component {
 
         //***** GENERATE URL
         let generateUrl = (
-            categories.length &&
+            !!categories.length &&
             <StationGenerateUrl
                 lastName={this.state.lastName}
                 unique={this.state.unique}

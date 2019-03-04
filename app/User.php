@@ -15,6 +15,8 @@ class User extends Authenticatable
 
     protected $fillable = ['name', 'surname', 'email', 'password', 'role_id', 'is_active', 'confirmed', 'confirmation', 'api_token'];
 
+    protected $hidden = ['password', 'remember_token', 'api_token', 'confirmation', 'updated_at'];
+
     protected $casts = [
         'id' => 'integer',
         'name' => 'string',
@@ -23,8 +25,6 @@ class User extends Authenticatable
         'email' => 'string',
         'role_id' => 'integer',
         'is_active' => 'integer'];
-
-    protected $hidden = ['password', 'remember_token', 'api_token', 'confirmation', 'updated_at'];
 
     public function role(){
         return $this->belongsTo(Role::class);

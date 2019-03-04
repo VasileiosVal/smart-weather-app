@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
-import {Bar} from "react-chartjs-2";
+import {Bar, Doughnut} from "react-chartjs-2";
 import {Line} from 'react-chartjs-2';
 import moment from "moment/moment";
 import {MiniLoader} from "../components/General/MiniLoader";
-import {findStationAndIfExistsAndReturnName} from "../general_functions/generalFunctions";
+import {
+    findIfStationHasCollections, findIfUserIsAdmin,
+    findStationAndIfExistsAndReturnName
+} from "../general_functions/generalFunctions";
 
 
 export let CardHeaderTitle = ({name=''}) => (
@@ -46,7 +49,7 @@ export let NoSearchResults = () => (
 
 export let TooltipInfo = ({id='global', label=false, text='', giveClass='', place='right'}) => (
     <React.Fragment>
-        <i className={`fas fa-info-circle ${giveClass && giveClass}`} data-tip data-for={id}/>
+        <i className={`fas fa-info-circle ${!!giveClass && giveClass}`} data-tip data-for={id}/>
         <ReactTooltip id={id} place={place} type="dark" effect="float">
             {label && <p className='text-center'>{label}</p>}
             <p>{text}</p>
@@ -189,6 +192,101 @@ export let LineChart = ({filteredStationsWithMeasuresPerCategory, stationsWithCo
         />
     )
 };
+
+
+//*****CREATING DATA FOR STATIONS DONUT CHART
+let createDonutStationsDataSets = (adminStations, userStations, activeStations, inactiveStations, publicStations, privateStations, stationsWithCollections) => {
+    let colors = [
+        '#ccc200',
+        '#d8a1de',
+        '#00a126',
+        '#dd0600',
+        '#0096dd',
+        '#912386',
+        '#bf6f3c'
+    ];
+    return {
+        labels: [
+            'Ιδιοκτησία admin',
+            'Ιδιοκτησία user',
+            'Ενεργοί',
+            'Ανενεργοί',
+            'Δημόσιοι',
+            'Ιδιωτικοί',
+            'Έχουν μετρήσεις'
+        ],
+        datasets: [{
+            data: [adminStations, userStations, activeStations, inactiveStations, publicStations, privateStations, stationsWithCollections],
+            backgroundColor: colors,
+            hoverBackgroundColor: colors
+        }]
+    }
+};
+
+//STATIONS DONUT CHART
+export let DonutStationsChart = ({users, stations, collections, height=300}) => {
+    let stationsWithAdminOwner = stations.filter(station => findIfUserIsAdmin(station.user_id, users)).length;
+    let stationsWithUserOwner = stations.filter(station => !findIfUserIsAdmin(station.user_id, users)).length;
+    let activeStations = stations.filter(station => station.is_active).length;
+    let inactiveStations = stations.filter(station => !station.is_active).length;
+    let publicStations = stations.filter(station => station.privacy === 'public').length;
+    let privateStations = stations.filter(station => station.privacy === 'private').length;
+    let stationsWithCollections = stations.filter(station => findIfStationHasCollections(station.id, collections)).length;
+
+    let data=createDonutStationsDataSets(stationsWithAdminOwner, stationsWithUserOwner, activeStations, inactiveStations, publicStations, privateStations, stationsWithCollections);
+    return (
+        <Doughnut
+            data={data}
+            options={{maintainAspectRatio: false}}
+            height={height}
+        />
+    )
+};
+
+
+
+//*****CREATING DATA FOR USERS DONUT CHART
+let createDonutUsersDataSets = (admins, users, active, inactive, notConfirmed) => {
+    let colors = [
+        '#65ccc9',
+        '#f1f56d',
+        '#730625',
+        '#601eff',
+        '#341a1c'
+    ];
+    return {
+        labels: [
+            'Διαχειριστές',
+            'Χρήστες',
+            'Ενεργοί',
+            'Ανενεργοί',
+            'Μη επιβεβαιωμένοι'
+        ],
+        datasets: [{
+            data: [admins, users, active, inactive, notConfirmed],
+            backgroundColor: colors,
+            hoverBackgroundColor: colors
+        }]
+    }
+};
+
+//USERS DONUT CHART
+export let DonutUsersChart = ({users, height=300}) => {
+    let admins = users.filter(user => user.role_id === 1).length;
+    let simpleUsers = users.filter(user => user.role_id === 2).length;
+    let active = users.filter(user => user.is_active).length;
+    let inactive = users.filter(user => !user.is_active).length;
+    let notConfirmed = users.filter(user => !user.confirmed).length;
+
+    let data = createDonutUsersDataSets(admins, simpleUsers, active, inactive, notConfirmed);
+    return (
+        <Doughnut
+            data={data}
+            options={{maintainAspectRatio: false}}
+            height={height}
+        />
+    );
+}
 
 
 

@@ -10,7 +10,11 @@ class Category extends Model
 
     protected $hidden = ['updated_at'];
 
-    protected $casts = ['id' => 'integer', 'name' => 'string', 'symbol' => 'string'];
+    protected $casts = [
+        'id' => 'integer',
+        'name' => 'string',
+        'symbol' => 'string'
+    ];
 
     public function stations(){
         return $this->belongsToMany(Station::class);

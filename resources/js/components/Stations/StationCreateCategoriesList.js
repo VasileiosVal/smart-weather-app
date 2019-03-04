@@ -2,17 +2,17 @@ import React from 'react';
 import {CardBelowHeaderTitle} from "../../containers/generalContainers";
 
 let StationCreateCategoriesList = ({allCategories, checkedCategories, onClickChangeCategoryList}) => (
-    <div className="card">
+    <div className="card animated fadeIn fast">
        <CardBelowHeaderTitle name='Λίστα κατηγοριών'/><hr/>
         <div className="card-body">
-            {allCategories.length ?
+            {!!allCategories.length ?
                 <div className="row mb-1">
-                    {allCategories.map(category=> (
+                    {allCategories.map(category => (
                         <div key={category.id} className="col-5 offset-1 col-md-3 offset-md-1">
                             <div className="form-group">
                                 <label className="checkbox">
                                     <input type="checkbox"
-                                           checked={checkedCategories.length &&
+                                           checked={!!checkedCategories.length &&
                                            checkedCategories.indexOf(category.id) > -1}
                                            value={category.id}
                                            onChange={onClickChangeCategoryList}

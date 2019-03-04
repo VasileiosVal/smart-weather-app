@@ -36,12 +36,12 @@ trait AuthenticatesUsers
 
         if ($this->attemptLogin($request)) {
 
-            $user = \App\User::where('email', $request->email)->first();
+            $user = $request->user();
 
             if(!$user->confirmed){
                 session()->flash('verified_user_warning', __('messages.verified_user_warning'));
                 $this->guard()->logout();
-                return redirect('/login');
+                return redirect()->back();
             }
             if(!$user->is_active){
                 session()->flash('deactivated_user_warning', __('messages.deactivated_user_warning'));

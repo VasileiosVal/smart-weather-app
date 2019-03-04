@@ -12,11 +12,13 @@ class ProfileEditPassword extends React.Component {
     state = {
         password: '',
         newPassword: '',
-        newPasswordConfirmation: '',
+        newPasswordConfirmation: ''
     };
-    clearInputs= () => this.setState({password: '', newPassword: '', newPasswordConfirmation: ''})
-    changeValue = (e) => this.setState({[e.target.name]: e.target.value})
-    submit = (e) => {
+
+    clearInputs = () => this.setState({password: '', newPassword: '', newPasswordConfirmation: ''});
+    changeValue = e => this.setState({[e.target.name]: e.target.value});
+
+    submit = e => {
         e.preventDefault();
         let oldPassword = this.state.password.trim();
         let newPassword = this.state.newPassword.trim();
@@ -33,7 +35,7 @@ class ProfileEditPassword extends React.Component {
                     this.clearInputs();
                 }else{
                 notifyUpdatedProfile();
-                this.props.history.push('/profile')
+                this.props.history.push('/profile');
                 }
             })
 

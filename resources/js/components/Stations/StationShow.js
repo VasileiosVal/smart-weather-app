@@ -4,13 +4,13 @@ import {Redirect} from "react-router-dom";
 import {greekCapitalCities} from "../../general_functions/cities";
 import {CardBelowHeaderTitle, CardHeaderTitle} from "../../containers/generalContainers";
 
-let StationShow = ({station, users, categories}) => station ? (
+let StationShow = ({station, users, categories}) => !!station ? (
             <div className="content">
                 <div className='pb-3'>
                     <CardHeaderTitle name='Σταθμοί'/>
                 </div>
                 <div className="row">
-                    <div className="col-sm-6">
+                    <div className="col-sm-6 animated fadeIn faster">
                         <div className="card">
                             <CardBelowHeaderTitle name={`Προβολή σταθμού: ${station.name}`}/><hr/>
                             <div className="card-body">
@@ -35,7 +35,7 @@ let StationShow = ({station, users, categories}) => station ? (
                                         <div className="form-group">
                                             <label>Ιδιοκτησία</label>
                                             <select defaultValue={station.user_id} className="form-control" disabled>
-                                                <option defaultValue={station.user_id}>{users.find(user=>user.id === station.user_id).email}</option>
+                                                <option defaultValue={station.user_id}>{users.find(user => user.id === station.user_id).email}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -45,7 +45,7 @@ let StationShow = ({station, users, categories}) => station ? (
                                         <div className="form-group">
                                             <label>Τοποθεσία (Πόλη)</label>
                                             <select defaultValue={station.location} className="form-control" disabled>
-                                                <option defaultValue={station.location}>{greekCapitalCities.find(city=>city === station.location)}</option>
+                                                <option defaultValue={station.location}>{greekCapitalCities.find(city => city === station.location)}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -82,18 +82,18 @@ let StationShow = ({station, users, categories}) => station ? (
                         </div>
                     </div>
                     <div className="col-sm-6">
-                        <div className="card">
+                        <div className="card animated fadeIn fast">
                             <CardBelowHeaderTitle name='Λίστα κατηγοριών'/>
                             <hr/>
                             <div className="card-body">
-                                {categories.length ?
+                                {!!categories.length ?
                                     <div className="row mb-1">
                                         {categories.map(category => (
                                             <div key={category.id} className="col-5 offset-1  col-md-3 offset-md-1">
                                                 <div className="form-group">
                                                     <label className="checkbox">
                                                         <input type="checkbox"
-                                                               defaultChecked={station.categories.length &&
+                                                               defaultChecked={!!station.categories.length &&
                                                                station.categories.find(cat=>cat.id === category.id)}
                                                                data-toggle="checkbox"
                                                                disabled
@@ -111,16 +111,12 @@ let StationShow = ({station, users, categories}) => station ? (
                     </div>
                 </div>
             </div>
-        ) : (
-            <Redirect to='/stations/all'/>
-);
+        ) : <Redirect to='/stations/all'/>;
 
 
 const mapStateToProps = (state, props) => {
-    let station = state.stations.find(station=>station.name === props.match.params.name);
-    if(!station || station.user_id === state.user.id){
-        station = undefined;
-    }
+    let station = state.stations.find(station => station.name === props.match.params.name);
+    if(!station || (!!station && station.user_id === state.user.id)) station = undefined;
     return {
         station,
         users: state.users,

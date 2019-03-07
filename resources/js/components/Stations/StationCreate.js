@@ -6,7 +6,7 @@ import {CardHeaderTitle} from "../../containers/generalContainers";
 
 let StationCreate = ({isAdmin}) => (
             <div className="content">
-                <CardHeaderTitle name='Σταθμοί'/>
+                <CardHeaderTitle name='Stations'/>
                 {isAdmin ?
                     <StationCreateOrEditAdmin/>
                 :

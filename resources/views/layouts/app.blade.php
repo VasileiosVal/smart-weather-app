@@ -40,9 +40,9 @@
     <section class="container">
         @yield('content')
     </section>
-    <section class="landing-page-footer text-center">
-        © Developed by Vasileios Vallas. Supervised by Dr. Minas Dasygenis.
-    </section>
+    {{--<section class="landing-page-footer text-center">--}}
+        {{--© Developed by Vasileios Vallas. Supervised by Dr. Minas Dasygenis.--}}
+    {{--</section>--}}
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

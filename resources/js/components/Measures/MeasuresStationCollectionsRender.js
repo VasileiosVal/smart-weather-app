@@ -25,7 +25,7 @@ let MeasuresStationCollectionsRender = props => {
 
     return (
         <div className="card animated fadeIn slow">
-            <CardHeaderTitleMeasures title='Συλλογές μετρήσεων' label='Επιλέξτε συλλογή μετρήσεων για να εμφανιστούν οι μετρήσεις'/>
+            <CardHeaderTitleMeasures title='Measurements collections' label='Select a collection to display the measurements'/>
             <div className="card-body py-0">
                 {initCollectionsLoader ?
                     <WaitingLoader text={false}/>
@@ -36,7 +36,7 @@ let MeasuresStationCollectionsRender = props => {
                                 <div className="row align-items-center my-1">
                                     <div className="offset-md-1 col-md-5">
                                         <DatePicker
-                                            placeholderText="Από..."
+                                            placeholderText="From..."
                                             className='form-control my-0 py-0'
                                             selected={startDate}
                                             selectsStart
@@ -50,7 +50,7 @@ let MeasuresStationCollectionsRender = props => {
                                     </div>
                                     <div className="col-md-5">
                                         <DatePicker
-                                            placeholderText="Έως..."
+                                            placeholderText="To..."
                                             className='form-control my-0 py-0'
                                             selected={endDate}
                                             selectsEnd
@@ -65,7 +65,7 @@ let MeasuresStationCollectionsRender = props => {
                                     <div className="col-md-1">
                                         <TooltipInfo
                                             id='collections'
-                                            text='Στα πεδία δίνονται επιλογές προβολής συλλογών, που βρίσκονται μεταξύ του χρονικού διαστήματος που έχετε δηλώσει.'
+                                            text='Fields are provided with collections viewing options, which are between the time period you have specified.'
                                             place='top'
                                         />
                                     </div>
@@ -76,19 +76,19 @@ let MeasuresStationCollectionsRender = props => {
                                             filteredSelectedStationCollections.map(collection => (
                                                 <div key={collection.id} className="make-border position-relative point">
                                                     <div onClick={()=>onClickRenderMeasures(collection.id)}>
-                                                        <p className='text-right py-0 mb-2'><small>Ημ. καταγραφής: {moment(collection.created_at).format('ddd D MMM YY, h:mm:ss a')}</small></p>
+                                                        <p className='text-right py-0 mb-2'><small>Recording date: {moment(collection.created_at).format('ddd D MMM YY, h:mm:ss a')}</small></p>
                                                         <div>
-                                                            <h6>Μετρήσεις για:
+                                                            <h6>Measurements for:
                                                                 {!!collectionsWithMeasures.find(data => data.col_id === collection.id) &&
                                                                     collectionsWithMeasures.find(data => data.col_id === collection.id).measures
                                                                     .map(measure => <span key={measure.cat_id} className="badge badge-warning ml-1">&nbsp;{findCategory(measure.cat_id, categories).name}</span>)
                                                                 }
                                                             </h6>
-                                                            <p className='py-0 mb-0'>Κωδικός σειράς μετρήσεων: <label>{collection.series_hash}</label></p>
+                                                            <p className='py-0 mb-0'>Collection series code: <label>{collection.series_hash}</label></p>
                                                         </div>
                                                     </div>
                                                     <span className='text-right absolute'>
-                                                            <i title='Διαγραφή'
+                                                            <i title='Delete'
                                                                onClick={() => onClickDeleteCollectionModal(collection.series_hash)}
                                                                className='text-red fas fa-trash-alt point'/>
                                                     </span>
@@ -101,9 +101,9 @@ let MeasuresStationCollectionsRender = props => {
                                 </Scrollbars>
                             </React.Fragment>
                         :
-                            <h6 className='text-danger text-center py-2'>Δεν υπάρχουν σειρές μετρήσεων στον σταθμό</h6>
+                            <h6 className='text-danger text-center py-2'>There are no series of measurements at that station</h6>
                     :
-                        <h6 className='text-danger text-center py-2'>Δεν έχει επιλεγεί σταθμός</h6>
+                        <h6 className='text-danger text-center py-2'>No station selected</h6>
                 }
             </div>
         </div>

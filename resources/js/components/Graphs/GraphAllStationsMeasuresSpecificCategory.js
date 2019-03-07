@@ -24,8 +24,8 @@ let GraphAllStationsMeasuresSpecificCategory = props => {
         <div className="card animated fadeIn delay-1.1s">
             <CardHeaderTitleMeasures
                 title={stationsWithMeasuresPerCategory.length && selectedCategory ?
-                    `Γράφημα μετρήσεων σταθμών για κατηγορία: ${findCategory(selectedCategory, categories).name} (${findCategory(selectedCategory, categories).symbol})` :
-                    'Γράφημα μετρήσεων σταθμών ανά κατηγορία'
+                    `Station measurements chart for category: ${findCategory(selectedCategory, categories).name} (${findCategory(selectedCategory, categories).symbol})` :
+                    'Station measurements chart by category\n'
                 }
             />
             <div className="card-body py-0">
@@ -38,7 +38,7 @@ let GraphAllStationsMeasuresSpecificCategory = props => {
                                 <div className="row align-items-center justify-content-center mt-2">
                                     <div className='mx-1'>
                                         <DatePicker
-                                            placeholderText="Από..."
+                                            placeholderText="From..."
                                             className='form-control'
                                             selected={startDate}
                                             selectsStart
@@ -52,7 +52,7 @@ let GraphAllStationsMeasuresSpecificCategory = props => {
                                     </div>
                                     <div className='mx-2'>
                                         <DatePicker
-                                            placeholderText="Έως..."
+                                            placeholderText="To..."
                                             className='form-control'
                                             selected={endDate}
                                             selectsEnd
@@ -65,7 +65,7 @@ let GraphAllStationsMeasuresSpecificCategory = props => {
                                         />
                                     </div>
                                     <div>
-                                        <TooltipInfo id='datepick' text='Συμπληρώνοντας τα πεδία, επιλέγετε την προβολή συλλογών, που βρίσκονται μεταξύ του χρονικού διαστήματος που έχετε δηλώσει.'/>
+                                        <TooltipInfo id='datepick' text='By filling in the fields, you select the collections view, located between the time period you have specified.'/>
                                     </div>
                                 </div>
                                 <hr className='style mt-2'/>
@@ -74,8 +74,8 @@ let GraphAllStationsMeasuresSpecificCategory = props => {
                                         <TooltipInfo
                                             id='rain'
                                             giveClass='tooltip-rain-absolute'
-                                            label='Υπάρχουν 3 πιθανές τιμές για την συγκεκριμένη κατηγορία: 0, 1, 2'
-                                            text='0: Βροχή  -  1: Αίσθηση πιθανής βροχής(ψιχάλα, υγρασία)  -  2: Όχι βροχή'
+                                            label='There are 3 possible values ​​for this category: 0, 1, 2'
+                                            text='0: Rain  -  1: Feeling of possible rain (brittle, damp)  -  2: No rain'
                                         />
                                     }
                                     <LineChart
@@ -86,9 +86,9 @@ let GraphAllStationsMeasuresSpecificCategory = props => {
                                 </div>
                             </div>
                         :
-                            <h6 className='text-danger text-center py-2'>Δεν υπάρχουν σειρές μετρήσεων στον σταθμό</h6>
+                            <h6 className='text-danger text-center py-2'>There are no measurements collections for this station</h6>
                     :
-                        <h6 className='text-danger text-center py-2'>Δεν έχει επιλεγεί κατηγορία</h6>
+                        <h6 className='text-danger text-center py-2'>No category selected</h6>
                 }
             </div>
         </div>

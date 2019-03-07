@@ -14,7 +14,7 @@ let NavbarUI = ({name}) => (
                             <span className="navbar-toggler-bar bar3"/>
                         </button>
                     </div>
-                    <p className="navbar-brand">Καλώς ήρθες: <Link className='navbar-name' to='/profile'>{name}</Link></p>
+                    <p className="navbar-brand">Welcome: <Link className='navbar-name' to='/profile'>{name}</Link></p>
                 </div>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-bar navbar-kebab"/>
@@ -26,10 +26,10 @@ let NavbarUI = ({name}) => (
                         <li title='ενέργειες' className="nav-item btn-rotate dropdown">
                             <a className="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i className="fa fa-user"/>
-                                <p><span className="d-lg-none d-md-block">Ενέργειες</span></p>
+                                <p><span className="d-lg-none d-md-block">Actions</span></p>
                             </a>
                             <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                                <a onClick={()=>logout()} className="dropdown-item"><i className="fas fa-sign-out-alt"/>Αποσύνδεση</a>
+                                <a onClick={()=>logout()} className="dropdown-item"><i className="fas fa-sign-out-alt"/>Logout</a>
                             </div>
                         </li>
                     </ul>

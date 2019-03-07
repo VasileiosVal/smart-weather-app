@@ -4,22 +4,22 @@ import {CardBelowHeaderTitle} from "../../containers/generalContainers";
 
 let StationCreateOrEditFormDetails = props => (
     <div className="card animated fadeIn faster">
-        <CardBelowHeaderTitle name={props.lastName ? `Επεξεργασία σταθμού: ${props.lastName}` : 'Δημιουργία σταθμού'}/>
+        <CardBelowHeaderTitle name={props.lastName ? `Edit station: ${props.lastName}` : 'Station creation'}/>
         <hr/>
         <div className="card-body">
             <div className="row mb-1">
                 <div className="col-xl-10 offset-xl-1">
                     <div className="form-group">
-                        <label>Όνομα</label>
-                        <input type="text" name='name' value={props.name} onChange={props.onChangeValue} className="form-control" placeholder="Συμπληρώστε το όνομα του σταθμού..." autoComplete='off'/>
+                        <label>Name</label>
+                        <input type="text" name='name' value={props.name} onChange={props.onChangeValue} className="form-control" placeholder={`Fill in station's name...`} autoComplete='off'/>
                     </div>
                 </div>
             </div>
             <div className="row mb-1">
                 <div className="col-xl-10 offset-xl-1">
                     <div className="form-group">
-                        <label>Μοναδικός κωδικός</label>
-                        <input type="text" name='unique' value={props.unique} onChange={props.onChangeValue} className="form-control" placeholder="Συμπληρώστε τον μοναδικό κωδικό του σταθμού..." autoComplete='off'/>
+                        <label>Unique code</label>
+                        <input type="text" name='unique' value={props.unique} onChange={props.onChangeValue} className="form-control" placeholder={`Fill in station's unique code...`} autoComplete='off'/>
                     </div>
                 </div>
             </div>
@@ -27,14 +27,14 @@ let StationCreateOrEditFormDetails = props => (
             <div className="row mb-1">
                 <div className="col-xl-10 offset-xl-1">
                     <div className="form-group">
-                        <label>Ιδιοκτησία</label>
+                        <label>Ownership</label>
                         <select name='user_id' value={props.user_id} onChange={props.onChangeValue} className="form-control">
                             {props.user_id === '' &&
-                            <option value=''>Επιλέξτε ιδιοκτήτη σταθμού</option>
+                            <option value=''>Select station's ownership</option>
                             }
                             {props.users.map(user => <option key={user.id} value={user.id}>
                                 {user.id === props.profile.id ?
-                                `Ο ίδιος (${user.email})` :
+                                `The same (${user.email})` :
                                 user.email }
                                 </option>
                             )}
@@ -46,10 +46,10 @@ let StationCreateOrEditFormDetails = props => (
             <div className="row mb-1">
                 <div className="col-xl-10 offset-xl-1">
                     <div className="form-group">
-                        <label>Τοποθεσία (Πόλη)</label>
+                        <label>Location (City)</label>
                         <select name='location' value={props.location} onChange={props.onChangeValue} className="form-control">
                             {props.location === '' &&
-                            <option value=''>Επιλέξτε την πόλη που βρίσκεται ο σταθμός</option>
+                            <option value=''>Select the city that station is located</option>
                             }
                             {greekCapitalCities.map(city => <option key={city} value={city}>{city}</option>)}
                         </select>
@@ -59,13 +59,13 @@ let StationCreateOrEditFormDetails = props => (
             <div className="row mb-1">
                 <div className="col-xl-10 offset-xl-1">
                     <div className="form-group">
-                        <label>Ενεργός</label>
+                        <label>Active</label>
                         <select name='is_active' value={props.is_active} onChange={props.onChangeValue} className="form-control">
                             {props.is_active === '' &&
-                            <option value=''>Επιλέξτε απο τα παρακάτω</option>
+                            <option value=''>Select from below</option>
                             }
-                            <option value='1'>Ναι</option>
-                            <option value='0'>Οχι</option>
+                            <option value='1'>Yes</option>
+                            <option value='0'>No</option>
                         </select>
                     </div>
                 </div>
@@ -73,13 +73,13 @@ let StationCreateOrEditFormDetails = props => (
             <div className="row mb-1">
                 <div className="col-xl-10 offset-xl-1">
                     <div className="form-group">
-                        <label>Προβολή</label>
+                        <label>View</label>
                         <select name='privacy' value={props.privacy} onChange={props.onChangeValue} className="form-control">
                             {props.privacy === '' &&
-                            <option value=''>Επιλέξτε απο τα παρακάτω</option>
+                            <option value=''>Select from below</option>
                             }
-                            <option value='public'>Δημόσιος</option>
-                            <option value='private'>Ιδιωτικός</option>
+                            <option value='public'>Public</option>
+                            <option value='private'>Private</option>
                         </select>
                     </div>
                 </div>
@@ -87,14 +87,14 @@ let StationCreateOrEditFormDetails = props => (
             <div className="row mb-1">
                 <div className="col-xl-10 offset-xl-1">
                     <div className="form-group">
-                        <label>Περιγραφή (Προαιρετικά)</label>
-                        <textarea name='description' value={props.description} onChange={props.onChangeValue} className="form-control" placeholder="Συμπληρώστε κάποια στοιχεία που θέλετε να αναφέρετε για τον σταθμό..." autoComplete='off'/>
+                        <label>Description (optionally)</label>
+                        <textarea name='description' value={props.description} onChange={props.onChangeValue} className="form-control" placeholder="Fill in some facts you want to report about the station..." autoComplete='off'/>
                     </div>
                 </div>
             </div>
             <div className="row">
                 <div className="update ml-auto mr-auto">
-                    <button className="btn btn-primary btn-round">{props.lastName ? 'Ενημέρωση' : 'Δημιουργία' }</button>
+                    <button className="btn btn-primary btn-round">{props.lastName ? 'Update' : 'Create' }</button>
                 </div>
             </div>
         </div>

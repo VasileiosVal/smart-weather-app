@@ -45,37 +45,37 @@ class ProfileEditDetails extends React.Component {
     render(){
         return (
             <div className="card">
-                <CardBelowHeaderTitle name='Αλλαγή στοιχείων χρήστη'/>
+                <CardBelowHeaderTitle name='Change user details'/>
                 <hr/>
                 <div className="card-body">
                     <form onSubmit={this.submit}>
                         <div className="row mb-1">
                             <div className="col-sm-8 offset-sm-2">
                                 <div className="form-group">
-                                    <label>Διεύθυνση Email</label>
-                                    <input type="text" value={this.state.email} onChange={this.changeValue}  name='email' className="form-control" placeholder="Συμπληρώστε την διεύθυνση Email..." autoComplete='off'/>
+                                    <label>Email address</label>
+                                    <input type="text" value={this.state.email} onChange={this.changeValue}  name='email' className="form-control" placeholder="Fill in your Email address..." autoComplete='off'/>
                                 </div>
                             </div>
                         </div>
                         <div className="row mb-1">
                             <div className="col-sm-8 offset-sm-2">
                                 <div className="form-group">
-                                    <label>Όνομα</label>
-                                    <input type="text" value={this.state.name} onChange={this.changeValue}  name='name' className="form-control" placeholder="Συμπληρώστε το όνομα σας..." autoComplete='off'/>
+                                    <label>Name</label>
+                                    <input type="text" value={this.state.name} onChange={this.changeValue}  name='name' className="form-control" placeholder="Fill in your name..." autoComplete='off'/>
                                 </div>
                             </div>
                         </div>
                         <div className="row mb-1">
                             <div className="col-sm-8 offset-sm-2">
                                 <div className="form-group">
-                                    <label>Επίθετο</label>
-                                    <input type="text" value={this.state.surname} onChange={this.changeValue}  name='surname' className="form-control" placeholder="Συμπληρώστε το επίθετο σας..." autoComplete='off'/>
+                                    <label>Surname</label>
+                                    <input type="text" value={this.state.surname} onChange={this.changeValue}  name='surname' className="form-control" placeholder="Fill in your surname..." autoComplete='off'/>
                                 </div>
                             </div>
                         </div>
                         <div className="row">
                             <div className="update ml-auto mr-auto">
-                                <button className="btn btn-primary btn-round">Ενημέρωση</button>
+                                <button className="btn btn-primary btn-round">Update</button>
                             </div>
                         </div>
                     </form>

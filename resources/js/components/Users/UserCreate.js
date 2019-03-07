@@ -63,11 +63,11 @@ class UserCreate extends React.Component {
 
         return (
             <div className="content">
-                <CardHeaderTitle name='Χρήστες'/>
+                <CardHeaderTitle name='Users'/>
                 <div className="row">
                     <div className="col-12">
                         <div className="card animated fadeIn fast">
-                            <CardBelowHeaderTitle name='Δημιουργία χρήστη'/>
+                            <CardBelowHeaderTitle name='User creation'/>
                             <hr/>
                             <div className="card-body">
                                 {userCreateForm}

@@ -24,13 +24,13 @@ let ProfileBanner = ({profile, stations, collections}) => (
                         <div className="col-6 ml-auto">
                             <h5>{stations.length}
                                 <br/>
-                                <small>Σταθμοί</small>
+                                <small>Stations</small>
                             </h5>
                         </div>
                         <div className="col-6 ml-auto mr-auto">
                             <h5>{collections.length}
                                 <br/>
-                                <small>Συλλογές μετρήσεων</small>
+                                <small>Measurements collections</small>
                             </h5>
                         </div>
                     </div>

@@ -148,11 +148,11 @@ class User extends React.Component {
 
         return (
             <div className="content">
-                <CardHeaderTitle name='Χρήστες'/>
+                <CardHeaderTitle name='Users'/>
                 <div className="row">
                     <div className="col-12">
                         <div className="card animated fadeIn fast">
-                            <CardBelowHeaderTitle name='Προβολή όλων των χρηστών'/><hr/>
+                            <CardBelowHeaderTitle name='View all users'/><hr/>
                             <div className="card-body">
                                 <div className="table-responsive">
                                     {renderUsers}

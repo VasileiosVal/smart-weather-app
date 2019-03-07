@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import AppRouter from "./routes/AppRouter";
 import moment from 'moment';
-moment.locale('el');
+// moment.locale('el');
 import {configureStore} from "./configure/configureStore";
 import {startCheckAuthAndSaveUser} from "./actions/User";
 import {Loader} from "./components/General/Loader";

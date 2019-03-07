@@ -8,7 +8,7 @@ import {CardHeaderTitle} from "../../containers/generalContainers";
 let StationEdit = ({isAdmin, station}) => !!station ? (
             <div className="content">
                 <div>
-                    <CardHeaderTitle name='Σταθμοί'/>
+                    <CardHeaderTitle name='Stations'/>
                 </div>
                 {isAdmin ?
                     <StationCreateOrEditAdmin station={station}/>

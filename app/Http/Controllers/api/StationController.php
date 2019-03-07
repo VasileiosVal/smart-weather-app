@@ -21,16 +21,16 @@ use App\Http\Controllers\Controller;
 class StationController extends Controller
 {
     protected $cities = [
-        'Αλεξανδρούπολη', 'Κομοτηνή', 'Ξάνθη', 'Καβάλα', 'Δράμα',
-        'Σέρρες', 'Κιλκίς', 'Θεσσαλονίκη', 'Πολύγυρος', 'Έδεσσα',
-        'Βέροια', 'Φλώρινα', 'Κοζάνη', 'Καστοριά', 'Κατερίνη',
-        'Γρεβενά', 'Λάρισα', 'Βόλος', 'Καρδίτσα', 'Τρίκαλα',
-        'Ιωάννινα', 'Ηγουμενίτσα', 'Πρέβεζα', 'Άρτα', 'Αθήνα',
-        'Λιβαδειά', 'Λαμία', 'Άμφισσα', 'Μεσολόγγι', 'Καρπενήσι',
-        'Χαλκίδα', 'Κόρινθος', 'Πάτρα', 'Πύργος', 'Τρίπολη',
-        'Ναύπλιο', 'Καλαμάτα', 'Σπάρτη', 'Χανιά', 'Ρέθυμνο',
-        'Ηράκλειο', 'Άγιος Νικόλαος', 'Ερμούπολη', 'Ρόδος', 'Σάμος',
-        'Μυτιλήνη', 'Χίος', 'Κέρκυρα', 'Αργοστόλι', 'Λευκάδα', 'Ζάκυνθος'
+        'Alexandroupolis', 'Komotini', 'Xanthi', 'Kavala', 'Drama',
+        'Serres', 'Kilkis', 'Thessaloniki', 'Polygyros', 'Edessa',
+        'Veria', 'Florina', 'Kozani', 'Kastoria', 'Katerini',
+        'Grevena', 'Larissa', 'Volos', 'Karditsa', 'Trikala',
+        'Ioannina', 'Igoumenitsa', 'Preveza', 'Arta', 'Athens',
+        'Livadia', 'Lamia', 'Amfissa', 'Messolongi', 'Karpenissi',
+        'Chalkis', 'Corinthos', 'Patras', 'Pyrgos', 'Tripolis',
+        'Nafplio', 'Kalamata', 'Sparta', 'Chania', 'Rethymno',
+        'Heraklion', 'Agios Nikolaos', 'Hermoupolis', 'Rhodes', 'Samos',
+        'Mytilene', 'Chios', 'Corfu', 'Argostoli', 'Lefkada', 'Zakynthos'
     ];
 
     public function index()

@@ -1,391 +1,391 @@
 export let notifyEmptyEl = () => {
     $.notify({
-        message: 'Συμπληρώστε όλα τα πεδία στην δημιουργία ομάδας.'
+        message: 'Fill in all fields in group creation.'
     },{
         type: 'warning'
     });
 };
 export let notifySameName = () => {
     $.notify({
-        message: 'Το όνομα κατηγορίας υπάρχει ήδη στην λίστα.'
+        message: 'The category name already exists in the list.'
     },{
         type: 'warning'
     });
 };
 export let notifySameSymbol = () => {
     $.notify({
-        message: 'Το σύμβολο υπάρχει ήδη στην λίστα.'
+        message: 'The category symbol already exists in the list.'
     },{
         type: 'warning'
     });
 };
 export let notifyNumberError = () => {
     $.notify({
-        message: 'Υπάρχει σφάλμα στο όριο των αριθμητικών τιμών.'
+        message: 'There is an error in the limit of the numeric values.'
     },{
         type: 'warning'
     });
 };
 export let notifyCreatedEl = () => {
     $.notify({
-        message: 'Η καινούργια κατηγορία δημιουργήθηκε.'
+        message: 'The new category was created.'
     },{
         type: 'success'
     });
 };
 export let notifyGeneralCreatedEl = (name='') => {
     $.notify({
-        message: `'Εχει δημιουργηθεί η κατηγορία: ${name}.`
+        message: `'New category was created with name: ${name}.`
     },{
         type: 'info'
     });
 };
 export let notifyEditedEl = () => {
     $.notify({
-        message: 'Η κατηγορία έχει ενημερωθεί.'
+        message: 'The category has been updated.'
     },{
         type: 'success'
     });
 };
 export let notifyGeneralEditedEl = (name='') => {
     $.notify({
-        message: `'Εχει γίνει ενημέρωση της κατηγορίας: ${name}.`
+        message: `A category was updated with name: ${name}.`
     },{
         type: 'info'
     });
 };
 export let notifyDeletedEl = () => {
     $.notify({
-        message: 'Η κατηγορία έχει διαγραφεί. Θα γίνει ανακατεύθυνση της σελίδας για να πραγματοποιηθούν οι αλλαγές.'
+        message: 'The category has been deleted. The page will be redirected to make the changes.'
     },{
         type: 'danger'
     });
 };
 export let notifyGeneralDeletedEl = (name='') => {
     $.notify({
-        message: `'Εχει διαγραφεί η κατηγορία: ${name} απο την λίστα. Θα γίνει ανακατεύθυνση της σελίδας για να πραγματοποιηθούν οι αλλαγές.`
+        message: `The category with name: ${name} has been deleted. The page will be redirected to make the changes.`
     },{
         type: 'danger'
     });
 };
 export let notifyGeneralUpdatedList = () => {
     $.notify({
-        message: `'Εχει ανανεωθεί η λίστα.`
+        message: `List was updated.`
     },{
         type: 'info'
     });
 };
 export let notifyUnauthorizedAction = () => {
     $.notify({
-        message: 'Μη επιτρεπτή ενέργεια!'
+        message: 'Action not allowed!'
     },{
         type: 'danger'
     });
 };
 export let notifyDeletedUser = () => {
     $.notify({
-        message: 'Ο χρήστης έχει διαγραφεί.'
+        message: 'The user has been deleted.'
     },{
         type: 'danger'
     });
 };
 export let notifyDeletedUserStations = () => {
     $.notify({
-        message: 'Έχουν διαγραφεί οι σταθμοί του χρήστη.'
+        message: `The user's stations have been deleted.`
     },{
         type: 'danger'
     });
 };
 export let notifyDeletedUserStationsCollections = () => {
     $.notify({
-        message: 'Έχουν διαγραφεί οι συλλογές μετρήσεων των σταθμών του χρήστη.'
+        message: `The stations collections from user have been deleted.`
     },{
         type: 'danger'
     });
 };
 export let notifyTheDeletedUser = () => {
     $.notify({
-        message: 'Έχετε διαγραφεί απο το σύστημα.'
+        message: 'You have been deleted from the system.'
     },{
         type: 'danger'
     });
 };
 export let notifyGeneralDeletedUser = (email='') => {
     $.notify({
-        message: `'Εχει διαγραφεί απο το σύστημα ο χρήστης με email: ${email}.`
+        message: `The user with email: ${email} was deleted from system.`
     },{
         type: 'info'
     });
 };
 export let notifyGeneralDeletedUserStations = (email='', arr=[]) => {
     $.notify({
-        message: `'Εχουν διαγραφεί οι σταθμοί με id: ${arr.join(', ')} (σύνολο: ${arr.length}) του χρήστη με email: ${email}.`
+        message: `'Stations with id's: ${arr.join(', ')} have been deleted (total: ${arr.length}) from user with email: ${email}.`
     },{
         type: 'info'
     });
 };
 export let notifyGeneralDeletedUserCollections = (arr=[]) => {
     $.notify({
-        message: `'Εχουν διαγραφεί οι συλλογές μετρήσεων των σταθμών του. (Σύνολο: ${arr.length})`
+        message: `The stations collections have been deleted. (Total: ${arr.length})`
     },{
         type: 'info'
     });
 };
 export let notifyGeneralDeletedStationCollections = (arr=[]) => {
     $.notify({
-        message: `'Εχουν διαγραφεί οι συλλογές μετρήσεων του σταθμού. (Σύνολο: ${arr.length})`
+        message: `The stations collections have been deleted. (Total: ${arr.length})`
     },{
         type: 'info'
     });
 };
 export let notifyFormEmptyUserFields = () => {
     $.notify({
-        message: 'Συμπληρώστε όλα τα πεδία στην δημιουργία χρήστη.'
+        message: 'Fill in all fields in user creation.'
     },{
         type: 'warning'
     });
 };
 export let notifyDiffPasswordsInUserFields = () => {
     $.notify({
-        message: 'Οι κωδικοί πρόσβασης που συμπληρώσατε στα πεδία δεν ταιριάζουν.'
+        message: 'The passwords you have filled in the fields do not match.'
     },{
         type: 'warning'
     });
 };
 export let notifyBiggerPasswordsInUserFields = () => {
     $.notify({
-        message: 'Ο κωδικός πρόσβασης θα πρέπει να αποτελείται απο τουλάχιστον 6 χαρακτήρες.'
+        message: 'The password should be at least 6 characters long.'
     },{
         type: 'warning'
     });
 };
 export let notifyInvalidEmailOnInput = () => {
     $.notify({
-        message: 'To Email που συμπληρώσατε δεν αποτελεί έγκυρο Email.'
+        message: 'The email you filled in is not a valid Email address.'
     },{
         type: 'warning'
     });
 };
 export let notifyUserEmailExists = () => {
     $.notify({
-        message: 'To Email που συμπληρώσατε υπάρχει ήδη στην λίστα.'
+        message: 'The email you filled in is already in the list.'
     },{
         type: 'warning'
     });
 };
 export let notifyCreatedUser = () => {
     $.notify({
-        message: 'Ο νέος χρήστης έχει δημιουργηθεί.'
+        message: 'New user has been created.'
     },{
         type: 'success'
     });
 };
 export let notifyGeneralCreatedUser = (email='') => {
     $.notify({
-        message: `'Εχει δημιουργηθεί νέος χρήστης με email: ${email}.`
+        message: `'A new user has been created with email: ${email}.`
     },{
         type: 'info'
     });
 };
 export let notifyEditedUser = () => {
     $.notify({
-        message: 'Τα στοιχεία του χρήστη έχουν ενημερωθεί.'
+        message: 'User details have been updated.'
     },{
         type: 'success'
     });
 };
 export let notifyGeneralEditedUser = (name='') => {
     $.notify({
-        message: `'Εχουν ενημερωθεί τα στοιχεία του χρήστη με email: ${name}.`
+        message: `Details from user with email: ${name} have been updated.`
     },{
         type: 'info'
     });
 };
 export let notifyTheInactiveUser = () => {
     $.notify({
-        message: 'Ο λογαριασμός σας έχει απενεργοποιηθεί.'
+        message: 'Your account has been deactivated.'
     },{
         type: 'danger'
     });
 };
 export let notifyTheUpgradedUser = () => {
     $.notify({
-        message: 'Ο λογαριασμός σας έχει αναβαθμιστεί με δικαιώματα διαχειριστή.'
+        message: 'Your account has been upgraded with administrator rights.'
     },{
         type: 'success'
     });
 };
 export let notifyTheDowngradedUser = () => {
     $.notify({
-        message: 'Ο λογαριασμός σας έχει ενηνερωθεί. Δεν έχετε πλέον δικαιώματα διαχειριστή.'
+        message: 'Your account has been updated. You no longer have administrator rights.'
     },{
         type: 'warning'
     });
 };
 export let notifyDeleteProfile = () => {
     $.notify({
-        message: 'Ο λογαριασμός σας έχει διαγραφεί.'
+        message: 'Your account has been deleted.'
     },{
         type: 'danger'
     });
 };
 export let notifyAdminsDeletedUserEmailNotSent = (name='') => {
     $.notify({
-        message: `Παρουσιάστηκε σφάλμα κατά την αποστολή του email διαγραφής στον χρήστη: ${name}`
+        message: `There was an error sending the deletion email to the user: ${name}`
     },{
         type: 'danger'
     });
 };
 export let notifyAdminsSuspendedUserEmailNotSent = (name='') => {
     $.notify({
-        message: `Παρουσιάστηκε σφάλμα κατά την αποστολή του email απενεργοποίησης στον χρήστη: ${name}`
+        message: `An error occurred while sending the disabling email to the user: ${name}`
     },{
         type: 'danger'
     });
 };
 export let notifyEditedUserEmptyFields = () => {
     $.notify({
-        message: 'Συμπληρώστε όλα τα πεδία στην φόρμα αλλαγής στοιχείων χρήστη.'
+        message: `Fill in all the fields in the User's information edit form.`
     },{
         type: 'warning'
     });
 };
 export let notifyUpdatedProfile = () => {
     $.notify({
-        message: 'Έχετε ενημερώσει επιτυχώς τα στοιχεία του λογαριασμού σας.'
+        message: 'You have successfully updated your account information.'
     },{
         type: 'success'
     });
 };
 export let notifyEditedUserPasswordEmptyFields = () => {
     $.notify({
-        message: 'Συμπληρώστε όλα τα πεδία στην φόρμα αλλαγής κωδικού πρόσβασης.'
+        message: 'Fill in all the fields in the password change form.'
     },{
         type: 'warning'
     });
 };
 export let notifyEditedUserCurrentPasswordDontMatch = () => {
     $.notify({
-        message: 'Ο κωδικός πρόσβασης που συμπληρώσατε δεν ταιριάζει με τον πραγματικό σας κωδικό.'
+        message: 'The password you filled in does not match your current password.'
     },{
         type: 'danger'
     });
 };
 export let notifyDeletedStation = () => {
     $.notify({
-        message: 'Ο σταθμός σας έχει διαγραφεί.'
+        message: 'Your station has been deleted.'
     },{
         type: 'danger'
     });
 };
 export let notifyDeletedStationCollections = () => {
     $.notify({
-        message: '΄Εχουν διαγραφεί οι συλλογές μετρήσεων του σταθμού.'
+        message: `The station's measurements collections have been deleted.`
     },{
         type: 'danger'
     });
 };
 export let notifyGeneralDeletedStation = (name='') => {
     $.notify({
-        message: `'Εχει διαγραφεί ο σταθμός: ${name} απο την λίστα.`
+        message: `The station with name: ${name} has been deleted.`
     },{
         type: 'info'
     });
 };
 export let notifyCreatedStationEmptyFields = () => {
     $.notify({
-        message: 'Συμπληρώστε όλα τα πεδία στην φόρμα δημιουργίας σταθμού.'
+        message: 'Fill in all the fields in the station creation form.'
     },{
         type: 'warning'
     });
 };
 export let notifyStationNameExists = () => {
     $.notify({
-        message: 'Το όνομα που επιλέξατε για τον σταθμό υπάρχει υπάρχει ήδη στην λίστα.'
+        message: 'The name you selected for the station is already in the list.'
     },{
         type: 'warning'
     });
 };
 export let notifyStationUniqueExists = () => {
     $.notify({
-        message: 'Ο μοναδικός κωδικός που επιλέξατε υπάρχει υπάρχει ήδη στην λίστα.'
+        message: 'The unique code you selected is already in the list.'
     },{
         type: 'warning'
     });
 };
 export let notifyCreatedStation = () => {
     $.notify({
-        message: 'Ο σταθμός έχει δημιουργηθεί.'
+        message: 'The station has been created.'
     },{
         type: 'success'
     });
 };
 export let notifyGeneralCreatedStation = (name='') => {
     $.notify({
-        message: `'Εχει δημιουργηθεί ο σταθμός με όνομα: ${name}.`
+        message: `The station with name: ${name} has been created.`
     },{
         type: 'info'
     });
 };
 export let notifyGeneralCreatedStationWithOwnership = (name='') => {
     $.notify({
-        message: `'Εχει δημιουργηθεί ο σταθμός με όνομα: ${name} και έχετε επιλεγεί ως ιδιοκτήτης του.`
+        message: `The station with name: ${name} has been created and you were chosen as it's owner.`
     },{
         type: 'success'
     });
 };
 export let notifyGeneralEditedStationWithOwnership = (name='') => {
     $.notify({
-        message: `'Εχετε επιλεγεί ως ιδιοκτήτης του σταθμού με όνομα: ${name}.`
+        message: `You were chosen as the owner of station with name: ${name}.`
     },{
         type: 'success'
     });
 };
 export let notifyEditedStation = () => {
     $.notify({
-        message: 'Τα στοιχεία του σταθμού έχουν ενημερωθεί.'
+        message: 'Station details have been updated.'
     },{
         type: 'success'
     });
 };
 export let notifyGeneralEditedStation = (name='') => {
     $.notify({
-        message: `Τα στοιχεία του σταθμού: ${name} έχουν ενημερωθεί.`
+        message: `Details of station with name: ${name} have been updated.`
     },{
         type: 'info'
     });
 };
 export let notifyGeneralError = () => {
     $.notify({
-        message: 'Παρουσιάστηκε κάποιο σφάλμα.'
+        message: 'An error occurred.'
     },{
         type: 'error'
     });
 };
 export let notifyNoChangesMade = () => {
     $.notify({
-        message: 'Δεν έγινε καμία αλλαγή.'
+        message: 'No changes made.'
     },{
         type: 'info'
     });
 };
 export let notifyGeneralCreatedCollection = (name='') => {
     $.notify({
-        message: `Έχει δημιουργηθεί καινούργια συλλογή μετρήσεων απο τον σταθμό: ${name}.`
+        message: `A new measurements collection has been created from station with name: ${name}.`
     },{
         type: 'info'
     });
 };
 export let notifyGeneralCategories = () => {
     $.notify({
-        message: 'Στην σελίδα αυτή βρίσκονται όλες οι διαθέσιμες κατηγορίες, τις οποίες μπορείτε να επιλέξετε για τους σταθμούς σας.'
+        message: 'This page lists all available categories that you can select for your stations.'
     },{
         type: 'info'
     });
 };
 export let notifyGeneralStationCreateInfo = () => {
     $.notify({
-        message: `Παρακαλώ συμπληρώστε όλα τα στοιχεία, ώστε να σας εμφανιστούν οδηγίες για την σύνδεση του σταθμού σας με το σύστημα.`
+        message: `Please fill in all the details so that you can see instructions for connecting your station to the system.`
     },{
         type: "info",
         delay: 6000,
@@ -397,7 +397,7 @@ export let notifyGeneralStationCreateInfo = () => {
 };
 export let notifyTextCopiedToClipboard = () => {
     $.notify({
-        message: 'Ο σύνδεσμος έχει αντιγραφεί στο clipboard.'
+        message: 'A link has been copied to clipboard.'
     },{
         type: 'success',
         delay: 1000,
@@ -413,14 +413,14 @@ export let notifyTextCopiedToClipboard = () => {
 };
 export let notifyDeletedCollection = () => {
     $.notify({
-        message: 'Η συλλογή έχει διαγραφεί.'
+        message: 'The collection has been deleted.'
     },{
         type: 'danger'
     });
 };
 export let notifyGeneralDeletedCollection = (collection, station) => {
     $.notify({
-        message: `Η συλλογή με κωδικό: ${collection.series_hash} του σταθμού ${station.name}, έχει διαγραφεί.`
+        message: `The collection with code: ${collection.series_hash} from station with name: ${station.name}, has been deleted.`
     },{
         type: 'info'
     });

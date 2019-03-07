@@ -267,7 +267,7 @@ class MeasuresUser extends React.Component {
             <div className="card">
                 <div className="card-body">
                     <BarChart
-                        legend='Γράφημα τιμών μετρήσεων'
+                        legend='Measurement values graph'
                         labelNames={returnCategoryNamesWithSymbolArrayFromMeasures(this.state.collectionMeasures, categories)}
                         labelValues={this.state.collectionMeasures.map(measure => measure.value)}
                         width={100}
@@ -295,7 +295,7 @@ class MeasuresUser extends React.Component {
                             </div>
                         </div>
                     :
-                        <NoMeasuresMessage header='Μετρήσεις'/>
+                        <NoMeasuresMessage header='Measures'/>
                 }
             </div>
         );

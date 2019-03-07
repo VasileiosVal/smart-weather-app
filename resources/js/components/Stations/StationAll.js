@@ -158,12 +158,12 @@ class StationAll extends React.Component {
         return (
             <div className="content">
                 <div>
-                    <CardHeaderTitle name='Σταθμοί'/>
+                    <CardHeaderTitle name='Stations'/>
                 </div>
                 <div className="row">
                     <div className="col-12">
                         <div className="card animated fadeIn fast">
-                            <CardBelowHeaderTitle name='Προβολή όλων των σταθμών'/><hr/>
+                            <CardBelowHeaderTitle name='View all stations'/><hr/>
                             <div className="card-body">
                                 {!!stations.length ?
                                     <div className="table-responsive">
@@ -171,7 +171,7 @@ class StationAll extends React.Component {
                                         {pagination}
                                     </div>
                                 :
-                                    <h4 className='text-danger text-center mt-0'>Δεν υπάρχουν σταθμοί</h4>
+                                    <h4 className='text-danger text-center mt-0'>No stations exist</h4>
                                 }
                             </div>
                         </div>

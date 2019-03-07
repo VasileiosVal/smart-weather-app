@@ -33,7 +33,7 @@ export let CardHeaderTitleMeasures = ({title='', label=''}) => (
 export let NoMeasuresMessage = ({header=''}) => (
     <React.Fragment>
         <h5 className="card-title text-center">{header}</h5><hr/>
-        <h4 className='text-danger text-center mt-0'>Δεν υπάρχουν μετρήσεις</h4>
+        <h4 className='text-danger text-center mt-0'>No measures exist</h4>
     </React.Fragment>
 );
 
@@ -43,7 +43,7 @@ export let Image = ({src='', style=''}) => (
 
 export let NoSearchResults = () => (
     <div className='d-flex flex-row justify-content-center'>
-        <p className='card-category mt-3'><i className='fas fa-search'/>&nbsp;Δεν βρέθηκαν αποτελέσματα απο την αναζήτηση</p>
+        <p className='card-category mt-3'><i className='fas fa-search'/>&nbsp;No search results found</p>
     </div>
 );
 
@@ -59,7 +59,7 @@ export let TooltipInfo = ({id='global', label=false, text='', giveClass='', plac
 
 export let WaitingLoader = ({text=true}) => (
     <div>
-        {text && <h5 className='text-center'>Παρακαλώ περιμένετε...</h5>}
+        {text && <h5 className='text-center'>Wait please...</h5>}
         <MiniLoader/>
     </div>
 );
@@ -158,7 +158,7 @@ export let LineChart = ({filteredStationsWithMeasuresPerCategory, stationsWithCo
                 },
                 title: {
                     display: true,
-                    text: 'Σταθμοί'
+                    text: 'Stations'
                 },
                 scales: {
                     xAxes: [{
@@ -172,7 +172,7 @@ export let LineChart = ({filteredStationsWithMeasuresPerCategory, stationsWithCo
                         display: true,
                         scaleLabel: {
                             display: true,
-                            labelString: 'Χρόνος',
+                            labelString: 'Time',
                             fontColor: 'rgba(147,0,19,1)',
                             fontSize: 16
                         }
@@ -181,7 +181,7 @@ export let LineChart = ({filteredStationsWithMeasuresPerCategory, stationsWithCo
                         display: true,
                         scaleLabel: {
                             display: true,
-                            labelString: 'τιμές',
+                            labelString: 'values',
                             fontColor: 'rgba(147,0,19,1)',
                             fontSize: 16
                         }
@@ -207,13 +207,13 @@ let createDonutStationsDataSets = (adminStations, userStations, activeStations, 
     ];
     return {
         labels: [
-            'Ιδιοκτησία admin',
-            'Ιδιοκτησία user',
-            'Ενεργοί',
-            'Ανενεργοί',
-            'Δημόσιοι',
-            'Ιδιωτικοί',
-            'Έχουν μετρήσεις'
+            'Admin ownership',
+            'User ownership',
+            'Active',
+            'Inactive',
+            'Public',
+            'Private',
+            'Count measures'
         ],
         datasets: [{
             data: [adminStations, userStations, activeStations, inactiveStations, publicStations, privateStations, stationsWithCollections],
@@ -256,11 +256,11 @@ let createDonutUsersDataSets = (admins, users, active, inactive, notConfirmed) =
     ];
     return {
         labels: [
-            'Διαχειριστές',
-            'Χρήστες',
-            'Ενεργοί',
-            'Ανενεργοί',
-            'Μη επιβεβαιωμένοι'
+            'Administrators',
+            'Users',
+            'Active',
+            'Inactive',
+            'Not confirmed'
         ],
         datasets: [{
             data: [admins, users, active, inactive, notConfirmed],

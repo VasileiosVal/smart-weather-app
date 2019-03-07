@@ -7,17 +7,17 @@ import {CardBelowHeaderTitle, CardHeaderTitle} from "../../containers/generalCon
 let StationShow = ({station, users, categories}) => !!station ? (
             <div className="content">
                 <div className='pb-3'>
-                    <CardHeaderTitle name='Σταθμοί'/>
+                    <CardHeaderTitle name='Stations'/>
                 </div>
                 <div className="row">
                     <div className="col-sm-6 animated fadeIn faster">
                         <div className="card">
-                            <CardBelowHeaderTitle name={`Προβολή σταθμού: ${station.name}`}/><hr/>
+                            <CardBelowHeaderTitle name={`View station: ${station.name}`}/><hr/>
                             <div className="card-body">
                                 <div className="row mb-1">
                                     <div className="col-xl-10 offset-xl-1">
                                         <div className="form-group">
-                                            <label>Όνομα</label>
+                                            <label>Name</label>
                                             <input type="text" defaultValue={station.name} className="form-control" disabled/>
                                         </div>
                                     </div>
@@ -25,7 +25,7 @@ let StationShow = ({station, users, categories}) => !!station ? (
                                 <div className="row mb-1">
                                     <div className="col-xl-10 offset-xl-1">
                                         <div className="form-group">
-                                            <label>Μοναδικός κωδικός</label>
+                                            <label>Unique code</label>
                                             <input type="text" defaultValue={station.unique} className="form-control" disabled/>
                                         </div>
                                     </div>
@@ -33,7 +33,7 @@ let StationShow = ({station, users, categories}) => !!station ? (
                                 <div className="row mb-1">
                                     <div className="col-xl-10 offset-xl-1">
                                         <div className="form-group">
-                                            <label>Ιδιοκτησία</label>
+                                            <label>Ownership</label>
                                             <select defaultValue={station.user_id} className="form-control" disabled>
                                                 <option defaultValue={station.user_id}>{users.find(user => user.id === station.user_id).email}</option>
                                             </select>
@@ -43,7 +43,7 @@ let StationShow = ({station, users, categories}) => !!station ? (
                                 <div className="row mb-1">
                                     <div className="col-xl-10 offset-xl-1">
                                         <div className="form-group">
-                                            <label>Τοποθεσία (Πόλη)</label>
+                                            <label>Location (City)</label>
                                             <select defaultValue={station.location} className="form-control" disabled>
                                                 <option defaultValue={station.location}>{greekCapitalCities.find(city => city === station.location)}</option>
                                             </select>
@@ -53,9 +53,9 @@ let StationShow = ({station, users, categories}) => !!station ? (
                                 <div className="row mb-1">
                                     <div className="col-xl-10 offset-xl-1">
                                         <div className="form-group">
-                                            <label>Ενεργός</label>
+                                            <label>Active</label>
                                             <select defaultValue={station.is_active} className="form-control" disabled>
-                                                <option defaultValue={station.is_active}>{station.is_active ? 'Ναι' : 'Οχι'}</option>
+                                                <option defaultValue={station.is_active}>{station.is_active ? 'Yes' : 'No'}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -63,9 +63,9 @@ let StationShow = ({station, users, categories}) => !!station ? (
                                 <div className="row mb-1">
                                     <div className="col-xl-10 offset-xl-1">
                                         <div className="form-group">
-                                            <label>Προβολή</label>
+                                            <label>View</label>
                                             <select defaultValue={station.privacy} className="form-control" disabled>
-                                                <option defaultValue={station.privacy}>{station.privacy === 'public' ? 'Ιδιωτικός' : 'Δημόσιος' }</option>
+                                                <option defaultValue={station.privacy}>{station.privacy === 'public' ? 'Private' : 'public' }</option>
                                             </select>
                                         </div>
                                     </div>
@@ -73,8 +73,8 @@ let StationShow = ({station, users, categories}) => !!station ? (
                                 <div className="row mb-1">
                                     <div className="col-xl-10 offset-xl-1">
                                         <div className="form-group">
-                                            <label>Περιγραφή (Προαιρετικά)</label>
-                                            <textarea defaultValue={station.description ? station.description : 'Δεν έχει δωθεί περιγραφή'} className="form-control" disabled/>
+                                            <label>Description (optionally)</label>
+                                            <textarea defaultValue={station.description ? station.description : 'No description was given'} className="form-control" disabled/>
                                         </div>
                                     </div>
                                 </div>
@@ -83,7 +83,7 @@ let StationShow = ({station, users, categories}) => !!station ? (
                     </div>
                     <div className="col-sm-6">
                         <div className="card animated fadeIn fast">
-                            <CardBelowHeaderTitle name='Λίστα κατηγοριών'/>
+                            <CardBelowHeaderTitle name='Categories list'/>
                             <hr/>
                             <div className="card-body">
                                 {!!categories.length ?
@@ -104,7 +104,7 @@ let StationShow = ({station, users, categories}) => !!station ? (
                                         ))}
                                     </div>
                                     :
-                                    <h3 className='text-danger text-center mt-0'>Δεν υπάρχουν κατηγορίες</h3>
+                                    <h3 className='text-danger text-center mt-0'>No categories exist</h3>
                                 }
                             </div>
                         </div>

@@ -8,13 +8,13 @@ let CategoryRender = props => (
             {props.isAdmin &&
             <th>id</th>
             }
-            <th>Όνομα</th>
-            <th>Ελάχιστη τιμή</th>
-            <th>Μέγιστη τιμή</th>
-            <th>Σύμβολο</th>
-            <th>Δημιουργία</th>
+            <th>Name</th>
+            <th>Min value</th>
+            <th>Max value</th>
+            <th>Symbol</th>
+            <th>Creation date</th>
             {props.isAdmin &&
-            <th>Ενέργειες</th>
+            <th>Actions</th>
             }
         </tr>
         </thead>
@@ -31,11 +31,11 @@ let CategoryRender = props => (
                 <td>{moment(category.created_at).format('dddd, D MMM YY')} ({moment(category.created_at).fromNow()})</td>
                 {props.isAdmin &&
                 <td>
-                    <i title='Επεξεργασία'
+                    <i title='Edit'
                        onClick={() => props.onClickUpdate(category.name, category.symbol, category.minValue, category.maxValue)}
                        className='fa fa-edit mx-2 point'/>
 
-                    <i title='Διαγραφή'
+                    <i title='Delete'
                        onClick={() => props.onClickDelete(category.name)}
                        className='fas fa-trash-alt mx-2 point'/>
                 </td>

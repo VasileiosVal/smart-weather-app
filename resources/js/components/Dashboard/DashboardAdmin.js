@@ -14,7 +14,7 @@ let DashboardAdmin = ({users, stations, categories, collections}) => {
                 collections={collections}
             />
         :
-            <h5 className='text-center text-danger'>Δεν υπάρχουν δεδομένα</h5>
+            <h5 className='text-center text-danger'>No data exist</h5>
     );
 
     let userChart = (
@@ -35,7 +35,7 @@ let DashboardAdmin = ({users, stations, categories, collections}) => {
                                 <i className="fa fa-users text-success rotate-icon"/>
                                 <div className="col-12">
                                     <div className="numbers">
-                                        <p className="card-category">Χρήστες</p>
+                                        <p className="card-category">Users</p>
                                         <p className="card-title">{users.length}</p>
                                     </div>
                                 </div>
@@ -44,7 +44,7 @@ let DashboardAdmin = ({users, stations, categories, collections}) => {
                         <div className="card-footer py-0">
                             <hr/>
                             <div className="stats">
-                                <p><Link className='card-link' to='/users'>Δείτε πληροφορίες</Link></p>
+                                <p><Link className='card-link' to='/users'>Show information</Link></p>
                             </div>
                         </div>
                     </div>
@@ -56,7 +56,7 @@ let DashboardAdmin = ({users, stations, categories, collections}) => {
                                 <i className="fas fa-broadcast-tower text-warning rotate-icon"/>
                                 <div className="col-12">
                                     <div className="numbers">
-                                        <p className="card-category">Σταθμοί</p>
+                                        <p className="card-category">Stations</p>
                                         <p className="card-title">{stations.length}</p>
                                     </div>
                                 </div>
@@ -65,7 +65,7 @@ let DashboardAdmin = ({users, stations, categories, collections}) => {
                         <div className="card-footer py-0">
                             <hr/>
                             <div className="stats">
-                                <p><Link className='card-link' to='/stations/all'>Δείτε πληροφορίες</Link></p>
+                                <p><Link className='card-link' to='/stations/all'>Show information</Link></p>
                             </div>
                         </div>
                     </div>
@@ -77,7 +77,7 @@ let DashboardAdmin = ({users, stations, categories, collections}) => {
                                 <i className="fa fa-edit text-danger rotate-icon"/>
                                 <div className="col-12">
                                     <div className="numbers">
-                                        <p className="card-category">Κατηγορίες</p>
+                                        <p className="card-category">Categories</p>
                                         <p className="card-title">{categories.length}</p>
                                     </div>
                                 </div>
@@ -86,7 +86,7 @@ let DashboardAdmin = ({users, stations, categories, collections}) => {
                         <div className="card-footer py-0">
                             <hr/>
                             <div className="stats">
-                                <p><Link className='card-link' to='/categories'>Δείτε πληροφορίες</Link></p>
+                                <p><Link className='card-link' to='/categories'>Show information</Link></p>
                             </div>
                         </div>
                     </div>
@@ -98,7 +98,7 @@ let DashboardAdmin = ({users, stations, categories, collections}) => {
                                 <i className="fas fa-chart-line text-info rotate-icon"/>
                                 <div className="col-12">
                                     <div className="numbers">
-                                        <p className="card-category">Σειρές μετρήσεων</p>
+                                        <p className="card-category">Measurement collections</p>
                                         <p className="card-title">{collections.length}</p>
                                     </div>
                                 </div>
@@ -107,7 +107,7 @@ let DashboardAdmin = ({users, stations, categories, collections}) => {
                         <div className="card-footer py-0">
                             <hr/>
                             <div className="stats">
-                                <p><Link to='/measures' className='card-link'>Δείτε πληροφορίες</Link></p>
+                                <p><Link to='/measures' className='card-link'>Show information</Link></p>
                             </div>
                         </div>
                     </div>
@@ -117,7 +117,7 @@ let DashboardAdmin = ({users, stations, categories, collections}) => {
                 <div className="col-md-7">
                     <div className="card animated bounceIn slower">
                         <div className="card-header ">
-                            <h5 className="card-title">Στοιχεία σταθμών</h5>
+                            <h5 className="card-title">Stations information</h5>
                         </div>
                         <div className="card-body my-2">
                             {stationChart}
@@ -128,25 +128,25 @@ let DashboardAdmin = ({users, stations, categories, collections}) => {
                 <div className="col-md-5">
                     <div className="card animated fadeIn slow">
                         <div className="card-header ">
-                            <h5 className="card-title">Ειδοποιήσεις</h5>
+                            <h5 className="card-title">Notifications</h5>
                         </div>
                         <div className="card-body ">
                             <ul className="list-group">
                                 <li className="list-group-item dashboard-notify-li d-flex justify-content-between align-items-center">
-                                    <span><i className='fa fa-fw fa-university'/>&nbsp;Νέος σταθμός</span>
-                                    <label>{stations.length ? moment([...stations].pop().created_at).fromNow() : 'Δεν υπάρχουν δεδομένα' }</label>
+                                    <span><i className='fa fa-fw fa-university'/>&nbsp;New station</span>
+                                    <label>{stations.length ? moment([...stations].pop().created_at).fromNow() : 'No data exist' }</label>
                                 </li>
                                 <li className="list-group-item dashboard-notify-li d-flex justify-content-between align-items-center">
-                                    <span><i className='fa fa-user'/>&nbsp;Νέος χρήστης</span>
-                                    <label>{users.length ? moment([...users].pop().created_at).fromNow() : 'Δεν υπάρχουν δεδομένα' }</label>
+                                    <span><i className='fa fa-user'/>&nbsp;New user</span>
+                                    <label>{users.length ? moment([...users].pop().created_at).fromNow() : 'No data exist' }</label>
                                 </li>
                                 <li className="list-group-item dashboard-notify-li d-flex justify-content-between align-items-center">
-                                    <span><i className='fa fa-fw fa-list'/>&nbsp;Νέα κατηγορία</span>
-                                    <label>{categories.length ? moment([...categories].pop().created_at).fromNow() : 'Δεν υπάρχουν δεδομένα' }</label>
+                                    <span><i className='fa fa-fw fa-list'/>&nbsp;New category</span>
+                                    <label>{categories.length ? moment([...categories].pop().created_at).fromNow() : 'No data exist' }</label>
                                 </li>
                                 <li className="list-group-item dashboard-notify-li d-flex justify-content-between align-items-center">
-                                    <span><i className='fas fa-chart-line'/>&nbsp;Νέα συλλογή μετρήσεων</span>
-                                    <label>{collections.length ? moment([...collections].pop().created_at).fromNow() : 'Δεν υπάρχουν δεδομένα' }</label>
+                                    <span><i className='fas fa-chart-line'/>&nbsp;New measurement collection</span>
+                                    <label>{collections.length ? moment([...collections].pop().created_at).fromNow() : 'No data exist' }</label>
                                 </li>
                             </ul>
                         </div>
@@ -154,7 +154,7 @@ let DashboardAdmin = ({users, stations, categories, collections}) => {
                     </div>
                     <div className="card animated bounceIn slower">
                         <div className="card-header ">
-                            <h5 className="card-title">Στοιχεία χρηστών</h5>
+                            <h5 className="card-title">Users information</h5>
                         </div>
                         <div className="card-body ">
                             {userChart}

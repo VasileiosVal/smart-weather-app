@@ -4,7 +4,7 @@ import {findCategory} from "../../general_functions/generalFunctions";
 
 let MeasuresCollectionMeasuresRender = ({initMeasuresLoader, showMeasures, collectionMeasures, showCollectionHash, categories}) => (
     <div className="card animated fadeIn slow">
-        <CardBelowHeaderTitle name={showMeasures && !!collectionMeasures.length ? `Μετρήσεις συλλογής ${showCollectionHash.substr(0, 7)}...` : 'Μετρήσεις'}/><hr/>
+        <CardBelowHeaderTitle name={showMeasures && !!collectionMeasures.length ? `Measurements of collection ${showCollectionHash.substr(0, 7)}...` : 'Measurements'}/><hr/>
         <div className="card-body">
             {initMeasuresLoader ?
                 <WaitingLoader/>
@@ -29,8 +29,9 @@ let MeasuresCollectionMeasuresRender = ({initMeasuresLoader, showMeasures, colle
                                                             {findCategory(measure.cat_id, categories).name === 'rain' &&
                                                             <TooltipInfo
                                                                 id='rain'
-                                                                label='Υπάρχουν 3 πιθανές τιμές για την συγκεκριμένη κατηγορία: 0, 1, 2'
-                                                                text='0: Βροχή  -  1: Αίσθηση πιθανής βροχής(ψιχάλα, υγρασία)  -  2: Όχι Βροχή'/>
+                                                                label='There are 3 possible values ​​for this category: 0, 1, 2'
+                                                                text='0: Rain  -  1: Feeling of possible rain (brittle, damp)  -  2: No rain'
+                                                            />
                                                             }&nbsp;
                                                             {findCategory(measure.cat_id, categories).name}
                                                         </div>
@@ -46,7 +47,7 @@ let MeasuresCollectionMeasuresRender = ({initMeasuresLoader, showMeasures, colle
                             ))}
                         </div>
                     :
-                        <h5 className='text-danger text-center mt-0'>Δεν υπάρχουν μετρήσεις στην συγκεκριμένη σειρά.</h5>
+                        <h5 className='text-danger text-center mt-0'>There are no measurements on this series.</h5>
                 )
             }
         </div>

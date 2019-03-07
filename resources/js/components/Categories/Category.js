@@ -233,7 +233,7 @@ class Category extends React.Component {
 
         return (
             <div className="content">
-                <CardHeaderTitle name='Κατηγορίες'/>
+                <CardHeaderTitle name='Categories'/>
                     <div className="row">
                         {isAdmin &&
                             <div className="col-md-4">
@@ -242,7 +242,7 @@ class Category extends React.Component {
                         }
                         <div className="col">
                             <div className="card animated fadeIn fast">
-                                <CardBelowHeaderTitle name='Προβολή όλων των κατηγοριών'/><hr/>
+                                <CardBelowHeaderTitle name='View all categories'/><hr/>
                                 <div className="card-body">
                                     {!!categories.length ?
                                         <div className="table-responsive">
@@ -250,7 +250,7 @@ class Category extends React.Component {
                                         {pagination}
                                         </div>
                                     :
-                                        <h4 className='text-danger text-center mt-0'>Δεν υπάρχουν κατηγορίες</h4>
+                                        <h4 className='text-danger text-center mt-0'>No categories exist</h4>
                                     }
                                 </div>
                             </div>

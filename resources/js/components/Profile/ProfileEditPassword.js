@@ -45,37 +45,37 @@ class ProfileEditPassword extends React.Component {
     render(){
         return (
             <div className="card">
-                <CardBelowHeaderTitle name='Αλλαγή κωδικού πρόσβασης'/>
+                <CardBelowHeaderTitle name='Change password'/>
                 <hr/>
                 <div className="card-body">
                     <form id='form-data' onSubmit={this.submit}>
                         <div className="row mb-1">
                             <div className="col-sm-8 offset-sm-2">
                                 <div className="form-group">
-                                    <label>Κωδικός πρόσβασης</label>
-                                    <input type="password" name='password' value={this.state.password} onChange={this.changeValue} className="form-control" placeholder="Συμπληρώστε τον κωδικό πρόσβασης..." autoComplete='off'/>
+                                    <label>Current Password</label>
+                                    <input type="password" name='password' value={this.state.password} onChange={this.changeValue} className="form-control" placeholder="Fill in your current password..." autoComplete='off'/>
                                 </div>
                             </div>
                         </div>
                         <div className="row mb-1">
                             <div className="col-sm-8 offset-sm-2">
                                 <div className="form-group">
-                                    <label>Νέος κωδικός πρόσβασης</label>
-                                    <input type="password" name='newPassword' value={this.state.newPassword} onChange={this.changeValue} className="form-control" placeholder="Συμπληρώστε τον νέο κωδικό πρόσβασης..." autoComplete='off'/>
+                                    <label>New password</label>
+                                    <input type="password" name='newPassword' value={this.state.newPassword} onChange={this.changeValue} className="form-control" placeholder="Fill in your new password..." autoComplete='off'/>
                                 </div>
                             </div>
                         </div>
                         <div className="row mb-1">
                             <div className="col-sm-8 offset-sm-2">
                                 <div className="form-group">
-                                    <label>Επαλήθευση νέου κωδικού</label>
-                                    <input type="password" name='newPasswordConfirmation' value={this.state.newPasswordConfirmation} onChange={this.changeValue} className="form-control" placeholder="Συμπληρώστε ξανά τον νέο κωδικό πρόσβασης..." autoComplete='off'/>
+                                    <label>New password verification</label>
+                                    <input type="password" name='newPasswordConfirmation' value={this.state.newPasswordConfirmation} onChange={this.changeValue} className="form-control" placeholder="Fill in again your new password..." autoComplete='off'/>
                                 </div>
                             </div>
                         </div>
                         <div className="row">
                             <div className="update ml-auto mr-auto">
-                                <button className="btn btn-primary btn-round">Ενημέρωση</button>
+                                <button className="btn btn-primary btn-round">Update</button>
                             </div>
                         </div>
                     </form>

@@ -5,8 +5,8 @@ import {CardHeaderTitleMeasures, NoSearchResults, SearchBar, TooltipInfo} from "
 let CategoriesWithMeasuresRender = ({searchQuery, onChangeSearchQuery, filteredCategoriesThatHaveMeasures, onClickRenderCategoryMeasures}) => (
     <div className="card animated fadeIn delay-0.9s">
         <CardHeaderTitleMeasures
-            title='Μετρήσεις σταθμών ανά κατηγορία'
-            label='Επιλέξτε κατηγορία για να εμφανιστούν όλες οι μετρήσεις των σταθμών για την συγκεκριμένη κατηγορία. '
+            title='Station measurements by category'
+            label='Select a category to show all station metrics for that category.'
         />
         <div className="card-body py-0">
             <div className="row my-1">
@@ -16,14 +16,14 @@ let CategoriesWithMeasuresRender = ({searchQuery, onChangeSearchQuery, filteredC
                             name='searchQuery'
                             value={searchQuery}
                             handler={onChangeSearchQuery}
-                            placeHolder='Αναζητήστε την κατηγορία...'
+                            placeHolder='Category search...'
                         />
                     </div>
                 </div>
                 <div className="col-1 d-flex align-items-center">
                     <TooltipInfo
                         id='collections'
-                        text='Στο πεδίο δίνεται η επιλογή για αναζήτηση κατηγορίας.'
+                        text='In this field is given the option to search for a category.'
                         place='left'
                     />
                 </div>
@@ -38,7 +38,7 @@ let CategoriesWithMeasuresRender = ({searchQuery, onChangeSearchQuery, filteredC
                                         <i className="mr-2 text-primary fas fa-edit"/>
                                         {category.name}&nbsp;
                                     </h5>
-                                    <p className='mb-1'>Σύνολο σταθμών με μετρήσεις στην κατηγορία:&nbsp;
+                                    <p className='mb-1'>Total stations with measurements in the category :&nbsp;
                                         <span className="badge badge-warning badge-pill">{category.stations.length}</span>
                                     </p>
                                 </div>

@@ -42,7 +42,10 @@ return [
     'content_not_found'  => 'Content not found',
     'unauthorized' => 'Unauthorized user',
     'page_not_found' => 'Page not found',
-    'conflict' => 'There is a conflict on some input data.'
+    'conflict' => 'There is a conflict on some input data.',
+    'welcome' => 'Welcome!',
+    'app_info' => 'SmartWeatherApp is an application for IoT devices',
+    'app_functions' => 'Create stations, take measurements, compare results'
 
 
 

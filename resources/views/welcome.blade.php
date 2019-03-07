@@ -61,11 +61,11 @@
         </div>
     </div>
     <div class="text-center">
-        <h2 class="text-white d-none d-md-block font-custom animated fadeIn slower">Καλώς ήρθατε!</h2>
-        <h3 class="text-white d-block d-md-none font-custom animated fadeIn slower">Καλώς ήρθατε!</h3>
-        <h3 class="text-white d-none d-md-block font-custom animated fadeIn slower">Το SmartWeatherApp αποτελεί εφαρμογή για IoT συσκευές</h3>
-        <h4 class="text-white d-block d-md-none font-custom animated fadeIn slower">Το SmartWeatherApp αποτελεί εφαρμογή για IoT συσκευές</h4>
-        <h3 class="text-white d-none d-md-block font-custom animated fadeIn delay-2s">Δημιουργήστε σταθμούς, πραγματοποιήστε μετρήσεις, συγκρίνετε αποτελέσματα</h3>
-        <h4 class="text-white d-block d-md-none font-custom animated fadeIn delay-2s">Δημιουργήστε σταθμούς, πραγματοποιήστε μετρήσεις, συγκρίνετε αποτελέσματα</h4>
+        <h2 class="text-white d-none d-md-block font-custom animated fadeIn slower">{{ __('messages.welcome') }}</h2>
+        <h3 class="text-white d-block d-md-none font-custom animated fadeIn slower">{{ __('messages.welcome') }}</h3>
+        <h3 class="text-white d-none d-md-block font-custom animated fadeIn slower">{{ __('messages.app_info') }}</h3>
+        <h4 class="text-white d-block d-md-none font-custom animated fadeIn slower">{{ __('messages.app_info') }}</h4>
+        <h3 class="text-white d-none d-md-block font-custom animated fadeIn delay-2s">{{ __('messages.app_functions') }}</h3>
+        <h4 class="text-white d-block d-md-none font-custom animated fadeIn delay-2s">{{ __('messages.app_functions') }}</h4>
     </div>
 @endsection

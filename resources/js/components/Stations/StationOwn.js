@@ -89,11 +89,11 @@ class StationOwn extends React.Component {
 
         return (
             <div className="content">
-                <div><CardHeaderTitle name='Σταθμοί'/></div>
+                <div><CardHeaderTitle name='Stations'/></div>
                 <div className="row">
                     <div className="col-12">
                         <div className="card animated fadeIn fast">
-                            <CardBelowHeaderTitle name='Προβολή όλων των σταθμών μου'/><hr/>
+                            <CardBelowHeaderTitle name='View all my stations'/><hr/>
                             <div className="card-body">
                                 {!!this.props.stations.length ?
                                     <div className="table-responsive">
@@ -101,7 +101,7 @@ class StationOwn extends React.Component {
                                         {pagination}
                                     </div>
                                 :
-                                    <h4 className='text-danger text-center mt-0'>Δεν υπάρχουν σταθμοί</h4>
+                                    <h4 className='text-danger text-center mt-0'>No stations exist</h4>
                                 }
                             </div>
                         </div>

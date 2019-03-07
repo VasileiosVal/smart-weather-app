@@ -9,17 +9,17 @@ let StationAllRender = props => (
         <tr>
             <th><i className="fas fa-broadcast-tower"/></th>
             <th>id</th>
-            <th>Όνομα</th>
-            <th>Μοναδικός κωδικός</th>
-            <th>Ιδιοκτησία</th>
-            <th>Επιλεγμένες κατηγορίες</th>
-            <th>Συλογές μετρήσεων</th>
-            <th>Ενεργός</th>
-            <th>Προβολή</th>
-            <th>Τοποθεσία</th>
-            <th>Περιγραφή</th>
-            <th>Ημ. δημιουργίας</th>
-            <th>Ενέργειες</th>
+            <th>Name</th>
+            <th>Unique code</th>
+            <th>Ownership</th>
+            <th>Checked categories</th>
+            <th>Measurements collections</th>
+            <th>Active</th>
+            <th>View</th>
+            <th>Location</th>
+            <th>Description</th>
+            <th>Creation date</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -34,39 +34,39 @@ let StationAllRender = props => (
                 <td>{station.name}</td>
                 <td>{station.unique.length > 10 ? `${station.unique.substr(0, 10)}...` : station.unique}</td>
                 <td>{station.user_id === props.profile.id ?
-                    <Link title='Μετάβαση στο προφίλ μου' to='/profile' className='text-success'>
+                    <Link title='Go to my profile' to='/profile' className='text-success'>
                         {props.profile.email}
                     </Link>
                     :
-                    <Link title='Μετάβαση στο προφίλ του χρήστη' to={`/profile/${findUserFromStation(props.users, station).email}`}>
+                    <Link title={`Go to user's profile`} to={`/profile/${findUserFromStation(props.users, station).email}`}>
                         {findUserFromStation(props.users, station).email}
                     </Link>
                 }
                 </td>
                 <td>{station.categories.length}</td>
                 <td>{props.collections.filter(collection => collection.station_id === station.id).length}</td>
-                <td>{station.is_active ? 'Ναι' : 'Οχι'}</td>
-                <td>{station.privacy === 'public' ? 'Δημόσιος' : 'Ιδιωτικός'}</td>
+                <td>{station.is_active ? 'Yes' : 'No'}</td>
+                <td>{station.privacy === 'public' ? 'public' : 'private'}</td>
                 <td>{station.location}</td>
                 <td>{station.description ? station.description.length > 10 ? `${station.description.substr(0, 10)}...` : station.description : '-'}</td>
                 <td>{moment(station.created_at).format('dddd, D MMM YY')} ({moment(station.created_at).fromNow()})</td>
                 <td>
                     {station.user_id === props.profile.id ?
-                        <Link to={`/stations/${station.name}/edit`} title='Μετάβαση στον σταθμό μου' className='text-dark'>
+                        <Link to={`/stations/${station.name}/edit`} title='Go to my station' className='text-dark'>
                             <i className="fas fa-user-circle mx-2 point"/>
                         </Link>
                         :
-                        <Link to={`/stations/${station.name}/show`} title='Μετάβαση στον σταθμό του χρήστη' className='text-dark'>
+                        <Link to={`/stations/${station.name}/show`} title={`Go to user's station`} className='text-dark'>
                             <i className="fas fa-user-circle mx-2 point"/>
                         </Link>
                     }
                     {station.user_id !== 1 && station.user_id !== props.profile.id &&
                     <React.Fragment>
-                    <i title='Επεξεργασία'
+                    <i title='Edit'
                        onClick={() => props.onClickEdit(station.name, station.user_id, station.is_active, station.privacy)}
                        className='fa fa-edit mx-2 point'/>
 
-                    <i title='Διαγραφή'
+                    <i title='Delete'
                        onClick={() => props.onClickDelete(station.name)}
                        className='fas fa-trash-alt mx-2 point'/>
                     </React.Fragment>

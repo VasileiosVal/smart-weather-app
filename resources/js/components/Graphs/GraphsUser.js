@@ -271,7 +271,7 @@ class GraphsUser extends React.Component {
                             </div>
                         </React.Fragment>
                         :
-                        <NoMeasuresMessage header='Συγκρίσεις'/>
+                        <NoMeasuresMessage header='Comparisons'/>
                 }
             </div>
         );

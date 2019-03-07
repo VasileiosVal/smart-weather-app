@@ -5,33 +5,33 @@ let StationCreateOrEditUserDetails = props => (
         <div className="col-sm-6">
             <div className="card">
                 <div className="card-header d-flex flex-row align-items-center justify-content-center py-0">
-                    <h4 className="text-center">{props.lastName ? 'Επεξεργασία σταθμού' : 'Δημιουργία σταθμού'}</h4>
+                    <h4 className="text-center">{props.lastName ? 'Edit station' : 'Station creation'}</h4>
                 </div>
                 <hr/>
                 <div className="card-body">
                     <div className="row mb-1">
                         <div className="col-xl-10 offset-xl-1">
                             <div className="form-group">
-                                <label>Όνομα</label>
-                                <input type="text" name='name' value={props.name} onChange={props.changeName} className="form-control" placeholder="Συμπληρώστε το όνομα του σταθμού..." autoComplete='off'/>
+                                <label>Name</label>
+                                <input type="text" name='name' value={props.name} onChange={props.changeName} className="form-control" placeholder={`Fill in station's name...`} autoComplete='off'/>
                             </div>
                         </div>
                     </div>
                     <div className="row mb-1">
                         <div className="col-xl-10 offset-xl-1">
                             <div className="form-group">
-                                <label>Μοναδικός κωδικός</label>
-                                <input type="text" name='unique' value={props.unique} onChange={props.changeUnique} className="form-control" placeholder="Συμπληρώστε τον μοναδικό κωδικό του σταθμού..." autoComplete='off'/>
+                                <label>Unique code</label>
+                                <input type="text" name='unique' value={props.unique} onChange={props.changeUnique} className="form-control" placeholder={`Fill in station's unique code...`} autoComplete='off'/>
                             </div>
                         </div>
                     </div>
                     <div className="row mb-1">
                         <div className="col-xl-10 offset-xl-1">
                             <div className="form-group">
-                                <label>Τοποθεσία (Πόλη)</label>
+                                <label>Location (City)</label>
                                 <select name='location' value={props.location} onChange={props.changeLocation} className='form-control'>
                                     {props.location === '' &&
-                                    <option value=''>Επιλέξτε την πόλη που βρίσκεται ο σταθμός</option>
+                                    <option value=''>Select the city that station is located</option>
                                     }
                                     {greekCapitalCities.map((city)=>{
                                         return <option key={city} value={city}>{city}</option>
@@ -43,13 +43,13 @@ let StationCreateOrEditUserDetails = props => (
                     <div className="row mb-1">
                         <div className="col-xl-10 offset-xl-1">
                             <div className="form-group">
-                                <label>Ενεργός</label>
+                                <label>Active</label>
                                 <select name='is_active' value={props.is_active} onChange={props.changeIsActive} className="form-control">
                                     {props.is_active === '' &&
-                                    <option value=''>Επιλέξτε απο τα παρακάτω</option>
+                                    <option value=''>Select from below</option>
                                     }
-                                    <option value='1'>Ναι</option>
-                                    <option value='0'>Οχι</option>
+                                    <option value='1'>Yes</option>
+                                    <option value='0'>No</option>
                                 </select>
                             </div>
                         </div>
@@ -57,13 +57,13 @@ let StationCreateOrEditUserDetails = props => (
                     <div className="row mb-1">
                         <div className="col-xl-10 offset-xl-1">
                             <div className="form-group">
-                                <label>Προβολή</label>
+                                <label>View</label>
                                 <select name='privacy' value={props.privacy} onChange={props.changePrivacy} className="form-control">
                                     {props.privacy === '' &&
-                                    <option value=''>Επιλέξτε απο τα παρακάτω</option>
+                                    <option value=''>Select from below</option>
                                     }
-                                    <option value='public'>Δημόσιος</option>
-                                    <option value='private'>Ιδιωτικός</option>
+                                    <option value='public'>Public</option>
+                                    <option value='private'>Private</option>
                                 </select>
                             </div>
                         </div>
@@ -71,14 +71,14 @@ let StationCreateOrEditUserDetails = props => (
                     <div className="row mb-1">
                         <div className="col-xl-10 offset-xl-1">
                             <div className="form-group">
-                                <label>Περιγραφή (Προαιρετικά)</label>
-                                <textarea name='description' value={props.description} onChange={props.changeDescription} className="form-control" placeholder="Συμπληρώστε κάποια στοιχεία που θέλετε να αναφέρετε για τον σταθμό..." autoComplete='off'/>
+                                <label>Description (optionally)</label>
+                                <textarea name='description' value={props.description} onChange={props.changeDescription} className="form-control" placeholder="Fill in some facts you want to report about the station..." autoComplete='off'/>
                             </div>
                         </div>
                     </div>
                     <div className="row">
                         <div className="update ml-auto mr-auto">
-                            <button className="btn btn-primary btn-round">{props.lastName ? 'Ενημέρωση' : 'Δημιουργία' }</button>
+                            <button className="btn btn-primary btn-round">{props.lastName ? 'Update' : 'Create' }</button>
                         </div>
                     </div>
                 </div>

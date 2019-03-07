@@ -3,7 +3,7 @@ import {CardBelowHeaderTitle} from "../../containers/generalContainers";
 
 let StationCreateCategoriesList = ({allCategories, checkedCategories, onClickChangeCategoryList}) => (
     <div className="card animated fadeIn fast">
-       <CardBelowHeaderTitle name='Λίστα κατηγοριών'/><hr/>
+       <CardBelowHeaderTitle name='Categories list'/><hr/>
         <div className="card-body">
             {!!allCategories.length ?
                 <div className="row mb-1">
@@ -25,7 +25,7 @@ let StationCreateCategoriesList = ({allCategories, checkedCategories, onClickCha
 
                 </div>
             :
-                <h3 className='text-danger text-center mt-0'>Δεν υπάρχουν κατηγορίες</h3>
+                <h3 className='text-danger text-center mt-0'>No categories exist</h3>
             }
         </div>
     </div>

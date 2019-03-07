@@ -11,7 +11,7 @@ let SidebarUI = ({isAdmin}) => (
                     </div>
                 </a>
                 <Link to='/dashboard' className="simple-text simple-text-title">
-                    Smart Weather App
+                    SmartWeatherApp
                 </Link>
             </div>
             <div className="sidebar-wrapper">
@@ -19,14 +19,14 @@ let SidebarUI = ({isAdmin}) => (
                     <li>
                         <Link to='/dashboard'>
                             <i className="fas fa-tachometer-alt"/>
-                            <p>Πίνακας ελέγχου</p>
+                            <p>Dashboard</p>
                         </Link>
                     </li>
                     <li>
                         <a id='collapse-link' data-toggle="collapse" href="#componentsExamples1">
                             <i className="fas fa-broadcast-tower"/>
                             <p>
-                                Σταθμοί
+                                Stations
                                 <b className="caret"/>
                             </p>
                         </a>
@@ -34,19 +34,19 @@ let SidebarUI = ({isAdmin}) => (
                             <ul>
                                 <li className="nav-item ">
                                     <Link to='/stations'>
-                                        <span className="sidebar-normal">Οι σταθμοί μου</span>
+                                        <span className="sidebar-normal">My stations</span>
                                     </Link>
                                 </li>
                                 {isAdmin &&
                                 <li className="nav-item">
                                     <Link to='/stations/all'>
-                                        <span className="sidebar-normal">Προβολή όλων</span>
+                                        <span className="sidebar-normal">View all stations</span>
                                     </Link>
                                 </li>
                                 }
                                 <li className="nav-item ">
                                     <Link to='/stations/create'>
-                                        <span className="sidebar-normal">Δημιουργία σταθμού</span>
+                                        <span className="sidebar-normal">Station creation</span>
                                     </Link>
                                 </li>
                             </ul>
@@ -57,7 +57,7 @@ let SidebarUI = ({isAdmin}) => (
                         <a id='collapse-link' data-toggle="collapse" href="#componentsExamples2">
                             <i className="fa fa-users"/>
                             <p>
-                                Χρήστες
+                                Users
                                 <b className="caret"/>
                             </p>
                         </a>
@@ -65,12 +65,12 @@ let SidebarUI = ({isAdmin}) => (
                             <ul>
                                 <li className="nav-item ">
                                     <Link to='/users'>
-                                        <span className="sidebar-normal">Προβολή όλων</span>
+                                        <span className="sidebar-normal">View all users</span>
                                     </Link>
                                 </li>
                                 <li className="nav-item ">
                                     <Link to='/users/create'>
-                                        <span className="sidebar-normal">Δημιουργία χρήστη</span>
+                                        <span className="sidebar-normal">User creation</span>
                                     </Link>
                                 </li>
                             </ul>
@@ -80,25 +80,25 @@ let SidebarUI = ({isAdmin}) => (
                     <li>
                         <Link to='/categories' >
                             <i className="fas fa-edit"/>
-                            <p>Κατηγορίες</p>
+                            <p>Categories</p>
                         </Link>
                     </li>
                     <li>
                         <Link to='/measures'>
                             <i className="fa fa-thermometer-half"/>
-                            <p>Μετρήσεις</p>
+                            <p>Measurements</p>
                         </Link>
                     </li>
                     <li>
                         <Link to='/graphs'>
                             <i className="fa fa-chart-area"/>
-                            <p>Συγκρίσεις</p>
+                            <p>Comparisons</p>
                         </Link>
                     </li>
                     <li>
                         <Link to='/profile' >
                             <i className="fa fa-users"/>
-                            <p>Προφίλ</p>
+                            <p>Profile</p>
                         </Link>
                     </li>
                 </ul>

@@ -14,18 +14,18 @@ let GraphMinMax = ({minMaxMeasuresPerCategory, categories, stationsWithCollectio
                     <div key={measure.category_id} className='position-relative'>
                         <TooltipInfo
                             id='before'
-                            label={`Τιμή: ${measure.min.value}`}
-                            text={`Μέτρηση στις: ${moment.unix(measure.min.created_at_tmstp).format('D MMM YY, h:mm:ss a')}`}
+                            label={`Value: ${measure.min.value}`}
+                            text={`Measurement at: ${moment.unix(measure.min.created_at_tmstp).format('D MMM YY, h:mm:ss a')}`}
                             giveClass='slider-info-left'
                             place='top'
                         />
                         <div className="card-body">
                             <BarChart
-                                title='Μέγιστες/Ελάχιστες καταγεγραμένες τιμές ανά κατηγορία'
+                                title='Max / Min registered prices by category'
                                 legend={`${findCategory(measure.category_id, categories).name} (${findCategory(measure.category_id, categories).symbol})`}
                                 labelNames={[
-                                    `Σταθμός: ${findStationAndIfExistsAndReturnName(measure.min.station_id, stationsWithCollections)}`,
-                                    `Σταθμός: ${findStationAndIfExistsAndReturnName(measure.max.station_id, stationsWithCollections)}`]}
+                                    `Station: ${findStationAndIfExistsAndReturnName(measure.min.station_id, stationsWithCollections)}`,
+                                    `Station: ${findStationAndIfExistsAndReturnName(measure.max.station_id, stationsWithCollections)}`]}
                                 labelValues={[measure.min.value, measure.max.value]}
                                 height={170}
                                 tooltipEnabled={false}
@@ -33,8 +33,8 @@ let GraphMinMax = ({minMaxMeasuresPerCategory, categories, stationsWithCollectio
                         </div>
                         <TooltipInfo
                             id='after'
-                            label={`Τιμή: ${measure.max.value}`}
-                            text={`Μέτρηση στις: ${moment.unix(measure.max.created_at_tmstp).format('D MMM YY, h:mm:ss a')}`}
+                            label={`Value: ${measure.max.value}`}
+                            text={`Measurement at: ${moment.unix(measure.max.created_at_tmstp).format('D MMM YY, h:mm:ss a')}`}
                             giveClass='slider-info-right'
                             place='top'
                         />

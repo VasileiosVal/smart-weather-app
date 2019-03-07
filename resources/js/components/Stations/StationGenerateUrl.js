@@ -20,40 +20,40 @@ let StationGenerateUrl = ({lastName, unique, is_active, checkedCategories, allCa
 
     return (
         <div className={fadeInClass}>
-            <CardBelowHeaderTitle font={fontAwesomeLamp} name='Πληροφοριες για Url αποστολής'/><hr/>
+            <CardBelowHeaderTitle font={fontAwesomeLamp} name='Information about shipping Url'/><hr/>
             {!!unique && !!checkedCategories.length ?
                 !!parseInt(is_active) ?
                     <div className="card-body pt-0">
-                        <p className='styled-text'>Παρακάτω εμφανίζεται το url αποστολής, σύμφωνα με τις
-                            πληροφορίες που επιλέγετε για τον σταθμό σας.
-                            Με αυτό το url θα μπορεί ο σταθμός σας να επικοινωνεί με το σύστημα, να στέλνει τις
-                            μετρήσεις που λαμβάνει καθώς και να εμφανίζονται εδώ.
+                        <p className='styled-text'>Below is the shipping url, according to
+                            information you select for your station.
+                            With this url your station can communicate with the system, send the
+                            measurements it receives and appear here.
                         </p>
-                        <h5 className='text-center'>Οδηγίες</h5>
-                        <p className='styled-text'>Πατήστε στο παρακάτω url για αντιγραφή, μεταφέρετέ το στον σταθμό σας και ρυθμίστε τον ώστε
-                            να στέλνει σε αυτό το url, με <strong>Post Request</strong>, τις επιλεγμένες κατηγορίες ως εξής:</p>
+                        <h5 className='text-center'>Instructions</h5>
+                        <p className='styled-text'>Tap the following url to copy, transfer it to your station and set it to
+                            send to this url, with <strong>Post Request</strong>, the selected categories as follows :</p>
                         <CopyToClipboard
-                            title='Αντιγραφή συνδέσμου'
+                            title='Copy link'
                             className='point url-generator'
                             text={url}
                             onCopy={() => notifyTextCopiedToClipboard()}>
                             <h6><i className="fas fa-arrow-right"/>&nbsp;{url}</h6>
                         </CopyToClipboard>
-                        <p><label>*Υποσημείωση: Στον σταθμό σας, αντικαταστήστε στο πεδίο "τιμή", την αντίστοιχη μετρήση.</label></p>
-                        <p><i className=" text-danger fas fa-exclamation-circle"/>&nbsp;Προσοχή! Ο Μοναδικός κωδικός πρέπει να είναι προσωπικός. Μην τον αφήσετε εκτεθειμένο ή τον μεταβιβάσετε σε τρίτους.</p>
+                        <p><label>*Note: At your station, replace the corresponding value in the "value" field .</label></p>
+                        <p><i className=" text-danger fas fa-exclamation-circle"/>&nbsp;Caution! The unique code must be personal. Do not leave it exposed or transfer it to third parties.</p>
                     </div>
                 :
                     <div>
                         <div className="card-body pt-0">
-                            <p className='styled-text'><i className="fas fa-exclamation-triangle  text-danger"/>&nbsp;Επιλέξτε τον σταθμό σας ως ενεργό.
-                                Με την επιλογή του σταθμού ως ανενεργού, καμία μέτρηση που θα λαμβάνεται απο το σύστημα δεν θα αποθηκεύεται.
+                            <p className='styled-text'><i className="fas fa-exclamation-triangle  text-danger"/>&nbsp;Select your station as active.
+                                By selecting the station as inactive, no measurement received by the system will be stored.
                             </p>
                         </div>
                     </div>
             :
                 <div className="card-body pt-0">
-                    <p className='styled-text'>Καθώς συμπληρώνετε τα στοιχεία και επιλέξετε κάποια κατηγορία, θα δημιουργείται το url αποστολής.</p>
-                    <label className='text-left'>*Υποσημείωση: Στο πεδίο Μοναδικός κωδικός δεν είναι αποδεκτοί οι ελληνικοί χαρακτήρες.</label>
+                    <p className='styled-text'>As you fill in the details and select a category, the shipping url will be created.</p>
+                    <label className='text-left'>*Note: In the Unique code field, only English characters are accepted.</label>
                 </div>
             }
         </div>

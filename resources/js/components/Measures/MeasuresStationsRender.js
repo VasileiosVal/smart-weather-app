@@ -7,17 +7,17 @@ import {findCollectionsFromStation} from "../../general_functions/generalFunctio
 
 let MeasuresStationsRender = ({sortBy, searchQuery, onChangeFilters, filteredStationsWithCollections, collections, onClickRenderCollections}) => (
     <div className="card animated fadeIn fast">
-        <CardHeaderTitleMeasures title='Σταθμοί' label='Επιλέξτε σταθμό απο την λίστα για να εμφανιστούν οι συλλογές μετρήσεων του'/>
+        <CardHeaderTitleMeasures title='Stations' label='Select a station from the list to display its measurements collections'/>
         <div className="card-body py-0">
             <div className="row align-items-center my-1">
                 <div className="col-lg-4 mx-0">
                     <div className="my-0 py-0">
                         <select name='sortBy' value={sortBy} onChange={onChangeFilters} className='form-control'>
-                            <option value="all">Όλοι</option>
-                            <option value="own">Οι σταθμοί μου</option>
-                            <option value="active">Ενεργοί</option>
-                            <option value="inactive">Ανενεργοί</option>
-                            <option value="most">Περισσότερες συλλογές</option>
+                            <option value="all">All</option>
+                            <option value="own">My stations</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                            <option value="most">Most collections</option>
                         </select>
 
                     </div>
@@ -28,14 +28,14 @@ let MeasuresStationsRender = ({sortBy, searchQuery, onChangeFilters, filteredSta
                             name='searchQuery'
                             value={searchQuery}
                             handler={onChangeFilters}
-                            placeHolder='Αναζητήστε τον σταθμό...'
+                            placeHolder='Station search...'
                         />
                     </div>
                 </div>
                 <div className="col-lg-1">
                     <TooltipInfo
                         id='stations'
-                        text='Στα πεδία υπάρχουν οι επιλογές για ταξινόμηση και αναζήτηση σταθμών.'
+                        text='In the fields there are options for sorting and searching stations.'
                         place='left'
                     />
                 </div>
@@ -55,18 +55,18 @@ let MeasuresStationsRender = ({sortBy, searchQuery, onChangeFilters, filteredSta
                                         {station.name}&nbsp;
                                         <span className="badge badge-warning badge-pill">{findCollectionsFromStation(station, collections).length}</span>
                                     </h5>
-                                    <small>Ημ. δημιουργιας: {moment(station.created_at).format('ddd D MMM YY')}</small>
+                                    <small>Creation date: {moment(station.created_at).format('ddd D MMM YY')}</small>
                                 </div>
-                                <p className='mb-1'>Στοιχεία σταθμού:
+                                <p className='mb-1'>Station information:
                                     {station.is_active ?
-                                        <span className='text-success station mx-1'>Ενεργός</span>
+                                        <span className='text-success station mx-1'>Active</span>
                                         :
-                                        <span className='text-danger station mx-1'>Ανενεργός</span>
+                                        <span className='text-danger station mx-1'>Inactive</span>
                                     }
                                     {station.privacy === 'public' ?
-                                        <span className='text-primary station mx-1'>Δημόσιος</span>
+                                        <span className='text-primary station mx-1'>Public</span>
                                         :
-                                        <span className='text-primary station mx-1'>Ιδιωτικός</span>
+                                        <span className='text-primary station mx-1'>Private</span>
                                     }
                                 </p>
                             </div>
